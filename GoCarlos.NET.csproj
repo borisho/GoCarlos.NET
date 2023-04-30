@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!--Metadata-->
+    <Authors>Boris Dovčík</Authors>
+    <Title>GoCarlos</Title>
+    <Version>2.0.2</Version>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/borisho/GoCarlos.NET</RepositoryUrl>
+    <VisualStudioVersion>17.5.4</VisualStudioVersion>
+    <!--Publish-->
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
+    <StartupObject>GoCarlos.NET.App</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="favicon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+</Project>

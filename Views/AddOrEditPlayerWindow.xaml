@@ -1,0 +1,213 @@
+﻿<Window WindowStartupLocation="CenterScreen"
+        x:Class="GoCarlos.NET.AddOrEditPlayerWindow"
+        x:Name="AddPlayer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GoCarlos.NET"
+        xmlns:viewmodels="clr-namespace:GoCarlos.NET.ViewModels"
+        d:DataContext="{d:DesignInstance Type=viewmodels:AddOrEditPlayerViewModel}"
+        mc:Ignorable="d"
+        Height="450" Width="800">
+    <Grid>
+        <Grid.Resources>
+            <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="5"/>
+
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="5"/>
+
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="5"/>
+
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="5"/>
+
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Vyhľadávanie cez EGD pin -->
+        <Label Grid.Row="1" Grid.Column="1">EGD pin:</Label>
+        <TextBox Text="{Binding Pin_Player, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="pin" Grid.Row="1" Grid.Column="2" MinWidth="100" Height="20" Margin="5 0"/>
+        <Button Grid.Row="1"
+                Grid.Column="3"
+                Content="Vyhľadať PIN"
+                Command="{Binding SearchByPinCommand}"
+                MinWidth="100"
+                Height="20"
+                Margin="5 0">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Text.Length, ElementName=pin, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+
+        <Separator Grid.Row="2" Grid.ColumnSpan="100" Width="auto"/>
+
+        <!-- Vyhľadávanie pomocou mena -->
+        <Label Grid.Row="3" Grid.Column="1">Priezvisko:</Label>
+        <TextBox  Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Height="20" Margin="5 0" 
+                  Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="lastname"/>
+
+        <Label Grid.Row="4" Grid.Column="1">Meno:</Label>
+        <TextBox Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Height="20" Margin="5 0" 
+                 Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="name"/>
+
+        <Button Grid.Row="3"
+                Grid.Column="4"
+                Content="Vyhľadať hráča"
+                Command="{Binding SearchByDataCommand}"
+                MinWidth="100"
+                Height="20"
+                Margin="5 0">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=lastname, Path=Text.Length, Mode=OneWay}" Value="0">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=lastname, Path=Text.Length, Mode=OneWay}" Value="1">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+
+        <Separator Grid.Row="5" Grid.ColumnSpan="100" Width="auto"/>
+
+        <!-- Údaje o hráčovi -->
+        <Label Grid.Row="6" Grid.Column="1">Rating:</Label>
+        <TextBox IsReadOnly="False"
+            Text="{Binding Gor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="gor" Grid.Row="6" Grid.Column="2" Height="20" Margin="5 0"/>
+        <Label Grid.Row="7" Grid.Column="1">Trieda:</Label>
+        <TextBox Text="{Binding Grade, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="grade" Grid.Row="7" Grid.Column="2" Height="20" Margin="5 0"/>
+        <Label Grid.Row="8" Grid.Column="1">Krajina:</Label>
+        <TextBox Text="{Binding Country_Code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="country" Grid.Row="8" Grid.Column="2" Height="20" Margin="5 0"/>
+        <Label Grid.Row="9" Grid.Column="1">Klub:</Label>
+        <TextBox Text="{Binding Club, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="club" Grid.Row="9" Grid.Column="2" Height="20" Margin="5 0"/>
+
+        <!-- Výber kôl -->
+        <DockPanel Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="100">
+            <Label VerticalAlignment="Center">1. Kolo</Label>
+            <CheckBox x:Name="CHX1" 
+                      VerticalAlignment="Center" 
+                      IsChecked="{Binding Ch1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <DockPanel Visibility="{Binding CHK2_Visibility, Converter={StaticResource BoolToVis}, UpdateSourceTrigger=PropertyChanged}">
+                <Label VerticalAlignment="Center">2. Kolo</Label>
+                <CheckBox x:Name="CHX2"
+                          VerticalAlignment="Center"
+                          IsChecked="{Binding Ch2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </DockPanel>
+            <DockPanel Visibility="{Binding CHK3_Visibility, Converter={StaticResource BoolToVis}, UpdateSourceTrigger=PropertyChanged}">
+                <Label VerticalAlignment="Center">3. Kolo</Label>
+                <CheckBox x:Name="CHX3"
+                          VerticalAlignment="Center"
+                          IsChecked="{Binding Ch3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </DockPanel>
+            <DockPanel Visibility="{Binding CHK4_Visibility, Converter={StaticResource BoolToVis}, UpdateSourceTrigger=PropertyChanged}">
+                <Label VerticalAlignment="Center">4. Kolo</Label>
+                <CheckBox x:Name="CHX4"
+                      VerticalAlignment="Center"
+                      IsChecked="{Binding Ch4, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </DockPanel>
+            <DockPanel Visibility="{Binding CHK5_Visibility, Converter={StaticResource BoolToVis}, UpdateSourceTrigger=PropertyChanged}">
+                <Label VerticalAlignment="Center">5. Kolo</Label>
+                <CheckBox x:Name="CHX5"
+                      VerticalAlignment="Center"
+                      IsChecked="{Binding Ch5, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </DockPanel>
+        </DockPanel>
+        <DockPanel Grid.Row="12" Grid.Column="1" Grid.ColumnSpan="100">
+            <DockPanel Visibility="{Binding CHK6_Visibility, Converter={StaticResource BoolToVis}, UpdateSourceTrigger=PropertyChanged}">
+                <Label VerticalAlignment="Center">6. Kolo</Label>
+                <CheckBox x:Name="CHX6" VerticalAlignment="Center"
+                          IsChecked="{Binding Ch6, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </DockPanel>
+            <DockPanel Visibility="{Binding CHK7_Visibility, Converter={StaticResource BoolToVis}, UpdateSourceTrigger=PropertyChanged}">
+                <Label VerticalAlignment="Center">7. Kolo</Label>
+                <CheckBox x:Name="CHX7" VerticalAlignment="Center"
+                          IsChecked="{Binding Ch7, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </DockPanel>
+            <DockPanel Visibility="{Binding CHK8_Visibility, Converter={StaticResource BoolToVis}, UpdateSourceTrigger=PropertyChanged}">
+                <Label VerticalAlignment="Center">8. Kolo</Label>
+                <CheckBox x:Name="CHX8" VerticalAlignment="Center"
+                          IsChecked="{Binding Ch8, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </DockPanel>
+            <DockPanel Visibility="{Binding CHK9_Visibility, Converter={StaticResource BoolToVis}, UpdateSourceTrigger=PropertyChanged}">
+                <Label VerticalAlignment="Center">9. Kolo</Label>
+                <CheckBox x:Name="CHX9" VerticalAlignment="Center"
+                          IsChecked="{Binding Ch9, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </DockPanel>
+            <DockPanel Visibility="{Binding CHK10_Visibility, Converter={StaticResource BoolToVis}, UpdateSourceTrigger=PropertyChanged}">
+                <Label VerticalAlignment="Center">10. Kolo</Label>
+                <CheckBox x:Name="CHX10" VerticalAlignment="Center"
+                          IsChecked="{Binding Ch10, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </DockPanel>
+        </DockPanel>
+
+        <Label Grid.Row="14" Grid.Column="1">SuperGroup</Label>
+        <CheckBox Grid.Row="14" Grid.Column="2" VerticalAlignment="Center"
+                  IsChecked="{Binding IsSuperGroup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Label Grid.Row="15" Grid.Column="1">TopGroup</Label>
+        <CheckBox Grid.Row="15" Grid.Column="2" VerticalAlignment="Center"
+                  IsChecked="{Binding IsTopGroup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <!-- Pridanei hráča -->
+        <Button Grid.Row="16" Grid.Column="1"
+                Content="Pridať hráča"
+                CommandParameter="{Binding ElementName=AddPlayer}"
+                Command="{Binding AddPlayerCommand}"
+                Visibility="{Binding AddPlayerVisibility, Converter={StaticResource BoolToVis}, UpdateSourceTrigger=PropertyChanged}"
+                MinWidth="100" Height="20" Margin="5 0"/>
+
+        <Label Grid.Row="16" Grid.Column="3" Grid.ColumnSpan="2"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Left"
+               Visibility="{Binding AddPlayerVisibility, Converter={StaticResource BoolToVis}, UpdateSourceTrigger=PropertyChanged}">
+            Pridať ďalšieho hráča
+        </Label>
+        <CheckBox Grid.Row="16" Grid.Column="2"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Right"
+                  Visibility="{Binding AddPlayerVisibility, Converter={StaticResource BoolToVis}, UpdateSourceTrigger=PropertyChanged}"
+                  IsChecked="{Binding AddOneMore, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+
+        <!-- Úprava hráča -->
+        <Button Grid.Row="16" Grid.Column="1"
+                Content="OK"
+                CommandParameter="{Binding ElementName=AddPlayer}"
+                Command="{Binding EditPlayerCommand}"
+                Visibility="{Binding EditPlayerVisibility, Converter={StaticResource BoolToVis}, UpdateSourceTrigger=PropertyChanged}"
+                MinWidth="100" Height="20" Margin="5 0"/>
+    </Grid>
+</Window>
