@@ -42,7 +42,14 @@ public class Round : IEquatable<Round?>
     public void RemovePlayer(Player player)
     {
         player.RoundsPlaying.Remove(roundNumber);
-        pairings.RemoveAll(p => p.IsPlayerPaired(player));
+
+        Pairing? pairing = pairings.Where(p => p.IsPlayerPaired(player)).FirstOrDefault();
+
+        if (pairing is not null)
+        {
+            RemovePairing(pairing);
+        }
+
         players.Remove(player);
         unpairedPlayers.Remove(player);
     }

@@ -82,7 +82,7 @@ public partial class MainViewModel : ObservableObject
         {
             if (SelectedPlayer is not null)
             {
-                foreach (Round r in Tournament.Rounds.Values)
+                foreach (Round r in Tournament.Rounds)
                 {
                     foreach (Pairing p in r.Pairings)
                     {
@@ -109,8 +109,8 @@ public partial class MainViewModel : ObservableObject
             GoToAndRefreshRound(CurrentRoundNumber);
         }
     }
-    public bool CanGoNextRound { get => tournament.CurrentRound < tournament.NumberOfRounds; }
-    public bool CanGoPreviousRound { get => tournament.CurrentRound > 1; }
+    public bool CanGoNextRound { get => tournament.CurrentRound < tournament.NumberOfRounds - 1; }
+    public bool CanGoPreviousRound { get => tournament.CurrentRound > 0; }
     public int CurrentRoundNumber
     {
         get => tournament.CurrentRound;
@@ -120,7 +120,7 @@ public partial class MainViewModel : ObservableObject
             CallPropertyChangedEvent();
         }
     }
-    public string GetTitle { get => "GoCarlos " + Utils.VERSION + " - Kolo " + tournament.CurrentRound.ToString(); }
+    public string GetTitle { get => "GoCarlos " + Utils.VERSION + " - Kolo " + (tournament.CurrentRound + 1).ToString(); }
 
     #region GoToRound visibility
 
@@ -139,15 +139,15 @@ public partial class MainViewModel : ObservableObject
 
     #region Wallist round visibility
 
-    public Visibility R2V { get => tournament.CurrentRound > 1 ? Visibility.Visible : Visibility.Collapsed; }
-    public Visibility R3V { get => tournament.CurrentRound > 2 ? Visibility.Visible : Visibility.Collapsed; }
-    public Visibility R4V { get => tournament.CurrentRound > 3 ? Visibility.Visible : Visibility.Collapsed; }
-    public Visibility R5V { get => tournament.CurrentRound > 4 ? Visibility.Visible : Visibility.Collapsed; }
-    public Visibility R6V { get => tournament.CurrentRound > 5 ? Visibility.Visible : Visibility.Collapsed; }
-    public Visibility R7V { get => tournament.CurrentRound > 6 ? Visibility.Visible : Visibility.Collapsed; }
-    public Visibility R8V { get => tournament.CurrentRound > 7 ? Visibility.Visible : Visibility.Collapsed; }
-    public Visibility R9V { get => tournament.CurrentRound > 8 ? Visibility.Visible : Visibility.Collapsed; }
-    public Visibility R10V { get => tournament.CurrentRound > 9 ? Visibility.Visible : Visibility.Collapsed; }
+    public Visibility R2V { get => tournament.CurrentRound > 0 ? Visibility.Visible : Visibility.Collapsed; }
+    public Visibility R3V { get => tournament.CurrentRound > 1 ? Visibility.Visible : Visibility.Collapsed; }
+    public Visibility R4V { get => tournament.CurrentRound > 2 ? Visibility.Visible : Visibility.Collapsed; }
+    public Visibility R5V { get => tournament.CurrentRound > 3 ? Visibility.Visible : Visibility.Collapsed; }
+    public Visibility R6V { get => tournament.CurrentRound > 4 ? Visibility.Visible : Visibility.Collapsed; }
+    public Visibility R7V { get => tournament.CurrentRound > 5 ? Visibility.Visible : Visibility.Collapsed; }
+    public Visibility R8V { get => tournament.CurrentRound > 6 ? Visibility.Visible : Visibility.Collapsed; }
+    public Visibility R9V { get => tournament.CurrentRound > 7 ? Visibility.Visible : Visibility.Collapsed; }
+    public Visibility R10V { get => tournament.CurrentRound > 8 ? Visibility.Visible : Visibility.Collapsed; }
 
     #endregion
 
@@ -370,7 +370,7 @@ public partial class MainViewModel : ObservableObject
         {
             PlayerViewModel pvm = SelectedPlayer;
 
-            foreach (Round r in tournament.Rounds.Values)
+            foreach (Round r in tournament.Rounds)
             {
                 r.RemovePlayer(SelectedPlayer.Player);
             }
@@ -1050,11 +1050,11 @@ public partial class MainViewModel : ObservableObject
     {
         if (tournament.CountCurrentRound)
         {
-            tournament.CalculateCriteria(CurrentRoundNumber);
+            tournament.CalculateCriteria(CurrentRoundNumber + 1);
         }
         else
         {
-            tournament.CalculateCriteria(CurrentRoundNumber - 1);
+            tournament.CalculateCriteria(CurrentRoundNumber);
         }
     }
 

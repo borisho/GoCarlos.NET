@@ -57,70 +57,70 @@
                               Command="{Binding GoToAndRefreshRoundCommand}"
                               Visibility="{Binding GTR1V, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                         <MenuItem.CommandParameter>
-                            <sys:Int32>1</sys:Int32>
+                            <sys:Int32>0</sys:Int32>
                         </MenuItem.CommandParameter>
                     </MenuItem>
                     <MenuItem Header="2"
                               Command="{Binding GoToAndRefreshRoundCommand}"
                               Visibility="{Binding GTR2V, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                         <MenuItem.CommandParameter>
-                            <sys:Int32>2</sys:Int32>
+                            <sys:Int32>1</sys:Int32>
                         </MenuItem.CommandParameter>
                     </MenuItem>
                     <MenuItem Header="3"
                               Command="{Binding GoToAndRefreshRoundCommand}"
                               Visibility="{Binding GTR3V, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                         <MenuItem.CommandParameter>
-                            <sys:Int32>3</sys:Int32>
+                            <sys:Int32>2</sys:Int32>
                         </MenuItem.CommandParameter>
                     </MenuItem>
                     <MenuItem Header="4"
                               Command="{Binding GoToAndRefreshRoundCommand}"
                               Visibility="{Binding GTR4V, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                         <MenuItem.CommandParameter>
-                            <sys:Int32>4</sys:Int32>
+                            <sys:Int32>3</sys:Int32>
                         </MenuItem.CommandParameter>
                     </MenuItem>
                     <MenuItem Header="5"
                               Command="{Binding GoToAndRefreshRoundCommand}"
                               Visibility="{Binding GTR5V, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                         <MenuItem.CommandParameter>
-                            <sys:Int32>5</sys:Int32>
+                            <sys:Int32>4</sys:Int32>
                         </MenuItem.CommandParameter>
                     </MenuItem>
                     <MenuItem Header="6"
                               Command="{Binding GoToAndRefreshRoundCommand}"
                               Visibility="{Binding GTR6V, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                         <MenuItem.CommandParameter>
-                            <sys:Int32>6</sys:Int32>
+                            <sys:Int32>5</sys:Int32>
                         </MenuItem.CommandParameter>
                     </MenuItem>
                     <MenuItem Header="7"
                               Command="{Binding GoToAndRefreshRoundCommand}"
                               Visibility="{Binding GTR7V, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                         <MenuItem.CommandParameter>
-                            <sys:Int32>7</sys:Int32>
+                            <sys:Int32>6</sys:Int32>
                         </MenuItem.CommandParameter>
                     </MenuItem>
                     <MenuItem Header="8"
                               Command="{Binding GoToAndRefreshRoundCommand}"
                               Visibility="{Binding GTR8V, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                         <MenuItem.CommandParameter>
-                            <sys:Int32>8</sys:Int32>
+                            <sys:Int32>7</sys:Int32>
                         </MenuItem.CommandParameter>
                     </MenuItem>
                     <MenuItem Header="9"
                               Command="{Binding GoToAndRefreshRoundCommand}"
                               Visibility="{Binding GTR9V, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                         <MenuItem.CommandParameter>
-                            <sys:Int32>9</sys:Int32>
+                            <sys:Int32>8</sys:Int32>
                         </MenuItem.CommandParameter>
                     </MenuItem>
                     <MenuItem Header="10"
                               Command="{Binding GoToAndRefreshRoundCommand}"
                               Visibility="{Binding GTR10V, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                         <MenuItem.CommandParameter>
-                            <sys:Int32>10</sys:Int32>
+                            <sys:Int32>9</sys:Int32>
                         </MenuItem.CommandParameter>
                     </MenuItem>
                 </MenuItem>

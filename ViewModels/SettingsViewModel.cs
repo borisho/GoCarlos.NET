@@ -140,11 +140,17 @@ public partial class SettingsViewModel : ObservableObject
 
             if (int.TryParse(NumberOfRounds, out int nr))
             {
+                if (nr > 10)
+                {
+                    nr = 10;
+                    MessageBox.Show("Maximálny počet kôl je 10, nastavujem 10!", "Upozornenie", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+
                 mvm.Tournament.NumberOfRounds = nr;
 
-                if (mvm.Tournament.CurrentRound > nr)
+                if (mvm.Tournament.CurrentRound > nr - 1)
                 {
-                    mvm.GoToAndRefreshRound(nr);
+                    mvm.GoToAndRefreshRound(nr - 1);
                 }
 
                 mvm.Tournament.AddOrRemoveRounds();

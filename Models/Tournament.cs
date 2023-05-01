@@ -8,7 +8,7 @@ namespace GoCarlos.NET.Models;
 public class Tournament
 {
     private List<Player> players;
-    private Dictionary<int, Round> rounds;
+    private List<Round> rounds;
 
     private string name;
 
@@ -30,13 +30,13 @@ public class Tournament
     {
         players = new();
 
-        rounds = new Dictionary<int, Round>
+        rounds = new List<Round>
         {
-            { 1, new(1, tournamentType) },
-            { 2, new(2, tournamentType) },
-            { 3, new(3, tournamentType) },
-            { 4, new(4, tournamentType) },
-            { 5, new(5, tournamentType) }
+            { new(0, tournamentType) },
+            { new(1, tournamentType) },
+            { new(2, tournamentType) },
+            { new(3, tournamentType) },
+            { new(4, tournamentType) }
         };
 
         name = "Turnaj";
@@ -49,7 +49,7 @@ public class Tournament
         avoidSameCityPairing = true;
 
         countCurrentRound = false;
-        currentRound = 1;
+        currentRound = 0;
         numberOfRounds = 5;
 
         topGroupBar = 29f;
@@ -61,7 +61,7 @@ public class Tournament
         get => players;
         set => players = value;
     }
-    public Dictionary<int, Round> Rounds
+    public List<Round> Rounds
     {
         get => rounds;
         set => rounds = value;
@@ -129,7 +129,7 @@ public class Tournament
 
     public void UpdatePlayerPlayingRounds(Player player)
     {
-        for (int i = 1; i <= rounds.Count; i++)
+        for (int i = 0; i < rounds.Count; i++)
         {
             if (player.RoundsPlaying.Contains(i))
             {
@@ -146,7 +146,7 @@ public class Tournament
     {
         HandicapReduction = handicapReduction;
 
-        foreach (Round round in rounds.Values)
+        foreach (Round round in rounds)
         {
             foreach (Pairing pairing in round.Pairings)
             {
@@ -163,33 +163,32 @@ public class Tournament
 
     public void AddOrRemoveRounds()
     {
-        for (int i = 1; i < 11; i++)
+        if (rounds.Count > numberOfRounds)
         {
-            if (i <= NumberOfRounds)
+            for (int i = rounds.Count - 1; i > numberOfRounds - 1; i--)
             {
-                if (!rounds.ContainsKey(i))
-                {
-                    Round round = new(i, TournamentType);
+                Round round = rounds[i];
 
-                    rounds.Add(i, round);
-                    foreach (Player player in players)
-                    {
-                        round.AddPlayer(player);
-                    }
+                foreach (Player player in players)
+                {
+                    round.RemovePlayer(player);
                 }
+
+                rounds.Remove(round);
             }
-
-            else
+        }
+        else
+        {
+            for (int i = rounds.Count - 1; i < numberOfRounds; i++)
             {
-                if (rounds.TryGetValue(i, out Round? round))
-                {
-                    foreach (Player player in players)
-                    {
-                        round.RemovePlayer(player);
-                    }
-                }
+                Round round = new(i + 1, TournamentType);
 
-                rounds.Remove(i);
+                rounds.Add(round);
+
+                foreach (Player player in players)
+                {
+                    round.AddPlayer(player);
+                }
             }
         }
     }
@@ -223,7 +222,7 @@ public class Tournament
 
             foreach (Player player in players)
             {
-                for (int i = 1; i <= roundNumber; i++)
+                for (int i = 0; i < roundNumber; i++)
                 {
                     if (player.Opponents.TryGetValue(i, out Player? opponent))
                     {
@@ -242,15 +241,30 @@ public class Tournament
                     }
                     else
                     {
-                        player.SOS += player.IsSuperGroup ? player.StartScore + 2 : player.StartScore;
-                        player.SODOS += player.Score / 2;
+                        float startscore;
+
+                        if (player.StartScore < bottomGroupBar)
+                        {
+                            startscore = bottomGroupBar;
+                        }
+                        else if (player.StartScore > topGroupBar)
+                        {
+                            startscore = topGroupBar;
+                        }
+                        else
+                        {
+                            startscore = player.StartScore;
+                        }
+
+                        player.SOS += player.IsSuperGroup ? startscore + 2 : startscore;
+                        player.SODOS += startscore / 2f;
                     }
                 }
             }
 
             foreach (Player player in players)
             {
-                for (int i = 1; i <= roundNumber; i++)
+                for (int i = 0; i < roundNumber; i++)
                 {
                     if (player.Opponents.TryGetValue(i, out Player? opponent))
                     {
@@ -298,7 +312,7 @@ public class Tournament
     {
         float points = 0;
 
-        for (int i = 1; i <= roundNumber; i++)
+        for (int i = 0; i < roundNumber; i++)
         {
             if (player.Pairings.TryGetValue(i, out Pairing? pairing))
             {
@@ -313,7 +327,7 @@ public class Tournament
     {
         float points = 0;
 
-        for (int i = 1; i <= roundNumber; i++)
+        for (int i = 0; i < roundNumber; i++)
         {
             if (player.Pairings.TryGetValue(i, out Pairing? pairing))
             {

@@ -57,25 +57,25 @@ public partial class PlayerWindowViewModel : ObservableRecipient, IRecipient<EGD
             isSuperGroup = pvm.Player.IsSuperGroup;
             isTopGroup = pvm.Player.IsTopGroup;
 
-            if (!pvm.Player.RoundsPlaying.Contains(1))
+            if (!pvm.Player.RoundsPlaying.Contains(0))
                 ch1 = false;
-            if (!pvm.Player.RoundsPlaying.Contains(2))
+            if (!pvm.Player.RoundsPlaying.Contains(1))
                 ch2 = false;
-            if (!pvm.Player.RoundsPlaying.Contains(3))
+            if (!pvm.Player.RoundsPlaying.Contains(2))
                 ch3 = false;
-            if (!pvm.Player.RoundsPlaying.Contains(4))
+            if (!pvm.Player.RoundsPlaying.Contains(3))
                 ch4 = false;
-            if (!pvm.Player.RoundsPlaying.Contains(5))
+            if (!pvm.Player.RoundsPlaying.Contains(4))
                 ch5 = false;
-            if (!pvm.Player.RoundsPlaying.Contains(6))
+            if (!pvm.Player.RoundsPlaying.Contains(5))
                 ch6 = false;
-            if (!pvm.Player.RoundsPlaying.Contains(7))
+            if (!pvm.Player.RoundsPlaying.Contains(6))
                 ch7 = false;
-            if (!pvm.Player.RoundsPlaying.Contains(8))
+            if (!pvm.Player.RoundsPlaying.Contains(7))
                 ch8 = false;
-            if (!pvm.Player.RoundsPlaying.Contains(9))
+            if (!pvm.Player.RoundsPlaying.Contains(8))
                 ch9 = false;
-            if (!pvm.Player.RoundsPlaying.Contains(10))
+            if (!pvm.Player.RoundsPlaying.Contains(9))
                 ch10 = false;
         }
     }
@@ -293,16 +293,16 @@ public partial class PlayerWindowViewModel : ObservableRecipient, IRecipient<EGD
 
     private void SetPlayingRounds(Player player)
     {
-        _ = Ch1 && NumberOfRounds > 0 ? player.RoundsPlaying.Add(1) : player.RoundsPlaying.Remove(1);
-        _ = Ch2 && NumberOfRounds > 1 ? player.RoundsPlaying.Add(2) : player.RoundsPlaying.Remove(2);
-        _ = Ch3 && NumberOfRounds > 2 ? player.RoundsPlaying.Add(3) : player.RoundsPlaying.Remove(3);
-        _ = Ch4 && NumberOfRounds > 3 ? player.RoundsPlaying.Add(4) : player.RoundsPlaying.Remove(4);
-        _ = Ch5 && NumberOfRounds > 4 ? player.RoundsPlaying.Add(5) : player.RoundsPlaying.Remove(5);
-        _ = Ch6 && NumberOfRounds > 5 ? player.RoundsPlaying.Add(6) : player.RoundsPlaying.Remove(6);
-        _ = Ch7 && NumberOfRounds > 6 ? player.RoundsPlaying.Add(7) : player.RoundsPlaying.Remove(7);
-        _ = Ch8 && NumberOfRounds > 7 ? player.RoundsPlaying.Add(8) : player.RoundsPlaying.Remove(8);
-        _ = Ch9 && NumberOfRounds > 8 ? player.RoundsPlaying.Add(9) : player.RoundsPlaying.Remove(9);
-        _ = Ch10 && NumberOfRounds > 9 ? player.RoundsPlaying.Add(10) : player.RoundsPlaying.Remove(10);
+        _ = Ch1 && NumberOfRounds > 0 ? player.RoundsPlaying.Add(0) : player.RoundsPlaying.Remove(0);
+        _ = Ch2 && NumberOfRounds > 1 ? player.RoundsPlaying.Add(1) : player.RoundsPlaying.Remove(1);
+        _ = Ch3 && NumberOfRounds > 2 ? player.RoundsPlaying.Add(2) : player.RoundsPlaying.Remove(2);
+        _ = Ch4 && NumberOfRounds > 3 ? player.RoundsPlaying.Add(3) : player.RoundsPlaying.Remove(3);
+        _ = Ch5 && NumberOfRounds > 4 ? player.RoundsPlaying.Add(4) : player.RoundsPlaying.Remove(4);
+        _ = Ch6 && NumberOfRounds > 5 ? player.RoundsPlaying.Add(5) : player.RoundsPlaying.Remove(5);
+        _ = Ch7 && NumberOfRounds > 6 ? player.RoundsPlaying.Add(6) : player.RoundsPlaying.Remove(6);
+        _ = Ch8 && NumberOfRounds > 7 ? player.RoundsPlaying.Add(7) : player.RoundsPlaying.Remove(7);
+        _ = Ch9 && NumberOfRounds > 8 ? player.RoundsPlaying.Add(8) : player.RoundsPlaying.Remove(8);
+        _ = Ch10 && NumberOfRounds > 9 ? player.RoundsPlaying.Add(9) : player.RoundsPlaying.Remove(9);
     }
 
     public void Receive(EGDSelectionMessage message)
