@@ -234,16 +234,16 @@ public partial class MainViewModel : ObservableObject
     {
         bool addOneMore = param ?? false;
 
-        AddOrEditPlayerViewModel aoepvm = new(null, tournament.NumberOfRounds, addOneMore);
-        aoepvm.AddPlayerEvent += OnAddPlayer;
+        PlayerWindowViewModel pwvm = new(null, tournament.NumberOfRounds, addOneMore);
+        pwvm.AddPlayerEvent += OnAddPlayer;
 
-        AddOrEditPlayerWindow addOrEditPlayerWindow = new()
+        PlayerWindow playerWindow = new()
         {
             Title = "Pridať hráča",
-            DataContext = aoepvm,
+            DataContext = pwvm,
         };
 
-        addOrEditPlayerWindow.Show();
+        playerWindow.Show();
     }
     private void OnAddPlayer(object? sender, PlayerEventArgs args)
     {
@@ -349,17 +349,17 @@ public partial class MainViewModel : ObservableObject
     {
         if (SelectedPlayer is not null)
         {
-            AddOrEditPlayerViewModel aoepvm = new(SelectedPlayer, tournament.NumberOfRounds, false);
-            aoepvm.EditPlayerEvent += OnEditPlayer;
+            PlayerWindowViewModel pwvm = new(SelectedPlayer, tournament.NumberOfRounds, false);
+            pwvm.EditPlayerEvent += OnEditPlayer;
 
-            AddOrEditPlayerWindow addOrEditPlayerWindow = new()
+            PlayerWindow playerWindow = new()
             {
                 Title = SelectedPlayer.FullName,
-                DataContext = aoepvm,
+                DataContext = pwvm,
             };
-            addOrEditPlayerWindow.ShowDialog();
+            playerWindow.ShowDialog();
 
-            aoepvm.EditPlayerEvent -= OnEditPlayer;
+            pwvm.EditPlayerEvent -= OnEditPlayer;
         }
     }
 
@@ -402,12 +402,12 @@ public partial class MainViewModel : ObservableObject
     {
         if (SelectedPairing is not null)
         {
-            EditPairingWindow editPairingWindow = new()
+            PairingWindow pairingWindow = new()
             {
                 DataContext = SelectedPairing
             };
-            editPairingWindow.Closed += SelectedPairingClose;
-            editPairingWindow.ShowDialog();
+            pairingWindow.Closed += SelectedPairingClose;
+            pairingWindow.ShowDialog();
         }
     }
 

@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace GoCarlos.NET.ViewModels;
 
-public partial class AddOrEditPlayerViewModel : ObservableObject
+public partial class PlayerWindowViewModel : ObservableObject
 {
     private readonly PlayerViewModel? pvm;
 
@@ -28,7 +28,7 @@ public partial class AddOrEditPlayerViewModel : ObservableObject
     [ObservableProperty]
     private bool ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9, ch10;
 
-    public AddOrEditPlayerViewModel(PlayerViewModel? pvm, int numberOfRounds, bool addOneMore)
+    public PlayerWindowViewModel(PlayerViewModel? pvm, int numberOfRounds, bool addOneMore)
     {
         this.addOneMore = addOneMore;
 

@@ -3,9 +3,9 @@ using System.Windows;
 
 namespace GoCarlos.NET;
 
-public partial class EditPairingWindow : Window, ICloseable
+public partial class PairingWindow : Window, ICloseable
 {
-    public EditPairingWindow()
+    public PairingWindow()
     {
         InitializeComponent();
     }

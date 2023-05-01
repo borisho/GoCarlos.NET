@@ -3,9 +3,9 @@ using System.Windows;
 
 namespace GoCarlos.NET;
 
-public partial class AddOrEditPlayerWindow : Window, ICloseable
+public partial class PlayerWindow : Window, ICloseable
 {
-    public AddOrEditPlayerWindow()
+    public PlayerWindow()
     {
         InitializeComponent();
     }

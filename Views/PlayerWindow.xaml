@@ -1,5 +1,5 @@
 ﻿<Window WindowStartupLocation="CenterScreen"
-        x:Class="GoCarlos.NET.AddOrEditPlayerWindow"
+        x:Class="GoCarlos.NET.PlayerWindow"
         x:Name="AddPlayer"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,7 +7,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GoCarlos.NET"
         xmlns:viewmodels="clr-namespace:GoCarlos.NET.ViewModels"
-        d:DataContext="{d:DesignInstance Type=viewmodels:AddOrEditPlayerViewModel}"
+        d:DataContext="{d:DesignInstance Type=viewmodels:PlayerWindowViewModel}"
         mc:Ignorable="d"
         Height="450" Width="800">
     <Grid>
