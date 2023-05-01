@@ -92,6 +92,12 @@ public static class PairingGenerator
             {
                 if (pairings.TryPop(out Pairing? pairing))
                 {
+
+                    player.TemporaryForbiddenPairings.Clear();
+
+                    pairing.Black.TemporaryForbiddenPairings.Add(pairing.White);
+                    pairing.White.TemporaryForbiddenPairings.Add(pairing.Black);
+
                     players.Add(player);
                     RemovePairing(parameters.Round, pairing);
 
@@ -402,9 +408,6 @@ public static class PairingGenerator
         Debug.WriteLine(p1.Data.Last_Name + ", " + p1.Data.Name + ": " + p1.Data.Gor);
         Debug.WriteLine(p2.Data.Last_Name + ", " + p2.Data.Name + ": " + p2.Data.Gor);
         Pairing pairing = parameters.Round.AddPairing(p1, p2, parameters.HandicapReduction);
-
-        p1.TemporaryForbiddenPairings.Add(p2);
-        p2.TemporaryForbiddenPairings.Add(p1);
 
         players.Remove(p1);
         players.Remove(p2);

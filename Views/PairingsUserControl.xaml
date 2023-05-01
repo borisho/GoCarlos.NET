@@ -8,12 +8,15 @@
              d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <DockPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
         <DataGrid Grid.Column="0"
                 x:Name="Pairings"
-                MinWidth="400"
                 ItemsSource="{Binding PairingData, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                HorizontalAlignment="Left"
+                HorizontalAlignment="Stretch"
                 AutoGenerateColumns="False"
                 CanUserSortColumns="False"
                 CanUserAddRows="False"
@@ -104,38 +107,36 @@
                 <DataGridTextColumn Header="Hendikep" Binding="{Binding Handicap, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
-                <StackPanel MinWidth="180" HorizontalAlignment="Left" Margin="10 0 0 0">
-                    <ListView x:Name="UnpairedPlayers" MinHeight="300"
-                            HorizontalContentAlignment="Stretch"
-                            SelectionMode="Extended"
-                            ItemsSource="{Binding UnpairedPlayers, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Padding="0" Text="{Binding FullName}"/>
-                                    <Label Grid.Column="2" Padding="0" Content="{Binding Score}"/>
-                                </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </StackPanel>
-            </ScrollViewer>
-            <Button Grid.Column="1"
-                    Height="30" Width="260" Margin="20 10"
-                    Content="Vytvoriť párovanie"
-                    CommandParameter="{Binding ElementName=UnpairedPlayers, Path=SelectedItems}"
-                    Command="{Binding MakePairingSelectionCommand}"/>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <ListView Grid.Row="0"
+                    x:Name="UnpairedPlayers"
+                    Margin="10"
+                    MinHeight="300"
+                    HorizontalContentAlignment="Stretch"
+                    SelectionMode="Extended"
+                    ItemsSource="{Binding UnpairedPlayers, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Padding="0" Text="{Binding FullName}"/>
+                            <Label Grid.Column="2" Padding="0" Content="{Binding Score}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Grid.Row="1" Margin="10"
+                Content="Vytvoriť párovanie"
+                CommandParameter="{Binding ElementName=UnpairedPlayers, Path=SelectedItems}"
+                Command="{Binding MakePairingSelectionCommand}"/>
         </Grid>
-    </DockPanel>
+    </Grid>
 </UserControl>

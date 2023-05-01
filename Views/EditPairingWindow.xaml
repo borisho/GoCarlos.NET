@@ -18,6 +18,8 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
@@ -55,10 +57,10 @@
                   IsEnabled="{Binding IsRefereeEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   IsChecked="{Binding RefereeDecision, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <Label Grid.Row="5" Grid.Column="3" Content="Rozhodnutie rozhodcu"/>
-        <Button Grid.Row="6" Grid.Column="1"
+        <Button Grid.Row="7" Grid.Column="1"
                 Grid.ColumnSpan="2"
+                Margin="0 4"
                 HorizontalAlignment="Left"
-                Width="110"
                 Content="Odstrániť párovanie"
                 CommandParameter="{Binding ElementName=EditPairing}"
                 Command="{Binding DeletePairingCommand}"/>
