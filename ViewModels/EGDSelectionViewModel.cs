@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using GoCarlos.NET.Interfaces;
+using GoCarlos.NET.Messages;
 using GoCarlos.NET.Models;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -9,16 +11,13 @@ namespace GoCarlos.NET.ViewModels;
 
 public partial class EGDSelectionViewModel : ObservableObject
 {
-    private readonly PlayerWindowViewModel playerWindowViewModel;
     private readonly ObservableCollection<EGD_Data> players;
 
     [ObservableProperty]
     private EGD_Data? selectedItem;
 
-    public EGDSelectionViewModel(PlayerWindowViewModel playerWindowViewModel, EGD_Data[] eGD_Datas)
+    public EGDSelectionViewModel(EGD_Data[] eGD_Datas)
     {
-
-        this.playerWindowViewModel = playerWindowViewModel;
         players = new ObservableCollection<EGD_Data>();
 
         foreach (EGD_Data data in eGD_Datas)
@@ -33,10 +32,9 @@ public partial class EGDSelectionViewModel : ObservableObject
 
     public ICollectionView Players { get; }
 
-    public void SendSelectedPlayer(ICloseable window, EGD_Data player)
+    public static void SendSelectedPlayer(ICloseable window, EGD_Data player)
     {
-        playerWindowViewModel.Data = player;
-
+        WeakReferenceMessenger.Default.Send(new EGDSelectionMessage(player));
         window?.Close();
     }
 }

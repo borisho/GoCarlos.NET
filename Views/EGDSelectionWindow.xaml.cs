@@ -23,7 +23,7 @@ public partial class EGDSelectionWindow : Window, ICloseable
                 EGD_Data? selectedItem = listBoxItem.DataContext as EGD_Data;
                 if (viewModel.SelectedItem == selectedItem)
                 {
-                    viewModel.SendSelectedPlayer(this, selectedItem);
+                    EGDSelectionViewModel.SendSelectedPlayer(this, selectedItem);
                     e.Handled = false;
                 }
             }

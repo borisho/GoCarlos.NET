@@ -1,6 +1,7 @@
 ﻿using System;
+using GoCarlos.NET.Models;
 
-namespace GoCarlos.NET.Models.Events;
+namespace GoCarlos.NET.Events;
 
 public class PlayerEventArgs : EventArgs
 {

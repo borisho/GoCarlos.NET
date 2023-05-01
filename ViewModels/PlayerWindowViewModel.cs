@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using GoCarlos.NET.Events;
 using GoCarlos.NET.Interfaces;
+using GoCarlos.NET.Messages;
 using GoCarlos.NET.Models;
-using GoCarlos.NET.Models.Events;
 using GoCarlos.NET.Services;
 using Newtonsoft.Json;
 using System;
@@ -11,7 +13,7 @@ using System.Windows;
 
 namespace GoCarlos.NET.ViewModels;
 
-public partial class PlayerWindowViewModel : ObservableObject
+public partial class PlayerWindowViewModel : ObservableRecipient, IRecipient<EGDSelectionMessage>
 {
     private readonly PlayerViewModel? pvm;
 
@@ -209,11 +211,15 @@ public partial class PlayerWindowViewModel : ObservableObject
 
                 else if (data_list.Players.Length > 1)
                 {
+                    IsActive = true;
+
                     EGDSelectionWindow listViewWindow = new()
                     {
-                        DataContext = new EGDSelectionViewModel(this, data_list.Players)
+                        DataContext = new EGDSelectionViewModel(data_list.Players)
                     };
                     listViewWindow.ShowDialog();
+
+                    IsActive = false;
                 }
 
                 else
@@ -297,5 +303,20 @@ public partial class PlayerWindowViewModel : ObservableObject
         _ = Ch8 && NumberOfRounds > 7 ? player.RoundsPlaying.Add(8) : player.RoundsPlaying.Remove(8);
         _ = Ch9 && NumberOfRounds > 8 ? player.RoundsPlaying.Add(9) : player.RoundsPlaying.Remove(9);
         _ = Ch10 && NumberOfRounds > 9 ? player.RoundsPlaying.Add(10) : player.RoundsPlaying.Remove(10);
+    }
+
+    public void Receive(EGDSelectionMessage message)
+    {
+        Data = message.Value;
+    }
+
+    protected override void OnActivated()
+    {
+        Messenger.Register(this);
+    }
+
+    protected override void OnDeactivated()
+    {
+        Messenger.Unregister<EGDSelectionMessage>(this);
     }
 }

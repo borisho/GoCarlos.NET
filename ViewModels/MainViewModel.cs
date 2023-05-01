@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GoCarlos.NET.Events;
 using GoCarlos.NET.Models;
-using GoCarlos.NET.Models.Events;
 using GoCarlos.NET.Models.Records;
 using Microsoft.VisualBasic;
 using Microsoft.Win32;
