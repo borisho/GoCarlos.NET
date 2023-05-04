@@ -486,7 +486,7 @@ public partial class MainViewModel : ObservableObject
             int r8Length = 2;
             int r9Length = 2;
             int r10Length = 2;
-            int scoreLength = 3;
+            int scoreLength = 2;
             int scoreXLength = 3;
             int sosLength = 3;
             int sososLength = 5;
@@ -645,7 +645,8 @@ public partial class MainViewModel : ObservableObject
                 }
                 wText.Write("{0, -" + rLength.ToString() + "} ", rString);
             }
-            wText.Write("{0, -5} ", "Body");
+            wText.Write("{0, -3} ", "NrW");
+            wText.Write("{0, -4} ", "Body");
             wText.Write("{0, -" + scoreXLength + "} ", "MMX");
             wText.Write("{0, -" + scoreLength + "} ", "MM");
             wText.Write("{0, -" + sodosLength + "} ", "SODOS");
@@ -694,11 +695,12 @@ public partial class MainViewModel : ObservableObject
                     }
                 }
 
-                wText.Write("{0, -5} ", p.Points.ToString());
-                wText.Write("{0, -" + scoreXLength + "} ", p.ScoreX.ToString());
-                wText.Write("{0, -" + scoreLength + "} ", p.Score.ToString());
-                wText.Write("{0, -" + sodosLength + "} ", p.SODOS.ToString());
-                wText.Write("{0, -" + sosLength + "} ", p.SOS.ToString());
+                wText.Write("{0, -3} ", p.NrW);
+                wText.Write("{0, -4} ", p.Points);
+                wText.Write("{0, -" + scoreXLength + "} ", p.ScoreX);
+                wText.Write("{0, -" + scoreLength + "} ", p.Score);
+                wText.Write("{0, -" + sodosLength + "} ", p.SODOS);
+                wText.Write("{0, -" + sosLength + "} ", p.SOS);
                 wText.Write("\n");
             }
 
