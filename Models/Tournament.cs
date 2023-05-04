@@ -1,4 +1,5 @@
 ﻿using GoCarlos.NET.Models.Enums;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,18 +27,11 @@ public class Tournament
     private float topGroupBar;
     private float bottomGroupBar;
 
+    [JsonConstructor]
     public Tournament()
     {
         players = new();
-
-        rounds = new List<Round>
-        {
-            { new(0, tournamentType) },
-            { new(1, tournamentType) },
-            { new(2, tournamentType) },
-            { new(3, tournamentType) },
-            { new(4, tournamentType) }
-        };
+        rounds = new();
 
         name = "Turnaj";
 
@@ -54,6 +48,14 @@ public class Tournament
 
         topGroupBar = 29f;
         bottomGroupBar = 10f;
+    }
+
+    public Tournament(int numberOfRounds) : this()
+    {
+        for(int i = 0; i < numberOfRounds; i++)
+        {
+            rounds!.Add(new(i, tournamentType));
+        }
     }
 
     public List<Player> Players

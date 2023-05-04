@@ -35,7 +35,7 @@ public partial class MainViewModel : ObservableObject
 
     public MainViewModel()
     {
-        tournament = new();
+        tournament = new(5);
 
         playerViewModel = new();
         PlayerData = CollectionViewSource.GetDefaultView(playerViewModel);

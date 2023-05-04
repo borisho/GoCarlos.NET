@@ -21,7 +21,7 @@ public partial class EGDSelectionWindow : Window, ICloseable
             if (DataContext is EGDSelectionViewModel viewModel)
             {
                 EGD_Data? selectedItem = listBoxItem.DataContext as EGD_Data;
-                if (viewModel.SelectedItem == selectedItem)
+                if (viewModel.SelectedItem == selectedItem && selectedItem is not null)
                 {
                     EGDSelectionViewModel.SendSelectedPlayer(this, selectedItem);
                     e.Handled = false;
