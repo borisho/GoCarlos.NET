@@ -474,111 +474,23 @@ public partial class MainViewModel : ObservableObject
             using Stream myStream = sfd.OpenFile();
             StreamWriter wText = new(myStream);
 
-            int nameLength = 4;
-            int clubLenght = 4;
-            int r1Length = 2;
-            int r2Length = 2;
-            int r3Length = 2;
-            int r4Length = 2;
-            int r5Length = 2;
-            int r6Length = 2;
-            int r7Length = 2;
-            int r8Length = 2;
-            int r9Length = 2;
-            int r10Length = 2;
-            int scoreLength = 2;
-            int scoreXLength = 3;
-            int sosLength = 3;
-            int sososLength = 5;
-            int sodosLength = 5;
-
-            foreach (PlayerViewModel p in PlayerData)
-            {
-                if (p.FullName.Length > nameLength)
-                {
-                    nameLength = p.FullName.Length;
-                }
-
-                if (p.Club.Length > clubLenght)
-                {
-                    clubLenght = p.Club.Length;
-                }
-
-                if (p.R1.Length > r1Length)
-                {
-                    r1Length = p.R1.Length;
-                }
-
-                if (p.R2.Length > r2Length)
-                {
-                    r2Length = p.R2.Length;
-                }
-
-                if (p.R3.Length > r3Length)
-                {
-                    r3Length = p.R3.Length;
-                }
-
-                if (p.R4.Length > r4Length)
-                {
-                    r4Length = p.R4.Length;
-                }
-
-                if (p.R5.Length > r5Length)
-                {
-                    r5Length = p.R5.Length;
-                }
-
-                if (p.R6.Length > r6Length)
-                {
-                    r6Length = p.R6.Length;
-                }
-
-                if (p.R7.Length > r7Length)
-                {
-                    r7Length = p.R7.Length;
-                }
-
-                if (p.R8.Length > r8Length)
-                {
-                    r8Length = p.R8.Length;
-                }
-
-                if (p.R9.Length > r9Length)
-                {
-                    r9Length = p.R9.Length;
-                }
-
-                if (p.R10.Length > r10Length)
-                {
-                    r10Length = p.R10.Length;
-                }
-
-                if (p.Score.ToString().Length > scoreLength)
-                {
-                    scoreLength = p.Score.ToString().Length;
-                }
-
-                if (p.ScoreX.ToString().Length > scoreXLength)
-                {
-                    scoreXLength = p.ScoreX.ToString().Length;
-                }
-
-                if (p.SOS.ToString().Length > sosLength)
-                {
-                    sosLength = p.SOS.ToString().Length;
-                }
-
-                if (p.SOSOS.ToString().Length > sososLength)
-                {
-                    sososLength = p.SOSOS.ToString().Length;
-                }
-
-                if (p.SODOS.ToString().Length > sodosLength)
-                {
-                    sodosLength = p.SODOS.ToString().Length;
-                }
-            }
+            int nameLength = Math.Max(4, playerViewModel.Max(p => p.FullName.Length));
+            int clubLenght = Math.Max(4, playerViewModel.Max(p => p.Club.Length));
+            int r1Length = Math.Max(2, playerViewModel.Max(p => p.R1.Length));
+            int r2Length = Math.Max(2, playerViewModel.Max(p => p.R2.Length));
+            int r3Length = Math.Max(2, playerViewModel.Max(p => p.R3.Length));
+            int r4Length = Math.Max(2, playerViewModel.Max(p => p.R4.Length));
+            int r5Length = Math.Max(2, playerViewModel.Max(p => p.R5.Length));
+            int r6Length = Math.Max(2, playerViewModel.Max(p => p.R6.Length));
+            int r7Length = Math.Max(2, playerViewModel.Max(p => p.R7.Length));
+            int r8Length = Math.Max(2, playerViewModel.Max(p => p.R8.Length));
+            int r9Length = Math.Max(2, playerViewModel.Max(p => p.R9.Length));
+            int r10Length = Math.Max(2, playerViewModel.Max(p => p.R10.Length));
+            int scoreLength = Math.Max(2, playerViewModel.Max(p => p.Score.ToString().Length));
+            int scoreXLength = Math.Max(3, playerViewModel.Max(p => p.ScoreX.ToString().Length));
+            int sosLength = Math.Max(3, playerViewModel.Max(p => p.SOS.ToString().Length));
+            int sososLength = Math.Max(5, playerViewModel.Max(p => p.SOSOS.ToString().Length));
+            int sodosLength = Math.Max(5, playerViewModel.Max(p => p.SODOS.ToString().Length));
 
             if (tournament.CountCurrentRound)
             {
@@ -650,7 +562,7 @@ public partial class MainViewModel : ObservableObject
             wText.Write("{0, -" + scoreXLength + "} ", "MMX");
             wText.Write("{0, -" + scoreLength + "} ", "MM");
             wText.Write("{0, -" + sodosLength + "} ", "SODOS");
-            wText.Write("{0, -" + sosLength + "} ", "SOS");
+            wText.Write("{0, -" + sosLength + "}", "SOS");
             wText.Write("\n");
 
             foreach (PlayerViewModel p in PlayerData)
@@ -700,7 +612,7 @@ public partial class MainViewModel : ObservableObject
                 wText.Write("{0, -" + scoreXLength + "} ", p.ScoreX);
                 wText.Write("{0, -" + scoreLength + "} ", p.Score);
                 wText.Write("{0, -" + sodosLength + "} ", p.SODOS);
-                wText.Write("{0, -" + sosLength + "} ", p.SOS);
+                wText.Write("{0, -" + sosLength + "}", p.SOS);
                 wText.Write("\n");
             }
 
@@ -724,28 +636,15 @@ public partial class MainViewModel : ObservableObject
             using Stream myStream = sfd.OpenFile();
             StreamWriter wText = new(myStream);
 
-            int blackLength = 6;
-            int whiteLenght = 5;
+            int blackLength = Math.Max(6, pairingViewModel.Max(p => p.Black.Length));
+            int whiteLenght = Math.Max(5, pairingViewModel.Max(p => p.White.Length));
+
+            wText.WriteLine("Párovanie - " + tournament.CurrentRound + ". kolo - " + tournament.Name);
+            wText.WriteLine("\n{0, -2} {1, -" + blackLength + "} {2, -" + whiteLenght + "} {3, -8} {4, -2} ", "Po", "Čierny", "Biely", "Výsledok", "He");
 
             foreach (PairingViewModel p in PairingData)
             {
-                if (p.Black.Length > blackLength)
-                {
-                    blackLength = p.Black.Length;
-                }
-
-                if (p.White.Length > whiteLenght)
-                {
-                    whiteLenght = p.White.Length;
-                }
-            }
-
-            wText.WriteLine("Párovanie - " + tournament.CurrentRound.ToString() + ". kolo - " + tournament.Name);
-            wText.WriteLine("\n{0, -2} {1, -" + blackLength.ToString() + "} {2, -" + whiteLenght.ToString() + "} {3, -8} {4, -2} ", "Po", "Čierny", "Biely", "Výsledok", "He");
-
-            foreach (PairingViewModel p in PairingData)
-            {
-                wText.WriteLine("{0, -2} {1, -" + blackLength.ToString() + "} {2, -" + whiteLenght.ToString() + "} {3, -8} {4, -2} ", p.Board, p.Black, p.White, p.Results, p.Handicap);
+                wText.WriteLine("{0, -2} {1, -" + blackLength + "} {2, -" + whiteLenght + "} {3, -8} {4, -2} ", p.Board, p.Black, p.White, p.Results, p.Handicap);
             }
 
             wText.WriteLine("\nDátum a čas výpisu: {0:F}", DateTime.Now.ToString());
@@ -768,123 +667,30 @@ public partial class MainViewModel : ObservableObject
             using Stream myStream = sfd.OpenFile();
             StreamWriter wText = new(myStream);
 
-            int nameLength = 4;
-            int clubLenght = 5;
-            int r1Length = 2;
-            int r2Length = 2;
-            int r3Length = 2;
-            int r4Length = 2;
-            int r5Length = 2;
-            int r6Length = 2;
-            int r7Length = 2;
-            int r8Length = 2;
-            int r9Length = 2;
-            int r10Length = 2;
-            int pointsLength = 1;
-            int scoreLength = 1;
-            int scoreXLength = 1;
-            int sosLength = 1;
-            int sososLength = 1;
-            int sodosLength = 1;
-
-            foreach (PlayerViewModel p in PlayerData)
-            {
-                if (p.FullName.Length > nameLength)
-                {
-                    nameLength = p.FullName.Length;
-                }
-
-                if (p.Club.Length > clubLenght)
-                {
-                    clubLenght = p.Club.Length;
-                }
-
-                if (p.R1.Length > r1Length)
-                {
-                    r1Length = p.R1.Length;
-                }
-
-                if (p.R2.Length > r2Length)
-                {
-                    r2Length = p.R2.Length;
-                }
-
-                if (p.R3.Length > r3Length)
-                {
-                    r3Length = p.R3.Length;
-                }
-
-                if (p.R4.Length > r4Length)
-                {
-                    r4Length = p.R4.Length;
-                }
-
-                if (p.R5.Length > r5Length)
-                {
-                    r5Length = p.R5.Length;
-                }
-
-                if (p.R6.Length > r6Length)
-                {
-                    r6Length = p.R6.Length;
-                }
-
-                if (p.R7.Length > r7Length)
-                {
-                    r7Length = p.R7.Length;
-                }
-
-                if (p.R8.Length > r8Length)
-                {
-                    r8Length = p.R8.Length;
-                }
-
-                if (p.R9.Length > r9Length)
-                {
-                    r9Length = p.R9.Length;
-                }
-
-                if (p.R10.Length > r10Length)
-                {
-                    r10Length = p.R10.Length;
-                }
-
-                if (p.EGDPoints.Length > pointsLength)
-                {
-                    pointsLength = p.EGDPoints.Length;
-                }
-
-                if (p.EGDScore.Length > scoreLength)
-                {
-                    scoreLength = p.EGDScore.Length;
-                }
-
-                if (p.EGDScoreX.Length > scoreXLength)
-                {
-                    scoreXLength = p.EGDScoreX.Length;
-                }
-
-                if (p.EGDSOS.Length > sosLength)
-                {
-                    sosLength = p.EGDSOS.Length;
-                }
-
-                if (p.EGDSOSOS.Length > sososLength)
-                {
-                    sososLength = p.EGDSOSOS.Length;
-                }
-
-                if (p.EGDSODOS.Length > sodosLength)
-                {
-                    sodosLength = p.EGDSODOS.Length;
-                }
-            }
+            int nameLength = Math.Max(4, playerViewModel.Max(p => p.FullName.Length));
+            int clubLenght = Math.Max(4, playerViewModel.Max(p => p.Club.Length));
+            int r1Length = playerViewModel.Max(p => p.R1.Length);
+            int r2Length = playerViewModel.Max(p => p.R2.Length);
+            int r3Length = playerViewModel.Max(p => p.R3.Length);
+            int r4Length = playerViewModel.Max(p => p.R4.Length);
+            int r5Length = playerViewModel.Max(p => p.R5.Length);
+            int r6Length = playerViewModel.Max(p => p.R6.Length);
+            int r7Length = playerViewModel.Max(p => p.R7.Length);
+            int r8Length = playerViewModel.Max(p => p.R8.Length);
+            int r9Length = playerViewModel.Max(p => p.R9.Length);
+            int r10Length = playerViewModel.Max(p => p.R10.Length);
+            int pointsLength = playerViewModel.Max(p => p.EGDPoints.Length);
+            int scoreLength = playerViewModel.Max(p => p.EGDScore.Length);
+            int scoreXLength = playerViewModel.Max(p => p.EGDScoreX.Length);
+            int sosLength = playerViewModel.Max(p => p.EGDSOS.Length);
+            int sososLength = playerViewModel.Max(p => p.EGDSOSOS.Length);
+            int sodosLength = playerViewModel.Max(p => p.EGDSODOS.Length);
 
             wText.WriteLine("; EV[" + tournament.Name + "]");
 
             foreach (PlayerViewModel p in PlayerData)
             {
-                wText.Write("{0, -2} {1, -" + nameLength.ToString() + "} {2, -3} {3, -2} {4, -" + clubLenght.ToString() + "}", p.Place, p.FullName, p.Grade, p.State, p.Club);
+                wText.Write("{0, -2} {1, -" + nameLength + "} {2, -3} {3, -2} {4, -" + clubLenght + "} ", p.Place, p.FullName, p.Grade, p.State, p.Club);
                 wText.Write("{0, -" + pointsLength + "} ", p.EGDPoints);
                 wText.Write("{0, -" + scoreXLength + "} ", p.EGDScoreX);
                 wText.Write("{0, -" + scoreLength + "} ", p.EGDScore);
@@ -896,34 +702,34 @@ public partial class MainViewModel : ObservableObject
                     switch (i)
                     {
                         case 1:
-                            wText.Write("{0, -" + r1Length.ToString() + "} ", p.R1);
+                            wText.Write("{0, -" + r1Length + "} ", p.R1);
                             break;
                         case 2:
-                            wText.Write("{0, -" + r2Length.ToString() + "} ", p.R2);
+                            wText.Write("{0, -" + r2Length + "} ", p.R2);
                             break;
                         case 3:
-                            wText.Write("{0, -" + r3Length.ToString() + "} ", p.R3);
+                            wText.Write("{0, -" + r3Length + "} ", p.R3);
                             break;
                         case 4:
-                            wText.Write("{0, -" + r4Length.ToString() + "} ", p.R4);
+                            wText.Write("{0, -" + r4Length + "} ", p.R4);
                             break;
                         case 5:
-                            wText.Write("{0, -" + r5Length.ToString() + "} ", p.R5);
+                            wText.Write("{0, -" + r5Length + "} ", p.R5);
                             break;
                         case 6:
-                            wText.Write("{0, -" + r6Length.ToString() + "} ", p.R6);
+                            wText.Write("{0, -" + r6Length + "} ", p.R6);
                             break;
                         case 7:
-                            wText.Write("{0, -" + r7Length.ToString() + "} ", p.R7);
+                            wText.Write("{0, -" + r7Length + "} ", p.R7);
                             break;
                         case 8:
-                            wText.Write("{0, -" + r8Length.ToString() + "} ", p.R8);
+                            wText.Write("{0, -" + r8Length + "} ", p.R8);
                             break;
                         case 9:
-                            wText.Write("{0, -" + r9Length.ToString() + "} ", p.R9);
+                            wText.Write("{0, -" + r9Length + "} ", p.R9);
                             break;
                         case 10:
-                            wText.Write("{0, -" + r10Length.ToString() + "} ", p.R10);
+                            wText.Write("{0, -" + r10Length + "} ", p.R10);
                             break;
                         default:
                             break;
