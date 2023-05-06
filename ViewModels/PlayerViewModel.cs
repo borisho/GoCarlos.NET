@@ -80,61 +80,75 @@ public partial class PlayerViewModel : ObservableObject, IEquatable<PlayerViewMo
 
     private string GetPairingResult(Pairing pairing)
     {
+        string result;
+
         switch (pairing.Result)
         {
             case Result.NONE:
                 if (player == pairing.Black)
                 {
-                    return pairing.White.Place.ToString() + Utils.QUESTION_MARK + "/b" + pairing.Handicap;
+                    result = pairing.White.Place.ToString() + Utils.QUESTION_MARK;
+                    return pairing.Handicap == 0 ? result : result + "/b" + pairing.Handicap;
                 }
                 else
                 {
-                    return pairing.Black.Place.ToString() + Utils.QUESTION_MARK + "/w" + pairing.Handicap;
+                    result = pairing.Black.Place.ToString() + Utils.QUESTION_MARK;
+                    return pairing.Handicap == 0 ? result : result + "/w" + pairing.Handicap;
                 }
             case Result.BLACK_WON:
                 if (player == pairing.Black)
                 {
-                    return pairing.White.Place.ToString() + Utils.PLUS + "/b" + pairing.Handicap;
+                    result = pairing.White.Place.ToString() + Utils.PLUS;
+                    return pairing.Handicap == 0 ? result : result + "/b" + pairing.Handicap;
                 }
                 else
                 {
-                    return pairing.Black.Place.ToString() + Utils.DASH + "/w" + pairing.Handicap;
+                    result = pairing.Black.Place.ToString() + Utils.DASH;
+                    return pairing.Handicap == 0 ? result : result + "/w" + pairing.Handicap;
                 }
             case Result.WHITE_WON:
                 if (player == pairing.Black)
                 {
-                    return pairing.White.Place.ToString() + Utils.DASH + "/b" + pairing.Handicap;
+                    result = pairing.White.Place.ToString() + Utils.DASH;
+                    return pairing.Handicap == 0 ? result : result + "/b" + pairing.Handicap;
                 }
                 else
                 {
-                    return pairing.Black.Place.ToString() + Utils.PLUS + "/w" + pairing.Handicap;
+                    result = pairing.Black.Place.ToString() + Utils.PLUS;
+                    return pairing.Handicap == 0 ? result : result + "/w" + pairing.Handicap;
                 }
             case Result.DRAW:
                 if (player == pairing.Black)
                 {
-                    return pairing.White.Place.ToString() + Utils.EQUALS + "/b" + pairing.Handicap;
+                    result = pairing.White.Place.ToString() + Utils.EQUALS;
+                    return pairing.Handicap == 0 ? result : result + "/b" + pairing.Handicap;
                 }
                 else
                 {
-                    return pairing.Black.Place.ToString() + Utils.EQUALS + "/w" + pairing.Handicap;
+                    result = pairing.White.Place.ToString() + Utils.EQUALS;
+                    return pairing.Handicap == 0 ? result : result + "/w" + pairing.Handicap;
                 }
             case Result.BOTH_WON:
                 if (player == pairing.Black)
                 {
-                    return pairing.White.Place.ToString() + Utils.PLUS + "/b" + pairing.Handicap;
+                    result = pairing.White.Place.ToString() + Utils.PLUS;
+                    return pairing.Handicap == 0 ? result : result + "/b" + pairing.Handicap;
                 }
                 else
                 {
-                    return pairing.Black.Place.ToString() + Utils.PLUS + "/w" + pairing.Handicap;
+                    result = pairing.White.Place.ToString() + Utils.PLUS;
+                    return pairing.Handicap == 0 ? result : result + "/w" + pairing.Handicap;
                 }
             case Result.BOTH_LOST:
                 if (player == pairing.Black)
                 {
-                    return pairing.White.Place.ToString() + Utils.DASH + "/b" + pairing.Handicap;
+                    result = pairing.White.Place.ToString() + Utils.DASH;
+                    return pairing.Handicap == 0 ? result : result + "/b" + pairing.Handicap;
                 }
                 else
                 {
-                    return pairing.Black.Place.ToString() + Utils.DASH + "/w" + pairing.Handicap;
+                    result = pairing.White.Place.ToString() + Utils.DASH;
+                    return pairing.Handicap == 0 ? result : result + "/w" + pairing.Handicap;
                 }
             default:
                 return Utils.QUESTION_MARK;

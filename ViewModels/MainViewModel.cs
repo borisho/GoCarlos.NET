@@ -160,7 +160,7 @@ public partial class MainViewModel : ObservableObject
             MessageBoxButton.YesNo,
             MessageBoxImage.Warning) == MessageBoxResult.Yes)
         {
-            tournament = new();
+            tournament = new(5);
 
             ClearObservables();
         }
@@ -494,68 +494,68 @@ public partial class MainViewModel : ObservableObject
 
             if (tournament.CountCurrentRound)
             {
-                wText.WriteLine("Wallist - Po " + tournament.CurrentRound.ToString() + ". kole - " + tournament.Name);
+                wText.WriteLine("Wallist - Po " + (tournament.CurrentRound + 1) + ". kole - " + tournament.Name);
                 wText.Write("\n");
             }
 
             else
             {
-                wText.WriteLine("Wallist - Pred " + tournament.CurrentRound.ToString() + ". kolom - " + tournament.Name);
+                wText.WriteLine("Wallist - Pred " + (tournament.CurrentRound + 1) + ". kolom - " + tournament.Name);
                 wText.Write("\n");
             }
 
-            wText.Write("{0, -2} {1, -" + nameLength.ToString() + "} {2, -" + clubLenght.ToString() + "} {3, -3} {4, -4} ", "Po", "Meno", "Klub", "Tr", "Rt");
+            wText.Write("{0, -2} {1, -" + nameLength + "} {2, -" + clubLenght + "} {3, -3} {4, -4} ", "Po", "Meno", "Klub", "Tr", "Rt");
 
-            for (int i = 1; i <= tournament.NumberOfRounds; i++)
+            for (int i = 0; i <= tournament.CurrentRound; i++)
             {
                 int rLength = 2;
                 string rString = "";
                 switch (i)
                 {
-                    case 1:
+                    case 0:
                         rLength = r1Length;
                         rString = "1.";
                         break;
-                    case 2:
+                    case 1:
                         rLength = r2Length;
                         rString = "2.";
                         break;
-                    case 3:
+                    case 2:
                         rLength = r3Length;
                         rString = "3.";
                         break;
-                    case 4:
+                    case 3:
                         rLength = r4Length;
                         rString = "4.";
                         break;
-                    case 5:
+                    case 4:
                         rLength = r5Length;
                         rString = "5.";
                         break;
-                    case 6:
+                    case 5:
                         rLength = r6Length;
                         rString = "6.";
                         break;
-                    case 7:
+                    case 6:
                         rLength = r7Length;
                         rString = "7.";
                         break;
-                    case 8:
+                    case 7:
                         rLength = r8Length;
                         rString = "8.";
                         break;
-                    case 9:
+                    case 8:
                         rLength = r9Length;
                         rString = "9.";
                         break;
-                    case 10:
+                    case 9:
                         rLength = r10Length;
                         rString = "10.";
                         break;
                     default:
                         break;
                 }
-                wText.Write("{0, -" + rLength.ToString() + "} ", rString);
+                wText.Write("{0, -" + rLength + "} ", rString);
             }
             wText.Write("{0, -3} ", "NrW");
             wText.Write("{0, -4} ", "Body");
@@ -567,40 +567,40 @@ public partial class MainViewModel : ObservableObject
 
             foreach (PlayerViewModel p in PlayerData)
             {
-                wText.Write("{0, -2} {1, -" + nameLength.ToString() + "} {2, -" + clubLenght.ToString() + "} {3, -3} {4, -4} ", p.Place, p.FullName, p.Club, p.Grade, p.Gor);
-                for (int i = 1; i <= tournament.NumberOfRounds; i++)
+                wText.Write("{0, -2} {1, -" + nameLength + "} {2, -" + clubLenght + "} {3, -3} {4, -4} ", p.Place, p.FullName, p.Club, p.Grade, p.Gor);
+                for (int i = 0; i <= tournament.CurrentRound; i++)
                 {
                     switch (i)
                     {
+                        case 0:
+                            wText.Write("{0, -" + r1Length + "} ", p.R1);
+                            break;
                         case 1:
-                            wText.Write("{0, -" + r1Length.ToString() + "} ", p.R1);
+                            wText.Write("{0, -" + r2Length + "} ", p.R2);
                             break;
                         case 2:
-                            wText.Write("{0, -" + r2Length.ToString() + "} ", p.R2);
+                            wText.Write("{0, -" + r3Length + "} ", p.R3);
                             break;
                         case 3:
-                            wText.Write("{0, -" + r3Length.ToString() + "} ", p.R3);
+                            wText.Write("{0, -" + r4Length + "} ", p.R4);
                             break;
                         case 4:
-                            wText.Write("{0, -" + r4Length.ToString() + "} ", p.R4);
+                            wText.Write("{0, -" + r5Length + "} ", p.R5);
                             break;
                         case 5:
-                            wText.Write("{0, -" + r5Length.ToString() + "} ", p.R5);
+                            wText.Write("{0, -" + r6Length + "} ", p.R6);
                             break;
                         case 6:
-                            wText.Write("{0, -" + r6Length.ToString() + "} ", p.R6);
+                            wText.Write("{0, -" + r7Length + "} ", p.R7);
                             break;
                         case 7:
-                            wText.Write("{0, -" + r7Length.ToString() + "} ", p.R7);
+                            wText.Write("{0, -" + r8Length + "} ", p.R8);
                             break;
                         case 8:
-                            wText.Write("{0, -" + r8Length.ToString() + "} ", p.R8);
+                            wText.Write("{0, -" + r9Length + "} ", p.R9);
                             break;
                         case 9:
-                            wText.Write("{0, -" + r9Length.ToString() + "} ", p.R9);
-                            break;
-                        case 10:
-                            wText.Write("{0, -" + r10Length.ToString() + "} ", p.R10);
+                            wText.Write("{0, -" + r10Length + "} ", p.R10);
                             break;
                         default:
                             break;
@@ -639,7 +639,7 @@ public partial class MainViewModel : ObservableObject
             int blackLength = Math.Max(6, pairingViewModel.Max(p => p.Black.Length));
             int whiteLenght = Math.Max(5, pairingViewModel.Max(p => p.White.Length));
 
-            wText.WriteLine("Párovanie - " + tournament.CurrentRound + ". kolo - " + tournament.Name);
+            wText.WriteLine("Párovanie - " + (tournament.CurrentRound + 1) + ". kolo - " + tournament.Name);
             wText.WriteLine("\n{0, -2} {1, -" + blackLength + "} {2, -" + whiteLenght + "} {3, -8} {4, -2} ", "Po", "Čierny", "Biely", "Výsledok", "He");
 
             foreach (PairingViewModel p in PairingData)

@@ -221,7 +221,7 @@ public static class PairingGenerator
 
     public static void MakeChampionshipPairing(PairingGeneratorParameters parameters)
     {
-        if (parameters.Round.RoundNumber > 2)
+        if (parameters.Round.RoundNumber > 1)
         {
             MakePairing(parameters);
             return;
