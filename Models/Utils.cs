@@ -24,6 +24,7 @@ internal static class Utils
         PreserveReferencesHandling = PreserveReferencesHandling.Objects,
         ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
         Formatting = Formatting.None,
+        MaxDepth = 256,
     };
 
     public static Random Random { get => random; }

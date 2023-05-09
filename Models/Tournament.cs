@@ -228,35 +228,23 @@ public class Tournament
                 {
                     if (player.Opponents.TryGetValue(i, out Player? opponent))
                     {
-                        player.SOS += opponent.Score;
-
                         Pairing pairing = player.Pairings[i];
+                        float pairingResult = pairing.GetPairingResult(player);
 
-                        if (pairing.GetPairingResult(player) == 1f)
+                        if (tournamentType == TournamentType.Swiss)
                         {
-                            player.SODOS += opponent.Score;
+                            player.SOS += opponent.Points;
+                            player.SODOS += opponent.Points * pairingResult;
                         }
-                        else if (pairing.GetPairingResult(player) == 0.5f)
+                        else
                         {
-                            player.SODOS += opponent.Score / 2;
+                            player.SOS += opponent.Score;
+                            player.SODOS += opponent.Score * pairingResult;
                         }
                     }
                     else
                     {
-                        float startscore;
-
-                        if (player.StartScore < bottomGroupBar)
-                        {
-                            startscore = bottomGroupBar;
-                        }
-                        else if (player.StartScore > topGroupBar)
-                        {
-                            startscore = topGroupBar;
-                        }
-                        else
-                        {
-                            startscore = player.StartScore;
-                        }
+                        float startscore = tournamentType == TournamentType.Swiss ? 0 : StartScore(player);
 
                         player.SOS += player.IsSuperGroup ? startscore + 2 : startscore;
                         player.SODOS += startscore / 2f;
@@ -281,6 +269,26 @@ public class Tournament
         }
 
         GetPlayerPlace();
+    }
+
+    private float StartScore(Player player)
+    {
+        float startscore;
+
+        if (player.StartScore < bottomGroupBar)
+        {
+            startscore = bottomGroupBar;
+        }
+        else if (player.StartScore > topGroupBar)
+        {
+            startscore = topGroupBar;
+        }
+        else
+        {
+            startscore = player.StartScore;
+        }
+
+        return startscore;
     }
 
     private float GetMacMahon(Player player)
@@ -348,22 +356,10 @@ public class Tournament
     public void ResetBoardNumbers()
     {
         int boardNumber = 1;
-        List<Pairing> orderedPairings = rounds[currentRound].Pairings;
-
-        if (TournamentType.Equals(TournamentType.Swiss))
-        {
-            orderedPairings = orderedPairings.OrderBy(p => p.White.IsBye)
-                .ThenByDescending(p => Math.Floor(Math.Max(p.Black.Points, p.White.Points)))
-                .ThenByDescending(p => Math.Max(p.Black.Rating, p.White.Rating))
-                .ToList();
-        }
-        else
-        {
-            orderedPairings = orderedPairings.OrderBy(p => p.White.IsBye)
-                .ThenByDescending(p => Math.Floor(Math.Max(p.Black.Score, p.White.Score)))
-                .ThenByDescending(p => Math.Max(p.Black.Rating, p.White.Rating))
-                .ToList();
-        }
+        List<Pairing> orderedPairings = rounds[currentRound].Pairings.OrderBy(p => p.White.IsBye)
+            .ThenBy(p => Math.Min(p.Black.Place, p.White.Place))
+            .ThenByDescending(p => Math.Max(p.Black.Rating, p.White.Rating))
+            .ToList();
 
         foreach (Pairing pairing in orderedPairings)
         {

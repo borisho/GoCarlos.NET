@@ -162,6 +162,7 @@ public partial class MainViewModel : ObservableObject
         {
             tournament = new(5);
 
+            GoToAndRefreshRound(0);
             ClearObservables();
         }
     }
