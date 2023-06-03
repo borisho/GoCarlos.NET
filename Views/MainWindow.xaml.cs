@@ -1,9 +1,8 @@
-﻿using GoCarlos.NET.Interfaces;
-using System.Windows;
+﻿using System.Windows;
 
-namespace GoCarlos.NET;
+namespace GoCarlos.NET.Views;
 
-public partial class MainWindow : Window, ICloseable
+public partial class MainWindow : Window
 {
     public MainWindow()
     {

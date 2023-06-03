@@ -1,168 +1,52 @@
-﻿<Window WindowStartupLocation="CenterScreen"
-        x:Class="GoCarlos.NET.MainWindow"
+﻿<Window x:Class="GoCarlos.NET.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:GoCarlos.NET.Views"
         xmlns:viewmodels="clr-namespace:GoCarlos.NET.ViewModels"
-        xmlns:views="clr-namespace:GoCarlos.NET.Views"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         mc:Ignorable="d"
+        Title="MainWindow"
+        WindowStartupLocation="CenterScreen"
         MinHeight="450" MinWidth="650"
-        Height="550" Width="1000"
-        Title="{Binding GetTitle, UpdateSourceTrigger=PropertyChanged}">
+        Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Menu Grid.Row="0">
-            <MenuItem Header="Nastavenia turnaja">
-                <MenuItem Header="Nový turnaj" Command="{Binding CreateNewTournamentCommand}"/>
-                <MenuItem Header="Otvoriť turnaj" Command="{Binding LoadTournamentCommand}"/>
-                <MenuItem Header="Uložiť turnaj" Command="{Binding SaveTournamentCommand}"/>
-                <Separator/>
-                <MenuItem Header="Nastavenia" Command="{Binding GoToSettignsCommand}"/>
-                <Separator/>
-                <MenuItem Header="Ukončiť" Command="{Binding ExitCommand}"/>
-            </MenuItem>
-            <MenuItem Header="Pridať hráča" Command="{Binding AddPlayerWindowCommand}"/>
-            <MenuItem Header="Kolá">
-                <MenuItem Header="Zvýšiť kolo" Command="{Binding IncreaseRoundCommand}">
-                    <MenuItem.Style>
-                        <Style TargetType="MenuItem">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding CanGoNextRound, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="False">
-                                    <Setter Property="IsEnabled" Value="False"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </MenuItem.Style>
-                </MenuItem>
-                <MenuItem Header="Znížiť kolo" Command="{Binding DecreaseRoundCommand}">
-                    <MenuItem.Style>
-                        <Style TargetType="MenuItem">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding CanGoPreviousRound, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="False">
-                                    <Setter Property="IsEnabled" Value="False"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </MenuItem.Style>
-                </MenuItem>
-                <Separator/>
-                <MenuItem Header="Prejsť na kolo:">
-                    <MenuItem Header="1"
-                              Command="{Binding GoToAndRefreshRoundCommand}"
-                              Visibility="{Binding GTR1V, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                        <MenuItem.CommandParameter>
-                            <sys:Int32>0</sys:Int32>
-                        </MenuItem.CommandParameter>
-                    </MenuItem>
-                    <MenuItem Header="2"
-                              Command="{Binding GoToAndRefreshRoundCommand}"
-                              Visibility="{Binding GTR2V, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                        <MenuItem.CommandParameter>
-                            <sys:Int32>1</sys:Int32>
-                        </MenuItem.CommandParameter>
-                    </MenuItem>
-                    <MenuItem Header="3"
-                              Command="{Binding GoToAndRefreshRoundCommand}"
-                              Visibility="{Binding GTR3V, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                        <MenuItem.CommandParameter>
-                            <sys:Int32>2</sys:Int32>
-                        </MenuItem.CommandParameter>
-                    </MenuItem>
-                    <MenuItem Header="4"
-                              Command="{Binding GoToAndRefreshRoundCommand}"
-                              Visibility="{Binding GTR4V, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                        <MenuItem.CommandParameter>
-                            <sys:Int32>3</sys:Int32>
-                        </MenuItem.CommandParameter>
-                    </MenuItem>
-                    <MenuItem Header="5"
-                              Command="{Binding GoToAndRefreshRoundCommand}"
-                              Visibility="{Binding GTR5V, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                        <MenuItem.CommandParameter>
-                            <sys:Int32>4</sys:Int32>
-                        </MenuItem.CommandParameter>
-                    </MenuItem>
-                    <MenuItem Header="6"
-                              Command="{Binding GoToAndRefreshRoundCommand}"
-                              Visibility="{Binding GTR6V, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                        <MenuItem.CommandParameter>
-                            <sys:Int32>5</sys:Int32>
-                        </MenuItem.CommandParameter>
-                    </MenuItem>
-                    <MenuItem Header="7"
-                              Command="{Binding GoToAndRefreshRoundCommand}"
-                              Visibility="{Binding GTR7V, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                        <MenuItem.CommandParameter>
-                            <sys:Int32>6</sys:Int32>
-                        </MenuItem.CommandParameter>
-                    </MenuItem>
-                    <MenuItem Header="8"
-                              Command="{Binding GoToAndRefreshRoundCommand}"
-                              Visibility="{Binding GTR8V, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                        <MenuItem.CommandParameter>
-                            <sys:Int32>7</sys:Int32>
-                        </MenuItem.CommandParameter>
-                    </MenuItem>
-                    <MenuItem Header="9"
-                              Command="{Binding GoToAndRefreshRoundCommand}"
-                              Visibility="{Binding GTR9V, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                        <MenuItem.CommandParameter>
-                            <sys:Int32>8</sys:Int32>
-                        </MenuItem.CommandParameter>
-                    </MenuItem>
-                    <MenuItem Header="10"
-                              Command="{Binding GoToAndRefreshRoundCommand}"
-                              Visibility="{Binding GTR10V, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                        <MenuItem.CommandParameter>
-                            <sys:Int32>9</sys:Int32>
-                        </MenuItem.CommandParameter>
-                    </MenuItem>
-                </MenuItem>
-                <Separator/>
-                <MenuItem Header="Započítať aktuálne kolo"
-                          Command="{Binding CountCurrentRoundCommand}" 
-                          IsChecked="{Binding IsCurrentRoundCounting, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                          IsCheckable="True"/>
-            </MenuItem>
-            <MenuItem Header="Párovanie">
-                <MenuItem Header="Vylosovať párovanie"
-                          Command="{Binding MakePairingsCommand}"/>
-                <MenuItem Header="Zhodiť párovanie"
-                          Command="{Binding DropPairingsCommand}"/>
-            </MenuItem>
-            <MenuItem Header="Výpisy">
-                <MenuItem Header="Export wallist" Command="{Binding ExportWallistCommand}"/>
-                <MenuItem Header="Export párovania" Command="{Binding ExportPairingCommand}"/>
-                <MenuItem Header="Export pre EGD" Command="{Binding ExportEgdCommand}"/>
-            </MenuItem>
-            <MenuItem Header="Debug">
-                <MenuItem Header="Generate 10 players"
-                          Command="{Binding GeneratePlayersCommand}">
-                    <MenuItem.CommandParameter>
-                        <sys:Int32>10</sys:Int32>
-                    </MenuItem.CommandParameter>
-                </MenuItem>
-                <MenuItem Header="Generate 100 players"
-                          Command="{Binding GeneratePlayersCommand}">
-                    <MenuItem.CommandParameter>
-                        <sys:Int32>100</sys:Int32>
-                    </MenuItem.CommandParameter>
-                </MenuItem>
-            </MenuItem>
+        <Menu Grid.Row="0" ItemsSource="{Binding MenuItemViewModel.Items}">
+            <Menu.Resources>
+                <ControlTemplate x:Key="MenuSeparatorTemplate">
+                    <Separator />
+                </ControlTemplate>
+            </Menu.Resources>
+            <Menu.ItemContainerStyle>
+                <Style TargetType="{x:Type MenuItem}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Header}" Value="{x:Null}">
+                            <Setter Property="Template" Value="{StaticResource MenuSeparatorTemplate}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                    <!--bindng command and handle click event
+                    <Setter Property="Command" Value="{Binding Command}" />
+                    <EventSetter Event="Click" Handler="MenuItem_Click"/>-->
+                </Style>
+            </Menu.ItemContainerStyle>
+            <Menu.ItemTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type viewmodels:MenuItemViewModel}" ItemsSource="{Binding Items}">
+                    <TextBlock Text="{Binding Header}"/>
+                </HierarchicalDataTemplate>
+            </Menu.ItemTemplate>
         </Menu>
         <DockPanel Grid.Row="1">
             <TabControl MinHeight="100">
                 <TabItem Header="Zoznam">
-                    <views:WallistUserControl />
+                    <Frame Name="Wallist" Source="WallistPage.xaml" />
                 </TabItem>
                 <TabItem Header="Párovanie">
-                    <views:PairingsUserControl />
+                    <Frame Name="Pairings" Source="PairingPage.xaml" />
                 </TabItem>
             </TabControl>
         </DockPanel>

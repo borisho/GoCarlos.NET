@@ -4,7 +4,7 @@
     <!--Metadata-->
     <Authors>Boris Dovčík</Authors>
     <Title>GoCarlos</Title>
-    <Version>2.0.2</Version>
+    <Version>2.0.3</Version>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/borisho/GoCarlos.NET</RepositoryUrl>
     <VisualStudioVersion>17.5.4</VisualStudioVersion>
@@ -23,7 +23,20 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.Text.Json" Version="7.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="Messages\" />
+    <Folder Include="Events\" />
+    <Folder Include="Utils\" />
   </ItemGroup>
 
 </Project>
