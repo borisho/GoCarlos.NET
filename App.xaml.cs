@@ -15,17 +15,26 @@ public partial class App : Application
     public App()
     {
         IServiceCollection services = new ServiceCollection();
-        
-        services.AddLogging(options => options.SetMinimumLevel(LogLevel.Debug));
+
+        services.AddLogging(options =>
+        {
+            options.AddConsole().SetMinimumLevel(LogLevel.Information);
+            options.AddDebug().SetMinimumLevel(LogLevel.Trace);
+        });
+
         services.AddLocalization(options => { options.ResourcesPath = "Resources"; });
         
         services.AddTransient<IMenuItemsService, MenuItemsService>();
-        
-        services.AddSingleton<MainViewModel>();
+        services.AddTransient<MenuViewModel>();
+
+        services.AddSingleton(provider => new MainViewModel
+        {
+            MenuViewModel = provider.GetRequiredService<MenuViewModel>(),
+        });
         
         services.AddSingleton(provider => new MainWindow
         {
-            DataContext = provider.GetRequiredService<MainViewModel>()
+            DataContext = provider.GetRequiredService<MainViewModel>(),
         });
 
         _serviceProvider = services.BuildServiceProvider();

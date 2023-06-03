@@ -16,7 +16,7 @@
             <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Menu Grid.Row="0" ItemsSource="{Binding MenuItemViewModel.Items}">
+        <Menu Grid.Row="0" ItemsSource="{Binding MenuViewModel.Items}">
             <Menu.Resources>
                 <ControlTemplate x:Key="MenuSeparatorTemplate">
                     <Separator />
@@ -29,9 +29,8 @@
                             <Setter Property="Template" Value="{StaticResource MenuSeparatorTemplate}" />
                         </DataTrigger>
                     </Style.Triggers>
-                    <!--bindng command and handle click event
                     <Setter Property="Command" Value="{Binding Command}" />
-                    <EventSetter Event="Click" Handler="MenuItem_Click"/>-->
+                    <Setter Property="CommandParameter" Value="{Binding CommandParameter}" />
                 </Style>
             </Menu.ItemContainerStyle>
             <Menu.ItemTemplate>
