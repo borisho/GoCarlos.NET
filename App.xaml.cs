@@ -1,4 +1,5 @@
-﻿using GoCarlos.NET.Interfaces;
+﻿using GoCarlos.MAUI.Services;
+using GoCarlos.NET.Interfaces;
 using GoCarlos.NET.Services;
 using GoCarlos.NET.ViewModels;
 using GoCarlos.NET.Views;
@@ -24,14 +25,11 @@ public partial class App : Application
 
         services.AddLocalization(options => { options.ResourcesPath = "Resources"; });
         
+        services.AddTransient<IEgdService, EgdService>();
         services.AddTransient<IMenuItemsService, MenuItemsService>();
         services.AddTransient<MenuViewModel>();
 
-        services.AddSingleton(provider => new MainViewModel
-        {
-            MenuViewModel = provider.GetRequiredService<MenuViewModel>(),
-        });
-        
+        services.AddSingleton<MainViewModel>();
         services.AddSingleton(provider => new MainWindow
         {
             DataContext = provider.GetRequiredService<MainViewModel>(),

@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using GoCarlos.NET.Interfaces;
+using GoCarlos.NET.Messages;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
@@ -14,7 +16,6 @@ public partial class MenuViewModel : ObservableObject
     public MenuViewModel(IMenuItemsService menuItemsService)
     {
         this.menuItemsService = menuItemsService;
-        Items = new ObservableCollection<MenuItemViewModel>();
 
         goToRoundRoot = new MenuItemViewModel(menuItemsService["GoToRound"]);
 
@@ -22,7 +23,7 @@ public partial class MenuViewModel : ObservableObject
         GenerateGoToRound(5);
     }
 
-    public ObservableCollection<MenuItemViewModel> Items { get; set; }
+    public ObservableCollection<MenuItemViewModel> Items { get; } = new();
 
     [RelayCommand]
     public void NewTournament()
@@ -58,6 +59,7 @@ public partial class MenuViewModel : ObservableObject
     public void AddPlayer()
     {
         Debug.WriteLine("AddPlayer Command");
+        WeakReferenceMessenger.Default.Send(new AddPlayerMessage(new()));
     }
 
     [RelayCommand]

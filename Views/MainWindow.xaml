@@ -3,11 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lang="clr-namespace:GoCarlos.NET.Resources"
         xmlns:local="clr-namespace:GoCarlos.NET.Views"
         xmlns:viewmodels="clr-namespace:GoCarlos.NET.ViewModels"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         mc:Ignorable="d"
-        Title="MainWindow"
+        Title="{x:Static lang:AppProperties.Title}"
         WindowStartupLocation="CenterScreen"
         MinHeight="450" MinWidth="650"
         Height="450" Width="800">
@@ -35,17 +36,19 @@
             </Menu.ItemContainerStyle>
             <Menu.ItemTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type viewmodels:MenuItemViewModel}" ItemsSource="{Binding Items}">
-                    <TextBlock Text="{Binding Header}"/>
+                    <TextBlock Name="MenuItem" Text="{Binding Header}"/>
                 </HierarchicalDataTemplate>
             </Menu.ItemTemplate>
         </Menu>
         <DockPanel Grid.Row="1">
             <TabControl MinHeight="100">
-                <TabItem Header="Zoznam">
-                    <Frame Name="Wallist" Source="WallistPage.xaml" />
+                <TabItem Header="{x:Static lang:AppProperties.Wallist}">
+                    <DataGrid Name="Wallist"
+                              AutoGenerateColumns="True"
+                              ItemsSource="{Binding Players}" />
                 </TabItem>
-                <TabItem Header="Párovanie">
-                    <Frame Name="Pairings" Source="PairingPage.xaml" />
+                <TabItem Header="{x:Static lang:AppProperties.Pairings}">
+                    <Label Content="{x:Static lang:AppProperties.Pairings}" />
                 </TabItem>
             </TabControl>
         </DockPanel>
