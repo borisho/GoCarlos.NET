@@ -1,6 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
-using GoCarlos.NET.Messages;
 using GoCarlos.NET.Models;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -8,7 +6,7 @@ using System.Windows.Data;
 
 namespace GoCarlos.NET.ViewModels;
 
-public partial class MainViewModel : ObservableRecipient, IRecipient<AddPlayerMessage>
+public partial class MainViewModel : ObservableRecipient
 {
     [ObservableProperty]
     private MenuViewModel menuViewModel;
@@ -20,15 +18,7 @@ public partial class MainViewModel : ObservableRecipient, IRecipient<AddPlayerMe
 
         players = new();
         Players = CollectionViewSource.GetDefaultView(players);
-
-        WeakReferenceMessenger.Default.Register<AddPlayerMessage>(this);
     }
 
     public ICollectionView Players { get; }
-
-    public void Receive(AddPlayerMessage message)
-    {
-        players.Add(message.Value);
-        Players.Refresh();
-    }
 }

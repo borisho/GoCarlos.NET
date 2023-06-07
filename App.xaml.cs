@@ -26,6 +26,7 @@ public partial class App : Application
         services.AddLocalization(options => { options.ResourcesPath = "Resources"; });
         
         services.AddTransient<IEgdService, EgdService>();
+        services.AddTransient<IWindowService, WindowService>();
         services.AddTransient<IMenuItemsService, MenuItemsService>();
         services.AddTransient<MenuViewModel>();
 

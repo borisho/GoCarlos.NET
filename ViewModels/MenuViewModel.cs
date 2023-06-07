@@ -1,8 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using GoCarlos.NET.Interfaces;
-using GoCarlos.NET.Messages;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
@@ -10,11 +8,14 @@ namespace GoCarlos.NET.ViewModels;
 
 public partial class MenuViewModel : ObservableObject
 {
+    private readonly IWindowService windowService;
     private readonly IMenuItemsService menuItemsService;
+
     private readonly MenuItemViewModel goToRoundRoot;
 
-    public MenuViewModel(IMenuItemsService menuItemsService)
+    public MenuViewModel(IWindowService windowService, IMenuItemsService menuItemsService)
     {
+        this.windowService = windowService;
         this.menuItemsService = menuItemsService;
 
         goToRoundRoot = new MenuItemViewModel(menuItemsService["GoToRound"]);
@@ -59,7 +60,8 @@ public partial class MenuViewModel : ObservableObject
     public void AddPlayer()
     {
         Debug.WriteLine("AddPlayer Command");
-        WeakReferenceMessenger.Default.Send(new AddPlayerMessage(new()));
+
+        windowService.Show(new AddPlayerViewModel());
     }
 
     [RelayCommand]
