@@ -21,8 +21,6 @@ public partial class MenuItemViewModel : ObservableObject
 
         Header = "";
         Command = null;
-
-        Items = new ObservableCollection<MenuItemViewModel>();
     }
 
     public MenuItemViewModel(string? header) : this()
@@ -40,5 +38,5 @@ public partial class MenuItemViewModel : ObservableObject
         CommandParameter = commandParameter;
     }
 
-    public ObservableCollection<MenuItemViewModel> Items { get; set; }
+    public ObservableCollection<MenuItemViewModel> Items { get; set; } = new();
 }

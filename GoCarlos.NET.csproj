@@ -42,6 +42,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>AppProperties.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\PlayerControl.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlayerControl.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -49,8 +54,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AppProperties.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\AppProperties.sk-SK.resx">
+    <EmbeddedResource Update="Resources\PlayerControl.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>PlayerControl.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

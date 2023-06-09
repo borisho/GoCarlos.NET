@@ -3,32 +3,169 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:lang ="clr-namespace:GoCarlos.NET.Resources"
              xmlns:local="clr-namespace:GoCarlos.NET.Views"
              xmlns:viewmodels="clr-namespace:GoCarlos.NET.ViewModels"
-             d:DataContext="{d:DesignInstance Type=viewmodels:PlayerViewModel}"
+             d:DataContext="{d:DesignInstance Type=viewmodels:PlayerControlViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition Height="auto"/>
+            
+            <RowDefinition Height="auto"/>
+            
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="2"/>
+            <RowDefinition Height="auto"/>
+            
+            <RowDefinition Height="auto"/>
+
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="2"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="2"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="2"/>
+            <RowDefinition Height="auto"/>
+
+            <RowDefinition Height="5"/>
+
+            <RowDefinition Height="auto"/>
+            
             <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         
         <!-- Vyhľadávanie cez EGD pin -->
-        <Label Grid.Row="1" Grid.Column="1">EGD pin:</Label>
-        <TextBox Grid.Row="1" Grid.Column="2"
-                 MinWidth="100" Margin="5 0"
-                 Text="{Binding Pin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        <Button Grid.Row="1" Grid.Column="3"
-                MinWidth="100" Margin="5 0"
-                Content="PIN" />
+        <Label Grid.Row="1"
+               Grid.Column="1"
+               Content="{x:Static lang:PlayerControl.EgdPin}" />
+        <TextBox Grid.Row="1"
+                 Grid.Column="3"
+                 MinWidth="100"
+                 VerticalContentAlignment="Center"
+                 Text="{Binding Pin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Button Grid.Row="1"
+                Grid.Column="5"
+                MinWidth="100"
+                Content="{x:Static lang:PlayerControl.SearchPin}"
+                Command="{Binding SearchbyPinCommand}">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Pin.Length, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+
+        <Separator Grid.Row="2"
+                   Grid.Column="1"
+                   Grid.ColumnSpan="6"
+                   Width="auto"
+                   Margin="0 5"/>
+
+        <!-- Vyhľadávanie pomocou mena -->
+        <Label Grid.Row="3"
+               Grid.Column="1"
+               Content="{x:Static lang:PlayerControl.LastName}" />
+        <TextBox  Grid.Row="3"
+                  Grid.Column="3"
+                  MinWidth="100"
+                  VerticalContentAlignment="Center"
+                  Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <Label Grid.Row="5"
+               Grid.Column="1"
+               Content="{x:Static lang:PlayerControl.FirstName}" />
+        <TextBox Grid.Row="5"
+                 Grid.Column="3"
+                 MinWidth="100"
+                 VerticalContentAlignment="Center"
+                 Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <Button Grid.Row="3"
+                Grid.Column="5"
+                Content="Vyhľadať hráča"
+                Command="{Binding SearchByDataCommand}"
+                MinWidth="100">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding LastName.Length, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Value="1">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding FirstName.Length, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Value="0">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+
+        <Separator Grid.Row="6"
+                   Grid.Column="1"
+                   Grid.ColumnSpan="6"
+                   Width="auto"
+                   Margin="0 5"/>
+
+
+        <!-- Údaje o hráčovi -->
+        <Label Grid.Row="7"
+               Grid.Column="1"
+               Content="Rating:" />
+        <TextBox Grid.Row="7"
+                 Grid.Column="3"
+                 MinWidth="100"
+                 Text="{Binding Gor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Label Grid.Row="9"
+               Grid.Column="1"
+               Content="Trieda:" />
+        <TextBox Grid.Row="9"
+                 Grid.Column="3"
+                 Text="{Binding Grade, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Label Grid.Row="11"
+               Grid.Column="1"
+               Content="Krajina:" />
+        <TextBox Grid.Row="11"
+                 Grid.Column="3"
+                 Text="{Binding CountryCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Label Grid.Row="13"
+               Grid.Column="1"
+               Content="Klub:" />
+        <TextBox Grid.Row="13"
+                 Grid.Column="3"
+                 Text="{Binding Club, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <ListView Grid.Row="15"
+                  Grid.Column="1"
+                  Grid.ColumnSpan="6"
+                  MinHeight="100"
+                  ItemsSource="{Binding CheckBoxes}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <Label VerticalAlignment="Center"
+                               Content="{Binding Content}" />
+                        <CheckBox VerticalAlignment="Center"
+                                  IsChecked="{Binding Checked, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                    </DockPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </UserControl>

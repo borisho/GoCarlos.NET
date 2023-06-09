@@ -1,5 +1,6 @@
 ﻿using GoCarlos.MAUI.Services;
 using GoCarlos.NET.Interfaces;
+using GoCarlos.NET.Models;
 using GoCarlos.NET.Services;
 using GoCarlos.NET.ViewModels;
 using GoCarlos.NET.Views;
@@ -30,6 +31,7 @@ public partial class App : Application
         services.AddTransient<IMenuItemsService, MenuItemsService>();
         services.AddTransient<MenuViewModel>();
 
+        services.AddSingleton<ITournament, Tournament>();
         services.AddSingleton<MainViewModel>();
         services.AddSingleton(provider => new MainWindow
         {

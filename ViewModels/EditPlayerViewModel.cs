@@ -1,5 +1,9 @@
 ﻿namespace GoCarlos.NET.ViewModels;
 
-public class EditPlayerViewModel : PlayerViewModel
+public class EditPlayerViewModel : PlayerControlViewModel
 {
+    public EditPlayerViewModel() : base(0)
+    {
+
+    }
 }

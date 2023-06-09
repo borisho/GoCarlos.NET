@@ -1,4 +1,5 @@
-﻿using GoCarlos.NET.Interfaces;
+﻿using GoCarlos.NET.Enums;
+using GoCarlos.NET.Interfaces;
 using GoCarlos.NET.ViewModels;
 using GoCarlos.NET.Views;
 using Microsoft.Extensions.Localization;
@@ -8,41 +9,42 @@ namespace GoCarlos.NET.Services;
 
 public sealed class WindowService : IWindowService
 {
-    private readonly IStringLocalizer<WindowService> _localizer = null!;
+    private readonly IStringLocalizer<WindowService> localizer;
+    private readonly ITournament tournament;
 
-    public WindowService(IStringLocalizer<WindowService> localizer)
+    public WindowService(IStringLocalizer<WindowService> localizer, ITournament tournament)
     {
-        _localizer = localizer;
+        this.localizer = localizer;
+        this.tournament = tournament;
     }
 
-    public void Show<T>(T viewModel)
+    public LocalizedString this[string name] => localizer[name];
+
+    public void Show(Windows type)
     {
-        switch (viewModel)
+        switch (type)
         {
-            case AddPlayerViewModel apvm:
-                AddPlayerWindow(apvm);
-                break;
-            case null:
-                ErrorMessageBox("Null");
+            case Windows.AddPlayerWindow:
+                AddPlayerWindow();
                 break;
             default:
-                ErrorMessageBox(viewModel.GetType().Name);
+                ErrorMessageBox();
                 break;
         }
     }
 
-    private static void AddPlayerWindow(AddPlayerViewModel viewModel)
+    private void AddPlayerWindow()
     {
         var window = new AddPlayerWindow()
         {
-            DataContext = viewModel,
+            DataContext = new AddPlayerViewModel(localizer["AddPlayerWindow"], tournament.Rounds),
         };
 
         window.Show();
     }
 
-    private void ErrorMessageBox(string name)
+    private void ErrorMessageBox()
     {
-        MessageBox.Show(_localizer["Message"] + name, _localizer["Error"], MessageBoxButton.OK, MessageBoxImage.Error);
+        MessageBox.Show(localizer["Message"], localizer["Error"], MessageBoxButton.OK, MessageBoxImage.Error);
     }
 }

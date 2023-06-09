@@ -1,6 +1,10 @@
-﻿namespace GoCarlos.NET.Interfaces;
+﻿using GoCarlos.NET.Enums;
+using Microsoft.Extensions.Localization;
+
+namespace GoCarlos.NET.Interfaces;
 
 public interface IWindowService
 {
-    void Show<T>(T viewModel);
+    LocalizedString this[string name] { get; }
+    void Show(Windows type);
 }

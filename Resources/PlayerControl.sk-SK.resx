@@ -117,13 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddPlayerWindow" xml:space="preserve">
-    <value>Pridať hráča</value>
+  <data name="EgdPin" xml:space="preserve">
+    <value>EGD pin:</value>
   </data>
-  <data name="Error" xml:space="preserve">
-    <value>Chyba</value>
+  <data name="FirstName" xml:space="preserve">
+    <value>Meno:</value>
   </data>
-  <data name="Message" xml:space="preserve">
-    <value>Nepodarilo sa otvoriť okno!</value>
+  <data name="LastName" xml:space="preserve">
+    <value>Priezvisko:</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Uložiť</value>
+  </data>
+  <data name="SearchPin" xml:space="preserve">
+    <value>Vyhľadať PIN</value>
   </data>
 </root>

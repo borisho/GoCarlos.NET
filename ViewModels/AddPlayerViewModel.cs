@@ -1,9 +1,9 @@
 ﻿namespace GoCarlos.NET.ViewModels;
 
-public partial class AddPlayerViewModel : PlayerViewModel
+public partial class AddPlayerViewModel : PlayerControlViewModel
 {
-    public AddPlayerViewModel() : base()
+    public AddPlayerViewModel(string title, int rounds) : base(rounds)
     {
-
+        Title = title;
     }
 }
