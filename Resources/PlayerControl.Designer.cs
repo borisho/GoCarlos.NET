@@ -61,6 +61,15 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add one more player.
+        /// </summary>
+        public static string AddOneMorePlayer {
+            get {
+                return ResourceManager.GetString("AddOneMorePlayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EGD pin:.
         /// </summary>
         public static string EgdPin {
