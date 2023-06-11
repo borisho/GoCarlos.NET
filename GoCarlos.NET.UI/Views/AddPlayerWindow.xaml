@@ -1,0 +1,27 @@
+﻿<Window x:Class="GoCarlos.NET.UI.Views.AddPlayerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lang ="clr-namespace:GoCarlos.NET.UI.Resources"
+        xmlns:local="clr-namespace:GoCarlos.NET.UI.Views"
+        xmlns:viewmodels="clr-namespace:GoCarlos.NET.UI.ViewModels"
+        d:DataContext="{d:DesignInstance Type=viewmodels:AddPlayerViewModel}"
+        mc:Ignorable="d"
+        Title="{x:Static lang:PlayerControl.AddPlayerTitle}"
+        WindowStartupLocation="CenterScreen"
+        Height="450" Width="800">
+    <Grid Margin="5">
+        <Grid.RowDefinitions >
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <local:PlayerControl Grid.Row="0" />
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal">
+            <Button Content="{x:Static lang:PlayerControl.Save}" />
+            <Label Content="{x:Static lang:PlayerControl.AddOneMorePlayer}" />
+            <CheckBox VerticalAlignment="Center"/>
+        </StackPanel>
+    </Grid>
+</Window>
