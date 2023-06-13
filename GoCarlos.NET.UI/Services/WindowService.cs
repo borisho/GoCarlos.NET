@@ -1,7 +1,6 @@
 ﻿using GoCarlos.NET.UI.Enums;
 using GoCarlos.NET.UI.Interfaces;
 using GoCarlos.NET.UI.Models;
-using GoCarlos.NET.UI.ViewModels;
 using GoCarlos.NET.UI.Views;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -31,11 +30,8 @@ public sealed class WindowService : IWindowService
 
     public void ShowEgdSelectionWindow(EgdData[] egdDatas)
     {
-        EgdSelectionWindow window = new()
-        {
-            DataContext = new EgdSelectionViewModel(egdDatas),
-        };
-
+        EgdSelectionWindow window = serviceProvider.GetRequiredService<EgdSelectionWindow>();
+        window.AddPlayers(egdDatas);
         window.Show();
     }
 

@@ -10,14 +10,9 @@ public partial class EgdSelectionViewModel : ObservableObject
 {
     private readonly ObservableCollection<EgdData> players;
 
-    public EgdSelectionViewModel(EgdData[] egdDatas)
+    public EgdSelectionViewModel()
     {
         players = new ObservableCollection<EgdData>();
-
-        foreach (EgdData data in egdDatas)
-        {
-            players.Add(data);
-        }
 
         Players = CollectionViewSource.GetDefaultView(players);
         Players.SortDescriptions.Add(new SortDescription(nameof(EgdData.Last_Name), ListSortDirection.Ascending));
@@ -25,4 +20,12 @@ public partial class EgdSelectionViewModel : ObservableObject
     }
 
     public ICollectionView Players { get; }
+
+    public void AddPlayers(EgdData[] egdDatas)
+    {
+        foreach (EgdData data in egdDatas)
+        {
+            players.Add(data);
+        }
+    }
 }

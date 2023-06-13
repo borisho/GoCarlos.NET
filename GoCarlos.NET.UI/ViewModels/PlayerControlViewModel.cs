@@ -48,6 +48,11 @@ public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<Eg
         }
     }
 
+    protected IStringLocalizer Localizer { get => localizer; }
+    protected IWindowService WindowService { get => windowService; }
+    protected IDialogService DialogService { get => dialogService; }
+    protected IEgdService EgdService { get => egdService; }
+
     public ObservableCollection<CheckBoxViewModel> CheckBoxes { get; } = new();
 
     [RelayCommand]

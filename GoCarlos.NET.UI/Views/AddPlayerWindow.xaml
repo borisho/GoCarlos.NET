@@ -19,7 +19,9 @@
         <local:PlayerControl Grid.Row="0" />
         <StackPanel Grid.Row="1"
                     Orientation="Horizontal">
-            <Button Content="{x:Static lang:PlayerControl.Save}" />
+            <Button Content="{x:Static lang:PlayerControl.Save}"
+                    Command="{Binding SaveCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
             <Label Content="{x:Static lang:PlayerControl.AddOneMorePlayer}" />
             <CheckBox VerticalAlignment="Center"/>
         </StackPanel>

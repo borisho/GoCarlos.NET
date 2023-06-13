@@ -7,5 +7,8 @@ namespace GoCarlos.NET.UI.Interfaces;
 /// </summary>
 public interface IMenuItemsService
 {
+    /// <summary>
+    /// To be added
+    /// </summary>
     LocalizedString this[string name] { get; }
 }

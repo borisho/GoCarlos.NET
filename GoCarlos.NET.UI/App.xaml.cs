@@ -37,6 +37,12 @@ public partial class App : Application
 
                 services.AddSingleton<IEgdService, EgdService>();
 
+                services.AddTransient<EgdSelectionViewModel>();
+                services.AddTransient(provider => new EgdSelectionWindow
+                {
+                    DataContext = provider.GetRequiredService<EgdSelectionViewModel>(),
+                });
+
                 services.AddTransient<AddPlayerViewModel>();
                 services.AddTransient(provider => new AddPlayerWindow
                 {

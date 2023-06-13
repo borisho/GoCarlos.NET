@@ -8,6 +8,13 @@ namespace GoCarlos.NET.UI.Interfaces;
 /// </summary>
 public interface IWindowService
 {
+    /// <summary>
+    /// To be added
+    /// </summary>
     void Show(Windows type);
+
+    /// <summary>
+    /// To be added
+    /// </summary>
     void ShowEgdSelectionWindow(EgdData[] egdDatas);
 }
