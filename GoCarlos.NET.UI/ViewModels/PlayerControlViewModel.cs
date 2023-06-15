@@ -43,7 +43,7 @@ public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<Eg
 
         for (int i = 0; i < tournament.Rounds; i++)
         {
-            CheckBoxes.Add(new(true, "Round: " + i));
+            CheckBoxes.Add(new(true, localizer["Round"], i));
         }
     }
 

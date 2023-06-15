@@ -7,6 +7,7 @@ using System;
 
 namespace GoCarlos.NET.UI.Services;
 
+/// <inheritdoc cref="IWindowService"/>
 public sealed class WindowService : IWindowService
 {
     private readonly IServiceProvider serviceProvider;

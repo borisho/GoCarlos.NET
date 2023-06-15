@@ -141,6 +141,9 @@
   <data name="PlayerNotFound" xml:space="preserve">
     <value>Hráča sa nepodarilo nájsť!</value>
   </data>
+  <data name="Round" xml:space="preserve">
+    <value>Kolo</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Uložiť</value>
   </data>

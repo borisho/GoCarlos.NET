@@ -141,6 +141,9 @@
   <data name="PlayerNotFound" xml:space="preserve">
     <value>The player could not be found!</value>
   </data>
+  <data name="Round" xml:space="preserve">
+    <value>Round</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
   </data>

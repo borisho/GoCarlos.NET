@@ -3,6 +3,7 @@ using Microsoft.Extensions.Localization;
 
 namespace GoCarlos.NET.UI.Services;
 
+/// <inheritdoc cref="IMenuItemsService"/>
 public sealed class MenuItemsService : IMenuItemsService
 {
     private readonly IStringLocalizer<MenuItemsService> _localizer = null!;

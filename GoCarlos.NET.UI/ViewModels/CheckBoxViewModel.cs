@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.Text;
 
 namespace GoCarlos.NET.UI.ViewModels;
 
@@ -21,8 +22,16 @@ public partial class CheckBoxViewModel : ObservableObject
         Checked = _checked;
     }
 
-    public CheckBoxViewModel(bool _checked, string content) : this(_checked) 
+    public CheckBoxViewModel(bool _checked, string text, int round) : this(_checked) 
     {
-        Content = content;
+        StringBuilder builder = new(text);
+        builder.Append(' ');
+        builder.Append(round);
+        builder.Append(':');
+
+        Content = builder.ToString();
+        Round = round;
     }
+
+    public int Round { get; } = 0;
 }

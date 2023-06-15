@@ -4,7 +4,8 @@ using System.Windows;
 
 namespace GoCarlos.NET.UI.Services;
 
-public class DialogService : IDialogService
+/// <inheritdoc cref="IDialogService"/>
+public sealed class DialogService : IDialogService
 {
     public void Show(string text, string caption, MessageType messageType)
     {

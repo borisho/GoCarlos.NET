@@ -6,6 +6,7 @@ using System.Text.Json;
 
 namespace GoCarlos.NET.UI.Services;
 
+/// <inheritdoc cref="IEgdService"/>
 public sealed class EgdService : IEgdService
 {
     private static readonly HttpClient client;
