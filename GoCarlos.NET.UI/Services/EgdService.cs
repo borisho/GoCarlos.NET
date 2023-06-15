@@ -1,12 +1,19 @@
 ﻿using System.Net.Http;
 using System;
 using GoCarlos.NET.UI.Interfaces;
+using GoCarlos.NET.UI.Models;
+using System.Text.Json;
 
 namespace GoCarlos.NET.UI.Services;
 
 public sealed class EgdService : IEgdService
 {
     private static readonly HttpClient client;
+
+    private static readonly JsonSerializerOptions options = new()
+    {
+        PropertyNameCaseInsensitive = true,
+    };
 
     static EgdService()
     {
@@ -18,16 +25,18 @@ public sealed class EgdService : IEgdService
         client = new HttpClient(socketsHandler);
     }
 
-    public string SearchByPin(string pin)
+    public EgdData? SearchByPin(string pin)
     {
-        string url = "https://www.europeangodatabase.eu/EGD/GetPlayerDataByPIN.php?pin=" + pin;
-        return GetJson(url);
+        string url = "https://www.europeangodatabase.eu/EGD/GetPlayerDataByPIN.php?pin=" + pin.Trim();
+
+        return JsonSerializer.Deserialize<EgdData>(GetJson(url), options);
     }
 
-    public string SearchByData(string lastName, string name)
+    public EgdDataList? SearchByData(string lastName, string name)
     {
-        string url = $"https://www.europeangodatabase.eu/EGD/GetPlayerDataByData.php?lastname={lastName}&name={name}";
-        return GetJson(url);
+        string url = $"https://www.europeangodatabase.eu/EGD/GetPlayerDataByData.php?lastname={lastName.Trim()}&name={name.Trim()}";
+        
+        return JsonSerializer.Deserialize<EgdDataList>(GetJson(url), options);
     }
 
     private static string GetJson(string url)

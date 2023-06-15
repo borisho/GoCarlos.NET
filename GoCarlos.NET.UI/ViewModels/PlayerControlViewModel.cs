@@ -9,7 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.ObjectModel;
-using System.Text.Json;
 
 namespace GoCarlos.NET.UI.ViewModels;
 
@@ -64,8 +63,7 @@ public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<Eg
             return;
         }
 
-        string json = egdService.SearchByPin(Pin);
-        EgdData? data = JsonSerializer.Deserialize<EgdData>(json);
+        EgdData? data = egdService.SearchByPin(Pin);
 
         if (data?.Retcode == "Ok")
         {
@@ -80,11 +78,7 @@ public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<Eg
     [RelayCommand]
     public void SearchByData()
     {
-        string json = egdService.SearchByData(LastName, FirstName);
-        EgdDataList? list = JsonSerializer.Deserialize<EgdDataList>(json, new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true,
-        });
+        EgdDataList? list = egdService.SearchByData(LastName, FirstName);
 
         if (list?.Retcode == "Ok" && list.Players.Length > 0)
         {

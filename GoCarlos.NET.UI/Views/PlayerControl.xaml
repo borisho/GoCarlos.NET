@@ -157,7 +157,7 @@
                             <Label VerticalAlignment="Center"
                                Content="{Binding Content}" />
                             <CheckBox VerticalAlignment="Center"
-                                  IsChecked="{Binding Checked, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                                  IsChecked="{Binding Checked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </DockPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

@@ -1,4 +1,6 @@
-﻿namespace GoCarlos.NET.UI.Interfaces;
+﻿using GoCarlos.NET.UI.Models;
+
+namespace GoCarlos.NET.UI.Interfaces;
 
 /// <summary>
 /// To be added
@@ -8,10 +10,10 @@ public interface IEgdService
     /// <summary>
     /// To be added
     /// </summary>
-    string SearchByPin(string pin);
+    EgdData? SearchByPin(string pin);
 
     /// <summary>
     /// To be added
     /// </summary>
-    string SearchByData(string lastName, string name);
+    EgdDataList? SearchByData(string lastName, string name);
 }
