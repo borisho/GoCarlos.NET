@@ -34,6 +34,7 @@ public partial class App : Application
                 services.AddTransient<MenuViewModel>();
 
                 services.AddSingleton<ITournament, Tournament>();
+                services.AddTransient<ITournamentService, TournamentService>();
 
                 services.AddSingleton<IEgdService, EgdService>();
 

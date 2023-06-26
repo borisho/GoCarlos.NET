@@ -1,5 +1,4 @@
-﻿using GoCarlos.NET.UI.Enums;
-using GoCarlos.NET.UI.Interfaces;
+﻿using GoCarlos.NET.UI.Interfaces;
 using GoCarlos.NET.UI.Models;
 using GoCarlos.NET.UI.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,16 +16,16 @@ public sealed class WindowService : IWindowService
         this.serviceProvider = serviceProvider;
     }
 
-    public void Show(Windows type)
+    public void ShowAddPlayerWindow()
     {
-        switch (type)
-        {
-            case Windows.AddPlayerWindow:
-                AddPlayerWindow();
-                break;
-            default:
-                break;
-        }
+        serviceProvider.GetRequiredService<AddPlayerWindow>().Show();
+    }
+
+    public void ShowAddPlayerWindowWithParam(bool param)
+    {
+        AddPlayerWindow window = serviceProvider.GetRequiredService<AddPlayerWindow>();
+        window.AddOneMore(param);
+        window.Show();
     }
 
     public void ShowEgdSelectionWindow(EgdData[] egdDatas)
@@ -34,10 +33,5 @@ public sealed class WindowService : IWindowService
         EgdSelectionWindow window = serviceProvider.GetRequiredService<EgdSelectionWindow>();
         window.AddPlayers(egdDatas);
         window.Show();
-    }
-
-    private void AddPlayerWindow()
-    {
-        serviceProvider.GetRequiredService<AddPlayerWindow>().Show();
     }
 }

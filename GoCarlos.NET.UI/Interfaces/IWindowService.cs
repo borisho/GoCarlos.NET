@@ -1,5 +1,4 @@
-﻿using GoCarlos.NET.UI.Enums;
-using GoCarlos.NET.UI.Models;
+﻿using GoCarlos.NET.UI.Models;
 
 namespace GoCarlos.NET.UI.Interfaces;
 
@@ -11,7 +10,8 @@ public interface IWindowService
     /// <summary>
     /// To be added
     /// </summary>
-    void Show(Windows type);
+    void ShowAddPlayerWindow();
+    void ShowAddPlayerWindowWithParam(bool param);
 
     /// <summary>
     /// To be added

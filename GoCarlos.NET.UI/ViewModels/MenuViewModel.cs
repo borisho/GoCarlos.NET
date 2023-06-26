@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using GoCarlos.NET.UI.Enums;
 using GoCarlos.NET.UI.Interfaces;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -61,7 +60,7 @@ public partial class MenuViewModel : ObservableObject
     public void AddPlayer()
     {
         Debug.WriteLine("AddPlayer Command");
-        windowService.Show(Windows.AddPlayerWindow);
+        windowService.ShowAddPlayerWindow();
     }
 
     [RelayCommand]

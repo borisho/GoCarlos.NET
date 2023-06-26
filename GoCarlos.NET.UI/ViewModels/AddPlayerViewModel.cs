@@ -1,8 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using GoCarlos.NET.Core.Interfaces;
 using GoCarlos.NET.UI.Interfaces;
+using GoCarlos.NET.UI.Messages;
 using GoCarlos.NET.UI.Models;
 
 namespace GoCarlos.NET.UI.ViewModels;
@@ -12,7 +12,7 @@ public partial class AddPlayerViewModel : PlayerControlViewModel
     [ObservableProperty]
     private bool addOneMore;
 
-    public AddPlayerViewModel(ITournament tournament) : base(tournament)
+    public AddPlayerViewModel(ITournamentService tournament) : base(tournament)
     {
         addOneMore = false;
     }
@@ -38,7 +38,7 @@ public partial class AddPlayerViewModel : PlayerControlViewModel
                 Club = Club,
             };
 
-            WeakReferenceMessenger.Default.Send(player);
+            WeakReferenceMessenger.Default.Send(new AddPlayerMessage(player, AddOneMore));
             closeable.Close();
         }
         

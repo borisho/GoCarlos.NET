@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using GoCarlos.NET.Core.Interfaces;
 using GoCarlos.NET.UI.Interfaces;
 using GoCarlos.NET.UI.Messages;
 using GoCarlos.NET.UI.Models;
@@ -22,7 +21,7 @@ public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<Eg
     [ObservableProperty]
     private string pin, lastName, firstName, gor, grade, countryCode, club;
 
-    public PlayerControlViewModel(ITournament tournament)
+    public PlayerControlViewModel(ITournamentService tournamentService)
     {
         WeakReferenceMessenger.Default.Register(this);
 
@@ -41,7 +40,7 @@ public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<Eg
         CountryCode = string.Empty;
         Club = string.Empty;
 
-        for (int i = 0; i < tournament.Rounds; i++)
+        for (int i = 0; i < tournamentService.Tournament.Rounds; i++)
         {
             CheckBoxes.Add(new(true, localizer["Round"], i));
         }
