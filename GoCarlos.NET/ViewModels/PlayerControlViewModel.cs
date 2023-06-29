@@ -3,10 +3,10 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using GoCarlos.NET.Interfaces;
 using GoCarlos.NET.Messages;
-using GoCarlos.NET.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace GoCarlos.NET.ViewModels;
@@ -57,7 +57,7 @@ public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<Eg
             return;
         }
 
-        EgdData? data = _egdService.SearchByPin(Pin);
+        IEgdData? data = _egdService.SearchByPin(Pin);
 
         if (data?.Retcode == "Ok")
         {
@@ -72,7 +72,7 @@ public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<Eg
     [RelayCommand]
     public void SearchByData()
     {
-        EgdDataList? list = _egdService.SearchByData(LastName, FirstName);
+        IEgdDataList? list = _egdService.SearchByData(LastName, FirstName);
 
         if (list?.Retcode == "Ok" && list.Players.Length > 0)
         {
@@ -92,7 +92,7 @@ public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<Eg
         }
     }
 
-    private void SetData(EgdData data)
+    private void SetData(IEgdData data)
     {
         Pin = data.Pin_Player;
         LastName = data.Last_Name;
@@ -108,6 +108,16 @@ public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<Eg
         for (int i = 0; i < rounds; i++)
         {
             CheckBoxes.Add(new(true, _localizer["Round"], i));
+        }
+    }
+
+    public void GenerateCheckBoxes(List<bool> rounds)
+    {
+        int i = 1;
+
+        foreach(bool b in rounds)
+        {
+            CheckBoxes.Add(new(b, _localizer["Round"], i++));
         }
     }
 

@@ -1,7 +1,7 @@
 ﻿using GoCarlos.NET.Interfaces;
 using GoCarlos.NET.Models;
 
-namespace GoCarlos.NET.Tests.Services;
+namespace GoCarlos.NET.Tests;
 
 [TestClass]
 public class TournamentTest

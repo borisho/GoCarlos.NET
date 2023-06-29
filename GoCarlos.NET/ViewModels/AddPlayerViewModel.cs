@@ -3,6 +3,8 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using GoCarlos.NET.Interfaces;
 using GoCarlos.NET.Messages;
+using GoCarlos.NET.Models;
+using System.Collections.Generic;
 
 namespace GoCarlos.NET.ViewModels;
 
@@ -26,7 +28,14 @@ public partial class AddPlayerViewModel : PlayerControlViewModel
 
         if (int.TryParse(Gor.Trim(), out int parsedGor))
         {
-            WeakReferenceMessenger.Default.Send(new AddPlayerMessage()
+            List<bool> roundsPlaying = new();
+
+            foreach (CheckBoxViewModel checkBox in CheckBoxes)
+            {
+                roundsPlaying.Add(checkBox.Checked);
+            }
+
+            Player player = new()
             {
                 Pin = Pin,
                 LastName = LastName,
@@ -35,7 +44,10 @@ public partial class AddPlayerViewModel : PlayerControlViewModel
                 Grade = Grade,
                 CountryCode = CountryCode,
                 Club = Club,
-            });
+                RoundsPlaying = roundsPlaying
+            };
+
+            WeakReferenceMessenger.Default.Send(new AddPlayerMessage(player));
 
             if (AddOneMore)
             {

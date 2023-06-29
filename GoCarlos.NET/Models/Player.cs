@@ -1,15 +1,46 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using GoCarlos.NET.Interfaces;
+using System;
+using System.Collections.Generic;
 
 namespace GoCarlos.NET.Models;
 
-public class Player
+public partial class Player : ObservableObject, IPlayer
 {
-    public Guid Guid { get; } = Guid.NewGuid();
-    public string Pin { get; init; } = string.Empty;
-    public string LastName { get; init; } = string.Empty;
-    public string FirstName { get; init; } = string.Empty;
-    public int Gor { get; init; } = -900;
-    public string Grade { get; init; } = string.Empty;
-    public string CountryCode { get; init; } = string.Empty;
-    public string Club { get; init; } = string.Empty;
+    const int MIN_RATING = -900;
+
+    [ObservableProperty]
+    private Guid guid;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(FullName))]
+    private string lastName, firstName;
+
+    [ObservableProperty]
+    private string pin, grade, countryCode, club;
+
+    [ObservableProperty]
+    private int gor;
+
+    [ObservableProperty]
+    private List<bool> roundsPlaying;
+
+    public Player()
+    {
+        Guid = Guid.NewGuid();
+        Pin = string.Empty;
+        LastName = string.Empty;
+        FirstName = string.Empty;
+        Gor = MIN_RATING;
+        Grade = string.Empty;
+        CountryCode = string.Empty;
+        Club = string.Empty;
+
+        RoundsPlaying = new List<bool>();
+    }
+
+    public string FullName
+    {
+        get => LastName + " " + FirstName;
+    }
 }

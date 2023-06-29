@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using GoCarlos.NET.Interfaces;
+using GoCarlos.NET.Models;
 using System.ComponentModel;
 using System.Windows.Data;
 
@@ -7,13 +9,18 @@ namespace GoCarlos.NET.ViewModels;
 
 public partial class MainViewModel : ObservableObject
 {
+    private IWindowService windowService;
     private ITournament tournament;
 
     [ObservableProperty]
     private MenuViewModel menuViewModel;
 
-    public MainViewModel(ITournament tournament, MenuViewModel menuViewModel)
+    [ObservableProperty]
+    private Player? selectedPlayer;
+
+    public MainViewModel(IWindowService windowService, ITournament tournament, MenuViewModel menuViewModel)
     {
+        this.windowService = windowService;
         this.tournament = tournament;
         this.menuViewModel = menuViewModel;
 
@@ -21,4 +28,23 @@ public partial class MainViewModel : ObservableObject
     }
 
     public ICollectionView Players { get; }
+
+    [RelayCommand]
+    public void EditPlayer()
+    {
+        if (SelectedPlayer != null)
+        {
+            windowService.ShowPlayerWindow(SelectedPlayer);
+        }
+    }
+
+    [RelayCommand]
+    public void DeletePlayer()
+    {
+        if (SelectedPlayer != null)
+        {
+            tournament.Players.Remove(SelectedPlayer);
+            SelectedPlayer = null;
+        }
+    }
 }

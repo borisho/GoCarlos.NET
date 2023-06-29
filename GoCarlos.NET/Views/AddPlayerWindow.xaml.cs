@@ -3,7 +3,9 @@ using GoCarlos.NET.ViewModels;
 using System.Windows;
 
 namespace GoCarlos.NET.Views;
-public partial class AddPlayerWindow : Window, ICloseable
+
+/// <inheritdoc cref="IPlayerWindow"/>
+public partial class AddPlayerWindow : Window, IPlayerWindow, ICloseable
 {
     public AddPlayerWindow()
     {

@@ -10,6 +10,7 @@
         mc:Ignorable="d"
         Title="{x:Static lang:PlayerControl.AddPlayerTitle}"
         WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize"
         Height="450" Width="800">
     <Grid Margin="5">
         <Grid.RowDefinitions >

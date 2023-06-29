@@ -1,6 +1,8 @@
-﻿namespace GoCarlos.NET.Models;
+﻿using GoCarlos.NET.Interfaces;
 
-public class EgdData
+namespace GoCarlos.NET.Models;
+
+public class EgdData : IEgdData
 {
     public string Retcode { get; set; } = "";
     public string Pin_Player { get; set; } = "";

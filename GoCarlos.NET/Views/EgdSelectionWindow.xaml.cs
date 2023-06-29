@@ -9,14 +9,14 @@ using System.Windows.Input;
 
 namespace GoCarlos.NET.Views;
 
-public partial class EgdSelectionWindow : Window, ICloseable
+public partial class EgdSelectionWindow : Window, IEgdSelectionWindow, ICloseable
 {
     public EgdSelectionWindow()
     {
         InitializeComponent();
     }
 
-    public void AddPlayers(EgdData[] egdDatas)
+    public void AddPlayers(IEgdData[] egdDatas)
     {
         if (DataContext is EgdSelectionViewModel viewModel)
         {

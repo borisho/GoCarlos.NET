@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         Title="{x:Static lang:AppProperties.Title}"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="CanMinimize"
+        ResizeMode="CanResize"
         MinHeight="450" MinWidth="650"
         Height="450" Width="800">
     <Grid>
@@ -45,8 +45,33 @@
             <TabControl MinHeight="100">
                 <TabItem Header="{x:Static lang:AppProperties.Wallist}">
                     <DataGrid Name="Wallist"
+                              ItemsSource="{Binding Players}"
                               AutoGenerateColumns="True"
-                              ItemsSource="{Binding Players}" />
+                              CanUserSortColumns="True"
+                              SelectedItem="{Binding SelectedPlayer, Mode=OneWayToSource}"
+                              SelectionMode="Single"
+                              SelectionUnit="FullRow"
+                              IsReadOnly="True"
+                              ContextMenuOpening="ContextMenu_ContextMenuOpening">
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem IsEnabled="False">
+                                    <MenuItem.Header>
+                                        <TextBlock>
+                                            <Bold>
+                                                <Run Text="{Binding SelectedPlayer.FullName, Mode=OneWay}" />
+                                            </Bold>
+                                        </TextBlock>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <Separator />
+                                <MenuItem Header="{x:Static lang:WallistProperties.EditPlayer}"
+                                          Command="{Binding EditPlayerCommand}" />
+                                <MenuItem Header="{x:Static lang:WallistProperties.DeletePlayer}"
+                                          Command="{Binding DeletePlayerCommand}" />
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                    </DataGrid>
                 </TabItem>
                 <TabItem Header="{x:Static lang:AppProperties.Pairings}">
                     <Label Content="{x:Static lang:AppProperties.Pairings}" />

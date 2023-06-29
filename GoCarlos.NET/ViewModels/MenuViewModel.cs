@@ -13,7 +13,7 @@ public partial class MenuViewModel : ObservableObject
 
     private readonly MenuItemViewModel goToRoundRoot;
 
-    public MenuViewModel(IWindowService windowService, IMenuItemsService menuItemsService)
+    public MenuViewModel(ITournament tournament, IWindowService windowService, IMenuItemsService menuItemsService)
     {
         this.windowService = windowService;
         this.menuItemsService = menuItemsService;
@@ -21,7 +21,7 @@ public partial class MenuViewModel : ObservableObject
         goToRoundRoot = new MenuItemViewModel(menuItemsService["GoToRound"]);
 
         GenerateMenuItems();
-        GenerateGoToRound(5);
+        GenerateGoToRound(tournament.Rounds);
     }
 
     public ObservableCollection<MenuItemViewModel> Items { get; } = new();
@@ -59,7 +59,6 @@ public partial class MenuViewModel : ObservableObject
     [RelayCommand]
     public void AddPlayer()
     {
-        Debug.WriteLine("AddPlayer Command");
         windowService.ShowAddPlayerWindow();
     }
 

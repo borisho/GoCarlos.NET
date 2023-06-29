@@ -1,12 +1,9 @@
-﻿namespace GoCarlos.NET.Messages;
+﻿using CommunityToolkit.Mvvm.Messaging.Messages;
+using GoCarlos.NET.Models;
 
-public class AddPlayerMessage
+namespace GoCarlos.NET.Messages;
+
+public class AddPlayerMessage : ValueChangedMessage<Player>
 {
-    public string Pin { get; init; } = string.Empty;
-    public string LastName { get; init; } = string.Empty;
-    public string FirstName { get; init; } = string.Empty;
-    public int Gor { get; init; } = -900;
-    public string Grade { get; init; } = string.Empty;
-    public string CountryCode { get; init; } = string.Empty;
-    public string Club { get; init; } = string.Empty;
+    public AddPlayerMessage(Player value) : base(value) { }
 }

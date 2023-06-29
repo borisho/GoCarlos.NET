@@ -110,24 +110,28 @@
         <TextBox Grid.Row="5"
                  Grid.Column="1"
                  MinWidth="100"
+                 MaxLength="4"
                  Text="{Binding Gor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <Label Grid.Row="6"
                Grid.Column="0"
                Content="Trieda:" />
         <TextBox Grid.Row="6"
                  Grid.Column="1"
+                 MaxLength="3"
                  Text="{Binding Grade, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <Label Grid.Row="7"
                Grid.Column="0"
                Content="Krajina:" />
         <TextBox Grid.Row="7"
                  Grid.Column="1"
+                 MaxLength="3"
                  Text="{Binding CountryCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <Label Grid.Row="8"
                Grid.Column="0"
                Content="Klub:" />
         <TextBox Grid.Row="8"
                  Grid.Column="1"
+                 MaxLength="4"
                  Text="{Binding Club, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
         <Border Grid.Row="9"

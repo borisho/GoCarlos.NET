@@ -3,7 +3,7 @@
 namespace GoCarlos.NET.Interfaces;
 
 /// <summary>
-/// To be added
+/// Provides localization for main window menu
 /// </summary>
 public interface IMenuItemsService
 {

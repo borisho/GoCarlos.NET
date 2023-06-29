@@ -25,12 +25,7 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
     <PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.5" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Text.Json" Version="7.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Utils\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,6 +39,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>PlayerControl.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\WallistProperties.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WallistProperties.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -54,6 +54,10 @@
     <EmbeddedResource Update="Resources\PlayerControl.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>PlayerControl.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\WallistProperties.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>WallistProperties.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
