@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using GoCarlos.NET.Interfaces;
 using GoCarlos.NET.Messages;
+using GoCarlos.NET.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using System;
@@ -57,7 +58,7 @@ public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<Eg
             return;
         }
 
-        IEgdData? data = _egdService.SearchByPin(Pin);
+        EgdData? data = _egdService.SearchByPin(Pin);
 
         if (data?.Retcode == "Ok")
         {
@@ -72,7 +73,7 @@ public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<Eg
     [RelayCommand]
     public void SearchByData()
     {
-        IEgdDataList? list = _egdService.SearchByData(LastName, FirstName);
+        EgdDataList? list = _egdService.SearchByData(LastName, FirstName);
 
         if (list?.Retcode == "Ok" && list.Players.Length > 0)
         {
@@ -92,7 +93,7 @@ public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<Eg
         }
     }
 
-    private void SetData(IEgdData data)
+    private void SetData(EgdData data)
     {
         Pin = data.Pin_Player;
         LastName = data.Last_Name;

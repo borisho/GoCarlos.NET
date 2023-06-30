@@ -15,12 +15,22 @@ public class TournamentTest
     }
 
     [TestMethod]
-    public void Test()
+    public void Reset_CreateNewTournament_ClearPlayers()
     {
-        // Arrange
+        tournament.Players.Add(new());
 
-        // Act
+        tournament.Reset();
 
-        // Assert
+        Assert.AreEqual(tournament.Players.Count, 0);
+    }
+
+    [TestMethod]
+    public void Reset_CreateNewTournament_ResetNumberOfRounds()
+    {
+        tournament.Rounds = 10;
+
+        tournament.Reset();
+
+        Assert.AreEqual(tournament.Rounds, 5);
     }
 }

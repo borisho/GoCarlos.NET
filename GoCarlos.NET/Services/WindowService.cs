@@ -1,4 +1,5 @@
 ﻿using GoCarlos.NET.Interfaces;
+using GoCarlos.NET.Models;
 using GoCarlos.NET.Views;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -32,14 +33,14 @@ public sealed class WindowService : IWindowService
         window.Show();
     }
 
-    public void ShowPlayerWindow(IPlayer player)
+    public void ShowPlayerWindow(Player player)
     {
         PlayerWindow window = serviceProvider.GetRequiredService<PlayerWindow>();
         window.SetSelectedPlayer(player);
         window.Show();
     }
 
-    public void ShowEgdSelectionWindow(IEgdData[] egdDatas)
+    public void ShowEgdSelectionWindow(EgdData[] egdDatas)
     {
         EgdSelectionWindow window = serviceProvider.GetRequiredService<EgdSelectionWindow>();
         window.AddPlayers(egdDatas);

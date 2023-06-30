@@ -1,4 +1,5 @@
 ﻿using GoCarlos.NET.Interfaces;
+using GoCarlos.NET.Models;
 using GoCarlos.NET.ViewModels;
 using System.Windows;
 
@@ -12,7 +13,7 @@ public partial class PlayerWindow : Window, IPlayerWindow, ICloseable
         InitializeComponent();
     }
 
-    public void SetSelectedPlayer(IPlayer player)
+    public void SetSelectedPlayer(Player player)
     {
         if (DataContext is PlayerViewModel viewModel)
         {

@@ -123,6 +123,12 @@
   <data name="CountCurrentRound" xml:space="preserve">
     <value>Count current round</value>
   </data>
+  <data name="CreateTournamentMessage" xml:space="preserve">
+    <value>Create new tournament? Changes that are not saved will be lost!</value>
+  </data>
+  <data name="CreateTournamentTitle" xml:space="preserve">
+    <value>Create new tournament</value>
+  </data>
   <data name="Debug" xml:space="preserve">
     <value>Debug</value>
   </data>

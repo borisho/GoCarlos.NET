@@ -16,7 +16,7 @@ public partial class EgdSelectionWindow : Window, IEgdSelectionWindow, ICloseabl
         InitializeComponent();
     }
 
-    public void AddPlayers(IEgdData[] egdDatas)
+    public void AddPlayers(EgdData[] egdDatas)
     {
         if (DataContext is EgdSelectionViewModel viewModel)
         {

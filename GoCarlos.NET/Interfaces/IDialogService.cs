@@ -1,4 +1,5 @@
 ﻿using GoCarlos.NET.Enums;
+using System.Windows;
 
 namespace GoCarlos.NET.Interfaces;
 
@@ -10,5 +11,5 @@ public interface IDialogService
     /// <summary>
     /// To be added
     /// </summary>
-    void Show(string text, string caption, MessageType messageType);
+    MessageBoxResult Show(string text, string caption, MessageType messageType);
 }

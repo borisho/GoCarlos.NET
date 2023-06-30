@@ -1,11 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using GoCarlos.NET.Interfaces;
 using System;
 using System.Collections.Generic;
 
 namespace GoCarlos.NET.Models;
 
-public partial class Player : ObservableObject, IPlayer
+public partial class Player : ObservableObject
 {
     const int MIN_RATING = -900;
 

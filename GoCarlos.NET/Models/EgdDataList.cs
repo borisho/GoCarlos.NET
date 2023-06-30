@@ -1,9 +1,7 @@
-﻿using GoCarlos.NET.Interfaces;
+﻿namespace GoCarlos.NET.Models;
 
-namespace GoCarlos.NET.Models;
-
-public class EgdDataList : IEgdDataList
+public record class EgdDataList
 {
-    public string Retcode { get; set; } = "";
-    public IEgdData[] Players { get; set; } = System.Array.Empty<EgdData>();
+    public string Retcode { get; init; } = string.Empty;
+    public EgdData[] Players { get; init; } = System.Array.Empty<EgdData>();
 }

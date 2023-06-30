@@ -10,4 +10,5 @@ public interface ITournament
 {
     public int Rounds { get; set; }
     public ObservableCollection<Player> Players { get; set; }
+    public void Reset();
 }

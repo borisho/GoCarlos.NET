@@ -1,4 +1,4 @@
-﻿using GoCarlos.NET.Interfaces;
+﻿using GoCarlos.NET.Models;
 
 namespace GoCarlos.NET.ViewModels;
 
@@ -6,7 +6,7 @@ public class PlayerViewModel : PlayerControlViewModel
 {
     public PlayerViewModel() : base() { }
 
-    public void SetSelectedPlayer(IPlayer player)
+    public void SetSelectedPlayer(Player player)
     {
         GenerateCheckBoxes(player.RoundsPlaying);
 

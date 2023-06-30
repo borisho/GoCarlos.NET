@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GoCarlos.NET.Enums;
 using GoCarlos.NET.Interfaces;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -8,13 +9,20 @@ namespace GoCarlos.NET.ViewModels;
 
 public partial class MenuViewModel : ObservableObject
 {
+    private readonly ITournament tournament;
+    private readonly IDialogService dialogService;
     private readonly IWindowService windowService;
     private readonly IMenuItemsService menuItemsService;
 
     private readonly MenuItemViewModel goToRoundRoot;
 
-    public MenuViewModel(ITournament tournament, IWindowService windowService, IMenuItemsService menuItemsService)
+    public MenuViewModel(ITournament tournament, 
+        IDialogService dialogService,
+        IWindowService windowService,
+        IMenuItemsService menuItemsService)
     {
+        this.tournament = tournament;
+        this.dialogService = dialogService;
         this.windowService = windowService;
         this.menuItemsService = menuItemsService;
 
@@ -29,7 +37,11 @@ public partial class MenuViewModel : ObservableObject
     [RelayCommand]
     public void NewTournament()
     {
-        Debug.WriteLine("NewTournament Command");
+        if (dialogService.Show(menuItemsService["CreateTournamentMessage"], menuItemsService["CreateTournamentTitle"], MessageType.WARNING_YES_NO)
+            == System.Windows.MessageBoxResult.Yes)
+        {
+            tournament.Reset();
+        }
     }
 
     [RelayCommand]

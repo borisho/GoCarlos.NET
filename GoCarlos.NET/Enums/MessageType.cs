@@ -2,7 +2,19 @@
 
 public enum MessageType
 {
-    INFO = 0,
-    WARNING = 1,
-    ERROR = 2,
+    INFO,
+    INFO_YES_NO,
+    INFO_YES_NO_CANCEL,
+    WARNING,
+    WARNING_YES_NO,
+    WARNING_YES_NO_CANCEL,
+    ERROR,
+    ERROR_YES_NO,
+    ERROR_YES_NO_CANCEL,
+    QUESTION,
+    QUESTION_YES_NO,
+    QUESTION_YES_NO_CANCEL,
+    NONE,
+    NONE_YES_NO,
+    NONE_YES_NO_CANCEL,
 }

@@ -18,8 +18,8 @@ public partial class Tournament : ObservableObject, ITournament, IRecipient<AddP
 
     public Tournament()
     {
-        rounds = DEFAULT_NUMBER_OF_ROUNDS;
-        players = new();
+        Rounds = DEFAULT_NUMBER_OF_ROUNDS;
+        Players = new();
 
         WeakReferenceMessenger.Default.Register(this);
     }
@@ -27,5 +27,11 @@ public partial class Tournament : ObservableObject, ITournament, IRecipient<AddP
     public void Receive(AddPlayerMessage message)
     {
         Players.Add(message.Value);
+    }
+
+    public void Reset()
+    {
+        Rounds = DEFAULT_NUMBER_OF_ROUNDS;
+        Players.Clear();
     }
 }

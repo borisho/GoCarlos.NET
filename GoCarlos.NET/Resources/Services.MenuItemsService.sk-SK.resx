@@ -123,6 +123,12 @@
   <data name="CountCurrentRound" xml:space="preserve">
     <value>Započítať aktuálne kolo</value>
   </data>
+  <data name="CreateTournamentMessage" xml:space="preserve">
+    <value>Vytvoriť nový turnaj? Neuložené zmeny budú stratené!</value>
+  </data>
+  <data name="CreateTournamentTitle" xml:space="preserve">
+    <value>Vytvoriť nový turnaj</value>
+  </data>
   <data name="Debug" xml:space="preserve">
     <value>Debug</value>
   </data>

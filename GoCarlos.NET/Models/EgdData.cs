@@ -1,26 +1,24 @@
-﻿using GoCarlos.NET.Interfaces;
+﻿namespace GoCarlos.NET.Models;
 
-namespace GoCarlos.NET.Models;
-
-public class EgdData : IEgdData
+public record class EgdData
 {
-    public string Retcode { get; set; } = "";
-    public string Pin_Player { get; set; } = "";
-    public string AGAID { get; set; } = "";
-    public string Last_Name { get; set; } = "";
-    public string Name { get; set; } = "";
-    public string Country_Code { get; set; } = "";
-    public string Club { get; set; } = "";
-    public string Grade { get; set; } = "";
-    public string Grade_n { get; set; } = "";
-    public string EGF_Placement { get; set; } = "";
-    public string Gor { get; set; } = "";
-    public string DGor { get; set; } = "";
-    public string Proposed_Grade { get; set; } = "";
-    public string Tot_Tournaments { get; set; } = "";
-    public string Last_Appearance { get; set; } = "";
-    public string Elab_Date { get; set; } = "";
-    public string Hidden_History { get; set; } = "";
-    public string Real_Last_Name { get; set; } = "";
-    public string Real_Name { get; set; } = "";
+    public string Retcode { get; init; } = string.Empty;
+    public string Pin_Player { get; init; } = string.Empty;
+    public string AGAID { get; init; } = string.Empty;
+    public string Last_Name { get; init; } = string.Empty;
+    public string Name { get; init; } = string.Empty;
+    public string Country_Code { get; init; } = string.Empty;
+    public string Club { get; init; } = string.Empty;
+    public string Grade { get; init; } = string.Empty;
+    public string Grade_n { get; init; } = string.Empty;
+    public string EGF_Placement { get; init; } = string.Empty;
+    public string Gor { get; init; } = string.Empty;
+    public string DGor { get; init; } = string.Empty;
+    public string Proposed_Grade { get; init; } = string.Empty;
+    public string Tot_Tournaments { get; init; } = string.Empty;
+    public string Last_Appearance { get; init; } = string.Empty;
+    public string Elab_Date { get; init; } = string.Empty;
+    public string Hidden_History { get; init; } = string.Empty;
+    public string Real_Last_Name { get; init; } = string.Empty;
+    public string Real_Name { get; init; } = string.Empty;
 }
