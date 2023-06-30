@@ -9,8 +9,8 @@ namespace GoCarlos.NET.ViewModels;
 
 public partial class MainViewModel : ObservableObject
 {
-    private IWindowService windowService;
-    private ITournament tournament;
+    private readonly IWindowService windowService;
+    private readonly ITournament tournament;
 
     [ObservableProperty]
     private MenuViewModel menuViewModel;

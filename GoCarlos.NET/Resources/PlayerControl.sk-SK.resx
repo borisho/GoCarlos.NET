@@ -123,6 +123,9 @@
   <data name="AddPlayerTitle" xml:space="preserve">
     <value>Pridať hráča</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Zrušiť</value>
+  </data>
   <data name="EgdPin" xml:space="preserve">
     <value>EGD pin:</value>
   </data>
@@ -135,11 +138,17 @@
   <data name="LastName" xml:space="preserve">
     <value>Priezvisko:</value>
   </data>
+  <data name="NameErrorMessage" xml:space="preserve">
+    <value>Meno a priezvisko nesmú byť prázdne!</value>
+  </data>
   <data name="PinContainsOnlyNumbers" xml:space="preserve">
     <value>PIN musí obsahovať len čísla!</value>
   </data>
   <data name="PlayerNotFound" xml:space="preserve">
     <value>Hráča sa nepodarilo nájsť!</value>
+  </data>
+  <data name="RatingErrorMessage" xml:space="preserve">
+    <value>Rating musí byť číslo!</value>
   </data>
   <data name="Round" xml:space="preserve">
     <value>Kolo</value>

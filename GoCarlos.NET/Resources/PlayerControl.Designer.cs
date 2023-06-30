@@ -79,6 +79,15 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EGD pin:.
         /// </summary>
         public static string EgdPin {
@@ -115,6 +124,15 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Firstname and lastname cannot be empty!.
+        /// </summary>
+        public static string NameErrorMessage {
+            get {
+                return ResourceManager.GetString("NameErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The PIN must contain only numbers!.
         /// </summary>
         public static string PinContainsOnlyNumbers {
@@ -129,6 +147,15 @@ namespace GoCarlos.NET.Resources {
         public static string PlayerNotFound {
             get {
                 return ResourceManager.GetString("PlayerNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rating has to be number!.
+        /// </summary>
+        public static string RatingErrorMessage {
+            get {
+                return ResourceManager.GetString("RatingErrorMessage", resourceCulture);
             }
         }
         

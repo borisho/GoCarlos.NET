@@ -7,7 +7,7 @@ namespace GoCarlos.NET.Tests;
 public class TournamentTest
 {
 
-    private ITournament tournament;
+    private readonly ITournament tournament;
 
     public TournamentTest()
     {

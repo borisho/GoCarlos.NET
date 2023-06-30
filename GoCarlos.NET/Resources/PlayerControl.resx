@@ -123,6 +123,9 @@
   <data name="AddPlayerTitle" xml:space="preserve">
     <value>Add player</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="EgdPin" xml:space="preserve">
     <value>EGD pin:</value>
   </data>
@@ -135,11 +138,17 @@
   <data name="LastName" xml:space="preserve">
     <value>Last Name:</value>
   </data>
+  <data name="NameErrorMessage" xml:space="preserve">
+    <value>Firstname and lastname cannot be empty!</value>
+  </data>
   <data name="PinContainsOnlyNumbers" xml:space="preserve">
     <value>The PIN must contain only numbers!</value>
   </data>
   <data name="PlayerNotFound" xml:space="preserve">
     <value>The player could not be found!</value>
+  </data>
+  <data name="RatingErrorMessage" xml:space="preserve">
+    <value>Rating has to be number!</value>
   </data>
   <data name="Round" xml:space="preserve">
     <value>Round</value>
