@@ -141,6 +141,12 @@
   <data name="Exit" xml:space="preserve">
     <value>Ukončiť</value>
   </data>
+  <data name="ExitTournamentMessage" xml:space="preserve">
+    <value>Naozaj chceš ukončiť program? Neuložené zmeny budú stratené!</value>
+  </data>
+  <data name="ExitTournamentTitle" xml:space="preserve">
+    <value>Ukončiť program</value>
+  </data>
   <data name="ExportEGD" xml:space="preserve">
     <value>Export pre EGD</value>
   </data>

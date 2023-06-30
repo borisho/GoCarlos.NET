@@ -32,4 +32,9 @@ public interface IWindowService
     /// </summary>
     /// <param name="egdDatas">Players retrieved from European Go Database</param>
     void ShowEgdSelectionWindow(EgdData[] egdDatas);
+
+    /// <summary>
+    /// Shutdown application
+    /// </summary>
+    void Shutdown();
 }

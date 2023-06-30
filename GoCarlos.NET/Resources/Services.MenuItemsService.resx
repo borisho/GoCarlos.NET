@@ -141,6 +141,12 @@
   <data name="Exit" xml:space="preserve">
     <value>Exit</value>
   </data>
+  <data name="ExitTournamentMessage" xml:space="preserve">
+    <value>Do you really want to shutdown application? Changes that are not saved will be lost!</value>
+  </data>
+  <data name="ExitTournamentTitle" xml:space="preserve">
+    <value>Shutdown</value>
+  </data>
   <data name="ExportEGD" xml:space="preserve">
     <value>Export EGD</value>
   </data>

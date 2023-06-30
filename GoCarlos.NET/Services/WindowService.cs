@@ -3,6 +3,7 @@ using GoCarlos.NET.Models;
 using GoCarlos.NET.Views;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Windows;
 
 namespace GoCarlos.NET.Services;
 
@@ -45,5 +46,10 @@ public sealed class WindowService : IWindowService
         EgdSelectionWindow window = serviceProvider.GetRequiredService<EgdSelectionWindow>();
         window.AddPlayers(egdDatas);
         window.Show();
+    }
+
+    public void Shutdown()
+    {
+        Application.Current.Shutdown();
     }
 }

@@ -65,7 +65,11 @@ public partial class MenuViewModel : ObservableObject
     [RelayCommand]
     public void Exit()
     {
-        Debug.WriteLine("Exit Command");
+        if (dialogService.Show(menuItemsService["ExitTournamentMessage"], menuItemsService["ExitTournamentTitle"], MessageType.WARNING_YES_NO)
+            == System.Windows.MessageBoxResult.Yes)
+        {
+            windowService.Shutdown();
+        }
     }
 
     [RelayCommand]
