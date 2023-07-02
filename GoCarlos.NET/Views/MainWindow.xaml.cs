@@ -1,6 +1,7 @@
 ﻿using GoCarlos.NET.Interfaces;
 using GoCarlos.NET.ViewModels;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace GoCarlos.NET.Views;
 
@@ -15,9 +16,13 @@ public partial class MainWindow : Window, ICloseable
     {
         if (DataContext is MainViewModel viewModel)
         {
-            if(viewModel.SelectedPlayer == null)
+            if (sender is DataGrid dataGrid)
             {
-                e.Handled = true;
+                if ((dataGrid.Name == "Wallist" && viewModel.SelectedPlayer == null) ||
+                   (dataGrid.Name == "Pairings" && viewModel.SelectedPairing == null))
+                {
+                    e.Handled = true;
+                }
             }
         }
     }

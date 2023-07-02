@@ -15,22 +15,51 @@ public class TournamentTest
     }
 
     [TestMethod]
+    public void AddPlayer_AddPlayer_PlayerAddedToList()
+    {
+        tournament.AddPlayer(new());
+
+        Assert.AreEqual(tournament.Players.Count(), 1);
+    }
+
+    [TestMethod]
+    public void RemovePlayer_RemovePlayer_PlayerRemovedFromList()
+    {
+        Player player = new();
+        tournament.AddPlayer(player);
+
+        tournament.RemovePlayer(player);
+
+        Assert.AreEqual(tournament.Players.Count(), 0);
+    }
+
+    [TestMethod]
     public void Reset_CreateNewTournament_ClearPlayers()
     {
-        tournament.Players.Add(new());
+        tournament.AddPlayer(new());
 
         tournament.Reset();
 
-        Assert.AreEqual(tournament.Players.Count, 0);
+        Assert.AreEqual(tournament.Players.Count(), 0);
+    }
+
+    [TestMethod]
+    public void Reset_CreateNewTournament_ClearPairings()
+    {
+        tournament.AddPairing(new(tournament.CurrentRound));
+
+        tournament.Reset();
+
+        Assert.AreEqual(tournament.Pairings.Count(), 0);
     }
 
     [TestMethod]
     public void Reset_CreateNewTournament_ResetNumberOfRounds()
     {
-        tournament.Rounds = 10;
+        tournament.SetNumberOfRounds(10);
 
         tournament.Reset();
 
-        Assert.AreEqual(tournament.Rounds, 5);
+        Assert.AreEqual(tournament.NumberOfRounds, 5);
     }
 }

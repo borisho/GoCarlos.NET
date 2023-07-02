@@ -106,7 +106,7 @@ public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<Eg
 
     public void GenerateCheckBoxes(int rounds)
     {
-        for (int i = 0; i < rounds; i++)
+        for (int i = 1; i <= rounds; i++)
         {
             CheckBoxes.Add(new(true, _localizer["Round"], i));
         }
@@ -116,7 +116,7 @@ public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<Eg
     {
         int i = 1;
 
-        foreach(bool b in rounds)
+        foreach (bool b in rounds)
         {
             CheckBoxes.Add(new(b, _localizer["Round"], i++));
         }

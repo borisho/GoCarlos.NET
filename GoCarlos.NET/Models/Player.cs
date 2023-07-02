@@ -18,7 +18,6 @@ public partial class Player : ObservableObject
     [ObservableProperty]
     private string pin, grade, countryCode, club;
 
-    [ObservableProperty]
     private int gor;
 
     [ObservableProperty]
@@ -38,8 +37,31 @@ public partial class Player : ObservableObject
         RoundsPlaying = new List<bool>();
     }
 
+    public int Gor
+    {
+        get => gor;
+        set
+        {
+            if (value < MIN_RATING)
+            {
+                gor = MIN_RATING;
+            }
+
+            else
+            {
+                gor = value;
+            }
+
+            OnPropertyChanged(nameof(Gor));
+        }
+    }
+
     public string FullName
     {
         get => LastName + " " + FirstName;
     }
+
+    public override bool Equals(object? obj) => obj is Player player && Guid.Equals(player.Guid);
+
+    public override int GetHashCode() => HashCode.Combine(Guid);
 }

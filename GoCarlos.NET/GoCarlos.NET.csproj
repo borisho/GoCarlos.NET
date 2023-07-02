@@ -39,10 +39,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>PlayerControl.resx</DependentUpon>
     </Compile>
-    <Compile Update="Resources\WallistProperties.Designer.cs">
+    <Compile Update="Resources\MainWindowProperties.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>WallistProperties.resx</DependentUpon>
+      <DependentUpon>MainWindowProperties.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -55,9 +55,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>PlayerControl.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\WallistProperties.resx">
+    <EmbeddedResource Update="Resources\MainWindowProperties.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>WallistProperties.Designer.cs</LastGenOutput>
+      <LastGenOutput>MainWindowProperties.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

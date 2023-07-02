@@ -22,14 +22,14 @@ public sealed class WindowService : IWindowService
     public void ShowAddPlayerWindow()
     {
         AddPlayerWindow window = serviceProvider.GetRequiredService<AddPlayerWindow>();
-        window.GenerateCheckBoxes(tournament.Rounds);
+        window.GenerateCheckBoxes(tournament.NumberOfRounds);
         window.Show();
     }
 
     public void ShowAddPlayerWindowWithParam(bool param)
     {
         AddPlayerWindow window = serviceProvider.GetRequiredService<AddPlayerWindow>();
-        window.GenerateCheckBoxes(tournament.Rounds);
+        window.GenerateCheckBoxes(tournament.NumberOfRounds);
         window.AddOneMore(param);
         window.Show();
     }

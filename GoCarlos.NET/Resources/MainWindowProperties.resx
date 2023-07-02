@@ -117,10 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Black" xml:space="preserve">
+    <value>Black</value>
+  </data>
+  <data name="Board" xml:space="preserve">
+    <value>Board</value>
+  </data>
+  <data name="DeletePairing" xml:space="preserve">
+    <value>Delete pairing</value>
+  </data>
   <data name="DeletePlayer" xml:space="preserve">
-    <value>Odstrániť hráča</value>
+    <value>Delete player</value>
+  </data>
+  <data name="EditPairing" xml:space="preserve">
+    <value>Edit pairing</value>
   </data>
   <data name="EditPlayer" xml:space="preserve">
-    <value>Upraviť hráča</value>
+    <value>Edit player</value>
+  </data>
+  <data name="Handicap" xml:space="preserve">
+    <value>Handicap</value>
+  </data>
+  <data name="Result" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="White" xml:space="preserve">
+    <value>White</value>
   </data>
 </root>
