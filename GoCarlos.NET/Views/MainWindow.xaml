@@ -1,0 +1,175 @@
+﻿<Window x:Class="GoCarlos.NET.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lang="clr-namespace:GoCarlos.NET.Resources"
+        xmlns:local="clr-namespace:GoCarlos.NET.Views"
+        xmlns:viewmodels="clr-namespace:GoCarlos.NET.ViewModels"
+        d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
+        mc:Ignorable="d"
+        Title="{x:Static lang:AppProperties.Title}"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize"
+        MinHeight="450" MinWidth="650"
+        Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0" ItemsSource="{Binding MenuViewModel.Items}">
+            <Menu.Resources>
+                <ControlTemplate x:Key="MenuSeparatorTemplate">
+                    <Separator />
+                </ControlTemplate>
+            </Menu.Resources>
+            <Menu.ItemContainerStyle>
+                <Style TargetType="{x:Type MenuItem}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Header}" Value="{x:Null}">
+                            <Setter Property="Template" Value="{StaticResource MenuSeparatorTemplate}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                    <Setter Property="Command" Value="{Binding Command}" />
+                    <Setter Property="CommandParameter" Value="{Binding CommandParameter}" />
+                </Style>
+            </Menu.ItemContainerStyle>
+            <Menu.ItemTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type viewmodels:MenuItemViewModel}" ItemsSource="{Binding Items}">
+                    <TextBlock Name="MenuItem" Text="{Binding Header}"/>
+                </HierarchicalDataTemplate>
+            </Menu.ItemTemplate>
+        </Menu>
+        <DockPanel Grid.Row="1">
+            <TabControl MinHeight="100">
+                <TabItem Header="{x:Static lang:AppProperties.Wallist}">
+                    <DataGrid Name="Wallist"
+                              ItemsSource="{Binding Players}"
+                              AutoGenerateColumns="True"
+                              CanUserSortColumns="True"
+                              SelectedItem="{Binding SelectedPlayer, Mode=OneWayToSource}"
+                              SelectionMode="Single"
+                              SelectionUnit="FullRow"
+                              IsReadOnly="True"
+                              ContextMenuOpening="ContextMenu_ContextMenuOpening">
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem IsEnabled="False">
+                                    <MenuItem.Header>
+                                        <TextBlock>
+                                            <Bold>
+                                                <Run Text="{Binding SelectedPlayer.FullName, Mode=OneWay}" />
+                                            </Bold>
+                                        </TextBlock>
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <Separator />
+                                <MenuItem Header="{x:Static lang:MainWindowProperties.EditPlayer}"
+                                          Command="{Binding EditPlayerCommand}" />
+                                <MenuItem Header="{x:Static lang:MainWindowProperties.DeletePlayer}"
+                                          Command="{Binding DeletePlayerCommand}" />
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="{x:Static lang:AppProperties.Pairings}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <DataGrid Grid.Column="0"
+                                  Name="Pairings"
+                                  ItemsSource="{Binding Pairings}"
+                                  AutoGenerateColumns="False"
+                                  CanUserSortColumns="True"
+                                  SelectedItem="{Binding SelectedPairing, Mode=OneWayToSource}"
+                                  SelectionMode="Single"
+                                  SelectionUnit="FullRow"
+                                  IsReadOnly="True"
+                                  CanUserAddRows="False"
+                                  ContextMenuOpening="ContextMenu_ContextMenuOpening">
+                            <DataGrid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem IsEnabled="False">
+                                        <MenuItem.Header>
+                                            <TextBlock>
+                                            <Bold>
+                                                <Run Text="{Binding SelectedPairing.Title, Mode=OneWay}" />
+                                            </Bold>
+                                            </TextBlock>
+                                        </MenuItem.Header>
+                                    </MenuItem>
+                                    <Separator />
+                                    <MenuItem Header="{x:Static lang:MainWindowProperties.EditPairing}"
+                                          Command="{Binding EditPlayerCommand}" />
+                                    <MenuItem Header="{x:Static lang:MainWindowProperties.DeletePairing}"
+                                          Command="{Binding DeletePlayerCommand}" />
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+                            <DataGrid.RowStyle>
+                                <Style TargetType="{x:Type DataGridRow}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Results}" Value="?-?">
+                                            <Setter Property="Background" Value="Cornsilk"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Results}" Value="1-0">
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Results}" Value="1-0(!)">
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Results}" Value="1-1">
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Results}" Value="1-1(!)">
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="{x:Static lang:MainWindowProperties.Board}" Binding="{Binding BoardNumber}" />
+                                <DataGridTextColumn Header="{x:Static lang:MainWindowProperties.Black}" Binding="{Binding Black}" />
+                                <DataGridTextColumn Header="{x:Static lang:MainWindowProperties.White}" Binding="{Binding White}" />
+                                <DataGridTextColumn Header="{x:Static lang:MainWindowProperties.Result}" Binding="{Binding Result}" />
+                                <DataGridTextColumn Header="{x:Static lang:MainWindowProperties.Handicap}" Binding="{Binding Handicap}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="8*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <ListView Grid.Row="0" Margin="5"
+                                      x:Name="UnpairedPlayers"
+                                      MinHeight="300"
+                                      HorizontalContentAlignment="Stretch"
+                                      SelectionMode="Extended"
+                                      ItemsSource="{Binding UnpairedPlayers, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Padding="0" Text="{Binding FullName}"/>
+                                            <Label Grid.Column="2" Padding="0" Content="{Binding Gor}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                            <Button Grid.Row="1" Margin="5"
+                                    Content="Vytvoriť párovanie"
+                                    CommandParameter="{Binding ElementName=UnpairedPlayers, Path=SelectedItems}"
+                                    Command="{Binding MakePairingCommand}"/>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </DockPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,32 @@
+﻿<Window x:Class="GoCarlos.NET.Views.EgdSelectionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:GoCarlos.NET.ViewModels"
+        d:DataContext="{d:DesignInstance Type=viewModels:EgdSelectionViewModel}"
+        mc:Ignorable="d"
+        Title="EgdSelectionWindow"
+        Height="450" Width="800">
+    <Grid>
+        <ListView ItemsSource="{Binding Players, Mode=OneWay}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="PIN" DisplayMemberBinding="{Binding Pin_Player}"/>
+                    <GridViewColumn Header="Priezvisko" DisplayMemberBinding="{Binding Last_Name}"/>
+                    <GridViewColumn Header="Meno" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="Krajina" DisplayMemberBinding="{Binding Country_Code}"/>
+                    <GridViewColumn Header="Mesto" DisplayMemberBinding="{Binding Club}"/>
+                    <GridViewColumn Header="Trieda" DisplayMemberBinding="{Binding Grade}"/>
+                    <GridViewColumn Header="Rating" DisplayMemberBinding="{Binding Gor}"/>
+                    <GridViewColumn Header="Posledný turnaj" DisplayMemberBinding="{Binding Last_Appearance}"/>
+                </GridView>
+            </ListView.View>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_PreviewMouseLeftButtonDown" />
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+    </Grid>
+</Window>
