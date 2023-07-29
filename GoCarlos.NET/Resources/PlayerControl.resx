@@ -120,9 +120,6 @@
   <data name="AddOneMorePlayer" xml:space="preserve">
     <value>Add one more player</value>
   </data>
-  <data name="AddPlayerTitle" xml:space="preserve">
-    <value>Add player</value>
-  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>

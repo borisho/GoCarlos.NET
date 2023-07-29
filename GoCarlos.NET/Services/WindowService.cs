@@ -48,6 +48,12 @@ public sealed class WindowService : IWindowService
         window.Show();
     }
 
+    public void ShowSettingsWindow()
+    {
+        SettingsWindow window = serviceProvider.GetRequiredService<SettingsWindow>();
+        window.ShowDialog();
+    }
+
     public void Shutdown()
     {
         Application.Current.Shutdown();

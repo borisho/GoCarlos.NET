@@ -1,7 +1,7 @@
 ﻿namespace GoCarlos.NET.Interfaces;
 
 /// <summary>
-/// Window containing all necesary information about player data
+/// Window that provides user access to player data
 /// </summary>
 public interface IPlayerWindow
 {

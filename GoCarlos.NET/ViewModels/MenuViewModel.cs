@@ -59,7 +59,7 @@ public partial class MenuViewModel : ObservableObject
     [RelayCommand]
     public void Settings()
     {
-        Debug.WriteLine("Settings Command");
+        windowService.ShowSettingsWindow();
     }
 
     [RelayCommand]

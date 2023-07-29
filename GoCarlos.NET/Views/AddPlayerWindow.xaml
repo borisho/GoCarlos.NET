@@ -8,7 +8,7 @@
         xmlns:viewmodels="clr-namespace:GoCarlos.NET.ViewModels"
         d:DataContext="{d:DesignInstance Type=viewmodels:AddPlayerViewModel}"
         mc:Ignorable="d"
-        Title="{x:Static lang:PlayerControl.AddPlayerTitle}"
+        Title="{x:Static lang:AppProperties.AddPlayerTitle}"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize"
         Height="450" Width="800">

@@ -70,15 +70,6 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add player.
-        /// </summary>
-        public static string AddPlayerTitle {
-            get {
-                return ResourceManager.GetString("AddPlayerTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {

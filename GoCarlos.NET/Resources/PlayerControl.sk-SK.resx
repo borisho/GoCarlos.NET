@@ -120,9 +120,6 @@
   <data name="AddOneMorePlayer" xml:space="preserve">
     <value>Pridať ďalšieho hráča</value>
   </data>
-  <data name="AddPlayerTitle" xml:space="preserve">
-    <value>Pridať hráča</value>
-  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Zrušiť</value>
   </data>

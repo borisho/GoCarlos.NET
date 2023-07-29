@@ -54,6 +54,12 @@ public partial class App : Application
                     DataContext = provider.GetRequiredService<PlayerViewModel>(),
                 });
 
+                services.AddTransient<SettingsViewModel>();
+                services.AddTransient(provider => new SettingsWindow
+                {
+                    DataContext = provider.GetRequiredService<SettingsViewModel>(),
+                });
+
                 services.AddSingleton<MainViewModel>();
                 services.AddSingleton(provider => new MainWindow
                 {

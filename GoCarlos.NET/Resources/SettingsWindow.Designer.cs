@@ -22,14 +22,14 @@ namespace GoCarlos.NET.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class AppProperties {
+    public class SettingsWindow {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal AppProperties() {
+        internal SettingsWindow() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace GoCarlos.NET.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GoCarlos.NET.Resources.AppProperties", typeof(AppProperties).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GoCarlos.NET.Resources.SettingsWindow", typeof(SettingsWindow).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,65 +61,11 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add player.
+        ///   Looks up a localized string similar to General.
         /// </summary>
-        public static string AddPlayerTitle {
+        public static string General {
             get {
-                return ResourceManager.GetString("AddPlayerTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Edit player.
-        /// </summary>
-        public static string EditPlayerTitle {
-            get {
-                return ResourceManager.GetString("EditPlayerTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Select player from database.
-        /// </summary>
-        public static string EgdSelectionTitle {
-            get {
-                return ResourceManager.GetString("EgdSelectionTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Pairings.
-        /// </summary>
-        public static string Pairings {
-            get {
-                return ResourceManager.GetString("Pairings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Settings.
-        /// </summary>
-        public static string SettingsTitle {
-            get {
-                return ResourceManager.GetString("SettingsTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to GoCarlos.
-        /// </summary>
-        public static string Title {
-            get {
-                return ResourceManager.GetString("Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Wallist.
-        /// </summary>
-        public static string Wallist {
-            get {
-                return ResourceManager.GetString("Wallist", resourceCulture);
+                return ResourceManager.GetString("General", resourceCulture);
             }
         }
     }

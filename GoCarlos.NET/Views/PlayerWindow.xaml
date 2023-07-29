@@ -3,11 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:lang ="clr-namespace:GoCarlos.NET.Resources"
+        xmlns:lang="clr-namespace:GoCarlos.NET.Resources"
         xmlns:local="clr-namespace:GoCarlos.NET.Views"
         xmlns:viewmodels="clr-namespace:GoCarlos.NET.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:PlayerViewModel}"
         mc:Ignorable="d"
-        Title="EditPlayerWindow"
+        Title="{x:Static lang:AppProperties.EditPlayerTitle}"
         ResizeMode="CanMinimize"
         Height="450" Width="800">
     <Grid Margin="5">

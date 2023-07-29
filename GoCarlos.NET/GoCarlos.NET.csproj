@@ -44,6 +44,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>MainWindowProperties.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\SettingsWindow.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SettingsWindow.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -58,6 +63,10 @@
     <EmbeddedResource Update="Resources\MainWindowProperties.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>MainWindowProperties.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\SettingsWindow.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SettingsWindow.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

@@ -34,6 +34,11 @@ public interface IWindowService
     void ShowEgdSelectionWindow(EgdData[] egdDatas);
 
     /// <summary>
+    /// Show as dialog <seealso cref="ISettingsWindow" />
+    /// </summary>
+    void ShowSettingsWindow();
+
+    /// <summary>
     /// Shutdown application
     /// </summary>
     void Shutdown();
