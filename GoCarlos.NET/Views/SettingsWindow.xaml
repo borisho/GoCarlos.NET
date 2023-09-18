@@ -1,0 +1,19 @@
+﻿<Window x:Class="GoCarlos.NET.Views.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lang="clr-namespace:GoCarlos.NET.Resources"
+        xmlns:local="clr-namespace:GoCarlos.NET.Views"
+        mc:Ignorable="d"
+        Title="{x:Static lang:AppProperties.SettingsTitle}" Height="450" Width="800">
+    <DockPanel>
+        <TabControl MinHeight="100">
+            <TabItem Header="{x:Static lang:SettingsWindow.General}">
+                <Grid>
+                    <Label Content="General" />
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>
