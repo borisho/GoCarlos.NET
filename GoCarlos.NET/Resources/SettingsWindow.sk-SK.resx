@@ -117,7 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BottomGroupBar" xml:space="preserve">
+    <value>Dolná hranica MM</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>Koniec turnaja</value>
+  </data>
   <data name="General" xml:space="preserve">
     <value>Všeobecné</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Miesto hrania</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Názov</value>
+  </data>
+  <data name="NumberOfRounds" xml:space="preserve">
+    <value>Počet kôl</value>
+  </data>
+  <data name="ShortName" xml:space="preserve">
+    <value>Krátky názov</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Začiatok turnaja</value>
+  </data>
+  <data name="TopGroupBar" xml:space="preserve">
+    <value>Horná hranica MM</value>
+  </data>
+  <data name="TournamentType" xml:space="preserve">
+    <value>Typ turnaja</value>
   </data>
 </root>

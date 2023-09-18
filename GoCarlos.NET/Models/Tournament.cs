@@ -11,6 +11,8 @@ public partial class Tournament : ITournament, IRecipient<AddPlayerMessage>
     const int DEFAULT_NUMBER_OF_ROUNDS = 5;
     private int numberOfRounds, currentRound;
 
+    private Settings settings;
+
     private List<Player> players;
     private List<Pairing> pairings;
 
@@ -19,18 +21,22 @@ public partial class Tournament : ITournament, IRecipient<AddPlayerMessage>
         numberOfRounds = DEFAULT_NUMBER_OF_ROUNDS;
         currentRound = 1;
 
+        settings = new();
+
         players = new();
         pairings = new();
 
         WeakReferenceMessenger.Default.Register(this);
     }
 
-    public int CurrentRound => currentRound;
+    public int CurrentRound { get => currentRound; set => currentRound = value; }
 
-    public int NumberOfRounds => numberOfRounds;
+    public int NumberOfRounds { get => numberOfRounds; set => numberOfRounds = value; }
 
-    public void SetNumberOfRounds(int numberOfRounds) => this.numberOfRounds = numberOfRounds;
+    // SETTINGS
+    public Settings Settings { get => settings; set => settings = value; }
 
+    //PLAYERS AND PAIRINGS
     public IEnumerable<Player> Players => players;
 
     public IEnumerable<Pairing> Pairings => pairings;
@@ -51,6 +57,7 @@ public partial class Tournament : ITournament, IRecipient<AddPlayerMessage>
             }
         }
     }
+
     public void AddPlayer(Player player)
     {
         players.Add(player);
