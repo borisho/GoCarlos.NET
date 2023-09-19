@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BasedOnMM" xml:space="preserve">
+    <value>Počítať hendikepy na základe MM skóre</value>
+  </data>
   <data name="BottomGroupBar" xml:space="preserve">
     <value>Dolná hranica MM</value>
   </data>
@@ -125,6 +128,15 @@
   </data>
   <data name="General" xml:space="preserve">
     <value>Všeobecné</value>
+  </data>
+  <data name="Handicap" xml:space="preserve">
+    <value>Hendikep</value>
+  </data>
+  <data name="HandicapCeiling" xml:space="preserve">
+    <value>Maximálny hendikep</value>
+  </data>
+  <data name="HandicapReduction" xml:space="preserve">
+    <value>Hendikep redukovaný o</value>
   </data>
   <data name="Location" xml:space="preserve">
     <value>Miesto hrania</value>

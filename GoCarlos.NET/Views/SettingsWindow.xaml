@@ -50,10 +50,10 @@
                     
                     <!--Dátum konania turnaja-->
                     <Label Grid.Row="4" Grid.Column="1" Content="{x:Static lang:SettingsWindow.StartDate}" />
-                    <DatePicker Grid.Row="4" Grid.Column="2" FirstDayOfWeek="Monday"
+                    <DatePicker Grid.Row="4" Grid.Column="2" Margin="5 2" FirstDayOfWeek="Monday"
                                 SelectedDate="{Binding GeneralSettings.StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <Label Grid.Row="5" Grid.Column="1" Content="{x:Static lang:SettingsWindow.EndDate}" />
-                    <DatePicker Grid.Row="5" Grid.Column="2" FirstDayOfWeek="Monday"
+                    <DatePicker Grid.Row="5" Grid.Column="2" Margin="5 2" FirstDayOfWeek="Monday"
                                 SelectedDate="{Binding GeneralSettings.EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     
                     <!--MM bars-->
@@ -68,6 +68,40 @@
                              PreviewTextInput="TextBox_PreviewTextInput_OnlyInteger"
                              DataObject.Pasting="TextBox_Pasting"
                              Text="{Binding GeneralSettings.BottomGroupBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="{x:Static lang:SettingsWindow.Handicap}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20" />
+
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--Handikep podľa MM-->
+                    <Label Grid.Row="1" Grid.Column="1" Content="{x:Static lang:SettingsWindow.BasedOnMM}" />
+                    <CheckBox Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"
+                              IsChecked="{Binding HandicapSettings.BasedOnMM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <!--Redukcia hendikepu-->
+                    <Label Grid.Row="2" Grid.Column="1" Content="{x:Static lang:SettingsWindow.HandicapReduction}" />
+                    <TextBox Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Margin="5 2" MinWidth="160px" MaxLength="60"
+                             Text="{Binding HandicapSettings.Reduction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <!--Limit hendikepu-->
+                    <Label Grid.Row="3" Grid.Column="1" Content="{x:Static lang:SettingsWindow.HandicapCeiling}" />
+                    <TextBox Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" Margin="5 2" MinWidth="160px" MaxLength="60"
+                             Text="{Binding HandicapSettings.Ceiling, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
             </TabItem>
         </TabControl>

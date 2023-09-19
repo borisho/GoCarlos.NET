@@ -61,6 +61,15 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Based on MM score.
+        /// </summary>
+        public static string BasedOnMM {
+            get {
+                return ResourceManager.GetString("BasedOnMM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bottom group bar.
         /// </summary>
         public static string BottomGroupBar {
@@ -84,6 +93,33 @@ namespace GoCarlos.NET.Resources {
         public static string General {
             get {
                 return ResourceManager.GetString("General", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Handicap.
+        /// </summary>
+        public static string Handicap {
+            get {
+                return ResourceManager.GetString("Handicap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Handicap ceiling.
+        /// </summary>
+        public static string HandicapCeiling {
+            get {
+                return ResourceManager.GetString("HandicapCeiling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Handicap reduced by.
+        /// </summary>
+        public static string HandicapReduction {
+            get {
+                return ResourceManager.GetString("HandicapReduction", resourceCulture);
             }
         }
         

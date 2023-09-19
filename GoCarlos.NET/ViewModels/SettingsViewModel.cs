@@ -11,9 +11,13 @@ public partial class SettingsViewModel : ObservableObject
     [ObservableProperty]
     private GeneralSettings generalSettings;
 
+    [ObservableProperty]
+    private HandicapSettings handicapSettings;
+
     public SettingsViewModel(ITournament tournament)
     {
         this.tournament = tournament;
-        generalSettings = tournament.Settings.GeneralSettings;
+        GeneralSettings = tournament.Settings.GeneralSettings;
+        HandicapSettings = tournament.Settings.HandicapSettings;
     }
 }
