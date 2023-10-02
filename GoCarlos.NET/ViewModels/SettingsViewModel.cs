@@ -14,10 +14,14 @@ public partial class SettingsViewModel : ObservableObject
     [ObservableProperty]
     private HandicapSettings handicapSettings;
 
+    [ObservableProperty]
+    private CriteriaSettings criteriaSettings;
+
     public SettingsViewModel(ITournament tournament)
     {
         this.tournament = tournament;
         GeneralSettings = tournament.Settings.GeneralSettings;
         HandicapSettings = tournament.Settings.HandicapSettings;
+        CriteriaSettings = tournament.Settings.CriteriaSettings;
     }
 }

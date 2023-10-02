@@ -61,6 +61,15 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Abbreviation.
+        /// </summary>
+        public static string Abbreviation {
+            get {
+                return ResourceManager.GetString("Abbreviation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Based on MM score.
         /// </summary>
         public static string BasedOnMM {
@@ -79,6 +88,69 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Criteria.
+        /// </summary>
+        public static string Criteria {
+            get {
+                return ResourceManager.GetString("Criteria", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Criteria type.
+        /// </summary>
+        public static string CriteriaTooltip {
+            get {
+                return ResourceManager.GetString("CriteriaTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Criteria 1.
+        /// </summary>
+        public static string Criterium1 {
+            get {
+                return ResourceManager.GetString("Criterium1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Criteria 2.
+        /// </summary>
+        public static string Criterium2 {
+            get {
+                return ResourceManager.GetString("Criterium2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Criteria 3.
+        /// </summary>
+        public static string Criterium3 {
+            get {
+                return ResourceManager.GetString("Criterium3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Criteria 4.
+        /// </summary>
+        public static string Criterium4 {
+            get {
+                return ResourceManager.GetString("Criterium4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End date.
         /// </summary>
         public static string EndDate {
@@ -93,6 +165,24 @@ namespace GoCarlos.NET.Resources {
         public static string General {
             get {
                 return ResourceManager.GetString("General", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grade.
+        /// </summary>
+        public static string GRD {
+            get {
+                return ResourceManager.GetString("GRD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grade from 9d to 30k.
+        /// </summary>
+        public static string GRDW {
+            get {
+                return ResourceManager.GetString("GRDW", resourceCulture);
             }
         }
         
@@ -133,11 +223,65 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to McMahon score.
+        /// </summary>
+        public static string MMS {
+            get {
+                return ResourceManager.GetString("MMS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string MMSD {
+            get {
+                return ResourceManager.GetString("MMSD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of wins.
+        /// </summary>
+        public static string NBW {
+            get {
+                return ResourceManager.GetString("NBW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string NBWD {
+            get {
+                return ResourceManager.GetString("NBWD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Null.
+        /// </summary>
+        public static string NUL {
+            get {
+                return ResourceManager.GetString("NUL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No parameter set.
+        /// </summary>
+        public static string NULD {
+            get {
+                return ResourceManager.GetString("NULD", resourceCulture);
             }
         }
         
@@ -151,11 +295,83 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rating.
+        /// </summary>
+        public static string RAT {
+            get {
+                return ResourceManager.GetString("RAT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rating from 2950 to -900.
+        /// </summary>
+        public static string RATD {
+            get {
+                return ResourceManager.GetString("RATD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SODOS.
+        /// </summary>
+        public static string SDS {
+            get {
+                return ResourceManager.GetString("SDS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sum of defeated opponents scores.
+        /// </summary>
+        public static string SDSW {
+            get {
+                return ResourceManager.GetString("SDSW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Short name.
         /// </summary>
         public static string ShortName {
             get {
                 return ResourceManager.GetString("ShortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SOS.
+        /// </summary>
+        public static string SOS {
+            get {
+                return ResourceManager.GetString("SOS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sum of opponents scores.
+        /// </summary>
+        public static string SOSD {
+            get {
+                return ResourceManager.GetString("SOSD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SOSOS.
+        /// </summary>
+        public static string SSS {
+            get {
+                return ResourceManager.GetString("SSS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sum of opponents SOS.
+        /// </summary>
+        public static string SSSD {
+            get {
+                return ResourceManager.GetString("SSSD", resourceCulture);
             }
         }
         

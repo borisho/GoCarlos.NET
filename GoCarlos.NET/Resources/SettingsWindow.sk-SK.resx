@@ -117,17 +117,47 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Abbreviation" xml:space="preserve">
+    <value>Skratka</value>
+  </data>
   <data name="BasedOnMM" xml:space="preserve">
     <value>Počítať hendikepy na základe MM skóre</value>
   </data>
   <data name="BottomGroupBar" xml:space="preserve">
     <value>Dolná hranica MM</value>
   </data>
+  <data name="Criteria" xml:space="preserve">
+    <value>Kritériá</value>
+  </data>
+  <data name="CriteriaTooltip" xml:space="preserve">
+    <value>Typ kritéria</value>
+  </data>
+  <data name="Criterium1" xml:space="preserve">
+    <value>Kritérium 1</value>
+  </data>
+  <data name="Criterium2" xml:space="preserve">
+    <value>Kritérium 2</value>
+  </data>
+  <data name="Criterium3" xml:space="preserve">
+    <value>Kritérium 3</value>
+  </data>
+  <data name="Criterium4" xml:space="preserve">
+    <value>Kritérium 4</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Popis</value>
+  </data>
   <data name="EndDate" xml:space="preserve">
     <value>Koniec turnaja</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>Všeobecné</value>
+  </data>
+  <data name="GRD" xml:space="preserve">
+    <value>Trieda</value>
+  </data>
+  <data name="GRDW" xml:space="preserve">
+    <value>Trieda od 9d do 30k</value>
   </data>
   <data name="Handicap" xml:space="preserve">
     <value>Hendikep</value>
@@ -141,14 +171,56 @@
   <data name="Location" xml:space="preserve">
     <value>Miesto hrania</value>
   </data>
+  <data name="MMS" xml:space="preserve">
+    <value>McMahon skóre</value>
+  </data>
+  <data name="MMSD" xml:space="preserve">
+    <value />
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Názov</value>
+  </data>
+  <data name="NBW" xml:space="preserve">
+    <value>Počet výhier</value>
+  </data>
+  <data name="NBWD" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NUL" xml:space="preserve">
+    <value>Null</value>
+  </data>
+  <data name="NULD" xml:space="preserve">
+    <value>Bez parametra</value>
   </data>
   <data name="NumberOfRounds" xml:space="preserve">
     <value>Počet kôl</value>
   </data>
+  <data name="RAT" xml:space="preserve">
+    <value>Rating</value>
+  </data>
+  <data name="RATD" xml:space="preserve">
+    <value>Rating od 2950 do -900</value>
+  </data>
+  <data name="SDS" xml:space="preserve">
+    <value>SODOS</value>
+  </data>
+  <data name="SDSD" xml:space="preserve">
+    <value>Súčet skóre porazených súperov</value>
+  </data>
   <data name="ShortName" xml:space="preserve">
     <value>Krátky názov</value>
+  </data>
+  <data name="SOS" xml:space="preserve">
+    <value>SOS</value>
+  </data>
+  <data name="SOSD" xml:space="preserve">
+    <value>Súčet skóre súperov</value>
+  </data>
+  <data name="SSS" xml:space="preserve">
+    <value>SOSOS</value>
+  </data>
+  <data name="SSSD" xml:space="preserve">
+    <value>Súčet SOS súperov</value>
   </data>
   <data name="StartDate" xml:space="preserve">
     <value>Začiatok turnaja</value>

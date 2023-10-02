@@ -117,17 +117,47 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Abbreviation" xml:space="preserve">
+    <value>Abbreviation</value>
+  </data>
   <data name="BasedOnMM" xml:space="preserve">
     <value>Based on MM score</value>
   </data>
   <data name="BottomGroupBar" xml:space="preserve">
     <value>Bottom group bar</value>
   </data>
+  <data name="Criteria" xml:space="preserve">
+    <value>Criteria</value>
+  </data>
+  <data name="CriteriaTooltip" xml:space="preserve">
+    <value>Criteria type</value>
+  </data>
+  <data name="Criterium1" xml:space="preserve">
+    <value>Criteria 1</value>
+  </data>
+  <data name="Criterium2" xml:space="preserve">
+    <value>Criteria 2</value>
+  </data>
+  <data name="Criterium3" xml:space="preserve">
+    <value>Criteria 3</value>
+  </data>
+  <data name="Criterium4" xml:space="preserve">
+    <value>Criteria 4</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
   <data name="EndDate" xml:space="preserve">
     <value>End date</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>General</value>
+  </data>
+  <data name="GRD" xml:space="preserve">
+    <value>Grade</value>
+  </data>
+  <data name="GRDW" xml:space="preserve">
+    <value>Grade from 9d to 30k</value>
   </data>
   <data name="Handicap" xml:space="preserve">
     <value>Handicap</value>
@@ -141,14 +171,56 @@
   <data name="Location" xml:space="preserve">
     <value>Location</value>
   </data>
+  <data name="MMS" xml:space="preserve">
+    <value>McMahon score</value>
+  </data>
+  <data name="MMSD" xml:space="preserve">
+    <value />
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
+  </data>
+  <data name="NBW" xml:space="preserve">
+    <value>Number of wins</value>
+  </data>
+  <data name="NBWD" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NUL" xml:space="preserve">
+    <value>Null</value>
+  </data>
+  <data name="NULD" xml:space="preserve">
+    <value>No parameter set</value>
   </data>
   <data name="NumberOfRounds" xml:space="preserve">
     <value>Number of rounds</value>
   </data>
+  <data name="RAT" xml:space="preserve">
+    <value>Rating</value>
+  </data>
+  <data name="RATD" xml:space="preserve">
+    <value>Rating from 2950 to -900</value>
+  </data>
+  <data name="SDS" xml:space="preserve">
+    <value>SODOS</value>
+  </data>
+  <data name="SDSW" xml:space="preserve">
+    <value>Sum of defeated opponents scores</value>
+  </data>
   <data name="ShortName" xml:space="preserve">
     <value>Short name</value>
+  </data>
+  <data name="SOS" xml:space="preserve">
+    <value>SOS</value>
+  </data>
+  <data name="SOSD" xml:space="preserve">
+    <value>Sum of opponents scores</value>
+  </data>
+  <data name="SSS" xml:space="preserve">
+    <value>SOSOS</value>
+  </data>
+  <data name="SSSD" xml:space="preserve">
+    <value>Sum of opponents SOS</value>
   </data>
   <data name="StartDate" xml:space="preserve">
     <value>Start date</value>
