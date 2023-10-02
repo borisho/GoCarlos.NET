@@ -8,23 +8,16 @@ public class Criteria
 {
     private IStringLocalizer _localizer;
 
-    public Criteria()
+    public Criteria(string id)
     {
-        Abbreviation = string.Empty;
-
+        Id = id;
         IServiceProvider serviceProvider = App.AppHost!.Services;
-
         _localizer = serviceProvider.GetRequiredService<IStringLocalizerFactory>().Create("SettingsWindow", "GoCarlos.NET");
     }
 
-    public Criteria(string abbreviation) : this()
-    {
-        Abbreviation = abbreviation;
-    }
 
-
-    public string Abbreviation { get; set; }
-
-    public string Name { get => _localizer[Abbreviation]; }
-    public string Description { get => _localizer[Abbreviation + "D"]; }
+    public string Id { get; set; }
+    public string Abbreviation { get => _localizer[Id]; }
+    public string Name { get => _localizer[Id + "N"]; }
+    public string Description { get => _localizer[Id + "D"]; }
 }

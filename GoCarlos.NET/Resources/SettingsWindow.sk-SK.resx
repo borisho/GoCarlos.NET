@@ -154,10 +154,13 @@
     <value>Všeobecné</value>
   </data>
   <data name="GRD" xml:space="preserve">
-    <value>Trieda</value>
+    <value>TRD</value>
   </data>
-  <data name="GRDW" xml:space="preserve">
+  <data name="GRDD" xml:space="preserve">
     <value>Trieda od 9d do 30k</value>
+  </data>
+  <data name="GRDN" xml:space="preserve">
+    <value>Trieda</value>
   </data>
   <data name="Handicap" xml:space="preserve">
     <value>Hendikep</value>
@@ -172,40 +175,55 @@
     <value>Miesto hrania</value>
   </data>
   <data name="MMS" xml:space="preserve">
-    <value>McMahon skóre</value>
+    <value>MMS</value>
   </data>
   <data name="MMSD" xml:space="preserve">
     <value />
+  </data>
+  <data name="MMSN" xml:space="preserve">
+    <value>McMahon skóre</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Názov</value>
   </data>
   <data name="NBW" xml:space="preserve">
-    <value>Počet výhier</value>
+    <value>POV</value>
   </data>
   <data name="NBWD" xml:space="preserve">
     <value />
   </data>
+  <data name="NBWN" xml:space="preserve">
+    <value>Počet výhier</value>
+  </data>
   <data name="NUL" xml:space="preserve">
-    <value>Null</value>
+    <value>NUL</value>
   </data>
   <data name="NULD" xml:space="preserve">
     <value>Bez parametra</value>
+  </data>
+  <data name="NULN" xml:space="preserve">
+    <value>Null</value>
   </data>
   <data name="NumberOfRounds" xml:space="preserve">
     <value>Počet kôl</value>
   </data>
   <data name="RAT" xml:space="preserve">
-    <value>Rating</value>
+    <value>RAT</value>
   </data>
   <data name="RATD" xml:space="preserve">
     <value>Rating od 2950 do -900</value>
   </data>
+  <data name="RATN" xml:space="preserve">
+    <value>Rating</value>
+  </data>
   <data name="SDS" xml:space="preserve">
-    <value>SODOS</value>
+    <value>SDS</value>
   </data>
   <data name="SDSD" xml:space="preserve">
     <value>Súčet skóre porazených súperov</value>
+  </data>
+  <data name="SDSN" xml:space="preserve">
+    <value>SODOS</value>
   </data>
   <data name="ShortName" xml:space="preserve">
     <value>Krátky názov</value>
@@ -216,11 +234,17 @@
   <data name="SOSD" xml:space="preserve">
     <value>Súčet skóre súperov</value>
   </data>
+  <data name="SOSN" xml:space="preserve">
+    <value>SOS</value>
+  </data>
   <data name="SSS" xml:space="preserve">
-    <value>SOSOS</value>
+    <value>SSS</value>
   </data>
   <data name="SSSD" xml:space="preserve">
     <value>Súčet SOS súperov</value>
+  </data>
+  <data name="SSSN" xml:space="preserve">
+    <value>SOSOS</value>
   </data>
   <data name="StartDate" xml:space="preserve">
     <value>Začiatok turnaja</value>

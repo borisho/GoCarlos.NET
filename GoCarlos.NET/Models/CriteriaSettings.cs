@@ -26,9 +26,9 @@ public partial class CriteriaSettings : ObservableObject
     {
         Criterias = new Criteria[SELECTABLE_PARAMETER_SIZE]
         {
-            allCriterias[0],
-            allCriterias[0],
-            allCriterias[0],
+            allCriterias[2],
+            allCriterias[6],
+            allCriterias[5],
             allCriterias[0],
         };
     }

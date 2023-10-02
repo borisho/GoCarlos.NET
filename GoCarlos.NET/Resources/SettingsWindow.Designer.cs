@@ -169,11 +169,20 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Grade.
+        ///   Looks up a localized string similar to GRD.
         /// </summary>
         public static string GRD {
             get {
                 return ResourceManager.GetString("GRD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grade.
+        /// </summary>
+        public static string GRDN {
+            get {
+                return ResourceManager.GetString("GRDN", resourceCulture);
             }
         }
         
@@ -223,7 +232,7 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to McMahon score.
+        ///   Looks up a localized string similar to MMS.
         /// </summary>
         public static string MMS {
             get {
@@ -241,6 +250,15 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to McMahon score.
+        /// </summary>
+        public static string MMSN {
+            get {
+                return ResourceManager.GetString("MMSN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Name {
@@ -250,7 +268,7 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of wins.
+        ///   Looks up a localized string similar to NBW.
         /// </summary>
         public static string NBW {
             get {
@@ -268,7 +286,16 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Null.
+        ///   Looks up a localized string similar to Number of wins.
+        /// </summary>
+        public static string NBWN {
+            get {
+                return ResourceManager.GetString("NBWN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NUL.
         /// </summary>
         public static string NUL {
             get {
@@ -286,6 +313,15 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Null.
+        /// </summary>
+        public static string NULN {
+            get {
+                return ResourceManager.GetString("NULN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Number of rounds.
         /// </summary>
         public static string NumberOfRounds {
@@ -295,7 +331,7 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rating.
+        ///   Looks up a localized string similar to RAT.
         /// </summary>
         public static string RAT {
             get {
@@ -313,11 +349,29 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SODOS.
+        ///   Looks up a localized string similar to Rating.
+        /// </summary>
+        public static string RATN {
+            get {
+                return ResourceManager.GetString("RATN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SDS.
         /// </summary>
         public static string SDS {
             get {
                 return ResourceManager.GetString("SDS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SODOS.
+        /// </summary>
+        public static string SDSN {
+            get {
+                return ResourceManager.GetString("SDSN", resourceCulture);
             }
         }
         
@@ -358,7 +412,16 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SOSOS.
+        ///   Looks up a localized string similar to SOS.
+        /// </summary>
+        public static string SOSN {
+            get {
+                return ResourceManager.GetString("SOSN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SSS.
         /// </summary>
         public static string SSS {
             get {
@@ -372,6 +435,15 @@ namespace GoCarlos.NET.Resources {
         public static string SSSD {
             get {
                 return ResourceManager.GetString("SSSD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SOSOS.
+        /// </summary>
+        public static string SSSN {
+            get {
+                return ResourceManager.GetString("SSSN", resourceCulture);
             }
         }
         
