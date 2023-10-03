@@ -174,6 +174,15 @@
   <data name="Location" xml:space="preserve">
     <value>Location</value>
   </data>
+  <data name="M1" xml:space="preserve">
+    <value>Strongest opponent</value>
+  </data>
+  <data name="M2" xml:space="preserve">
+    <value>Weakest opponent</value>
+  </data>
+  <data name="M3" xml:space="preserve">
+    <value>Random opponent</value>
+  </data>
   <data name="MMS" xml:space="preserve">
     <value>MMS</value>
   </data>
@@ -182,6 +191,15 @@
   </data>
   <data name="MMSN" xml:space="preserve">
     <value>McMahon score</value>
+  </data>
+  <data name="MTG" xml:space="preserve">
+    <value>MTG</value>
+  </data>
+  <data name="MTGD" xml:space="preserve">
+    <value>Winner of game played between players takes better place</value>
+  </data>
+  <data name="MTGN" xml:space="preserve">
+    <value>Mutual result</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
@@ -206,6 +224,9 @@
   </data>
   <data name="NumberOfRounds" xml:space="preserve">
     <value>Number of rounds</value>
+  </data>
+  <data name="Pairings" xml:space="preserve">
+    <value>Pairings</value>
   </data>
   <data name="RAT" xml:space="preserve">
     <value>RAT</value>

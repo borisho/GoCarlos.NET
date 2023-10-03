@@ -232,6 +232,33 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Strongest opponent.
+        /// </summary>
+        public static string M1 {
+            get {
+                return ResourceManager.GetString("M1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weakest opponent.
+        /// </summary>
+        public static string M2 {
+            get {
+                return ResourceManager.GetString("M2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Random opponent.
+        /// </summary>
+        public static string M3 {
+            get {
+                return ResourceManager.GetString("M3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MMS.
         /// </summary>
         public static string MMS {
@@ -255,6 +282,33 @@ namespace GoCarlos.NET.Resources {
         public static string MMSN {
             get {
                 return ResourceManager.GetString("MMSN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MTG.
+        /// </summary>
+        public static string MTG {
+            get {
+                return ResourceManager.GetString("MTG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Winner of game played between players takes better place.
+        /// </summary>
+        public static string MTGD {
+            get {
+                return ResourceManager.GetString("MTGD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mutual result.
+        /// </summary>
+        public static string MTGN {
+            get {
+                return ResourceManager.GetString("MTGN", resourceCulture);
             }
         }
         
@@ -327,6 +381,15 @@ namespace GoCarlos.NET.Resources {
         public static string NumberOfRounds {
             get {
                 return ResourceManager.GetString("NumberOfRounds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pairings.
+        /// </summary>
+        public static string Pairings {
+            get {
+                return ResourceManager.GetString("Pairings", resourceCulture);
             }
         }
         

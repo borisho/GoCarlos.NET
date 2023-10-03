@@ -17,11 +17,15 @@ public partial class SettingsViewModel : ObservableObject
     [ObservableProperty]
     private CriteriaSettings criteriaSettings;
 
+    [ObservableProperty]
+    private PairingSettings pairingSettings;
+
     public SettingsViewModel(ITournament tournament)
     {
         this.tournament = tournament;
         GeneralSettings = tournament.Settings.GeneralSettings;
         HandicapSettings = tournament.Settings.HandicapSettings;
         CriteriaSettings = tournament.Settings.CriteriaSettings;
+        PairingSettings = tournament.Settings.PairingSettings;
     }
 }

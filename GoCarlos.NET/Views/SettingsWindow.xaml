@@ -187,6 +187,38 @@
                     </ListView>
                 </Grid>
             </TabItem>
+            <TabItem Header="{x:Static lang:SettingsWindow.Pairings}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20" />
+
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20" />
+
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Row="1" Grid.Column="1" Margin="5 0"
+                           Content="{x:Static lang:SettingsWindow.Criteria}"/>
+                    <ComboBox Grid.Row="2" Grid.Column="1" MinWidth="80" Margin="5 0"
+                              SelectedItem="{Binding PairingSettings.AllMethods[0]}"
+                              ItemsSource="{Binding PairingSettings.AllMethods}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Method}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+            </TabItem>
         </TabControl>
     </DockPanel>
 </Window>
