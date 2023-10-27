@@ -14,7 +14,15 @@ public partial class PairingSettings : ObservableObject
 };
 
     [ObservableProperty]
-    private bool sameCityPairing = true;
+    private bool pairDifferentCities = true;
+    [ObservableProperty]
+    private PairingMethod inGroupPairing,  oddGroupFiller;
+
+    public PairingSettings()
+    {
+        inGroupPairing = allMethods[0];
+        oddGroupFiller = allMethods[0];
+    }
 
     public PairingMethod[] AllMethods { get => allMethods; }
 }

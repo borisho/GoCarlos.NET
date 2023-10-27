@@ -225,6 +225,15 @@
   <data name="NumberOfRounds" xml:space="preserve">
     <value>Počet kôl</value>
   </data>
+  <data name="OddGroupFiller" xml:space="preserve">
+    <value>Dosadenie do skupiny</value>
+  </data>
+  <data name="PairDifferentCities" xml:space="preserve">
+    <value>Párovať hráčov z iných miest</value>
+  </data>
+  <data name="PairingInGroup" xml:space="preserve">
+    <value>Losovanie v skupine</value>
+  </data>
   <data name="Pairings" xml:space="preserve">
     <value>Párovanie</value>
   </data>

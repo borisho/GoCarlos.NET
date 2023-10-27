@@ -225,6 +225,15 @@
   <data name="NumberOfRounds" xml:space="preserve">
     <value>Number of rounds</value>
   </data>
+  <data name="OddGroupFiller" xml:space="preserve">
+    <value>Odd group player assignment</value>
+  </data>
+  <data name="PairDifferentCities" xml:space="preserve">
+    <value>Pair players from different cities</value>
+  </data>
+  <data name="PairingInGroup" xml:space="preserve">
+    <value>Pairing in group</value>
+  </data>
   <data name="Pairings" xml:space="preserve">
     <value>Pairings</value>
   </data>

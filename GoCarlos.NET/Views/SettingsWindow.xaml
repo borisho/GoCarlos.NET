@@ -194,6 +194,7 @@
 
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
 
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
@@ -206,10 +207,29 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <Label Grid.Row="1" Grid.Column="1" Margin="5 0"
-                           Content="{x:Static lang:SettingsWindow.Criteria}"/>
-                    <ComboBox Grid.Row="2" Grid.Column="1" MinWidth="80" Margin="5 0"
-                              SelectedItem="{Binding PairingSettings.AllMethods[0]}"
+                    <!--Párovanie hráčov z iných miest-->
+                    <Label Grid.Row="1" Grid.Column="1" Content="{x:Static lang:SettingsWindow.PairDifferentCities}" />
+                    <CheckBox Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"
+                              IsChecked="{Binding PairingSettings.PairDifferentCities, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <!--Párovanie v rámci skupiny-->
+                    <Label Grid.Row="2" Grid.Column="1"
+                           Content="{x:Static lang:SettingsWindow.PairingInGroup}"/>
+                    <ComboBox Grid.Row="2" Grid.Column="2" MinWidth="80"
+                              SelectedItem="{Binding PairingSettings.InGroupPairing}"
+                              ItemsSource="{Binding PairingSettings.AllMethods}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Method}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <!--Dosadzovanie do skupiny-->
+                    <Label Grid.Row="3" Grid.Column="1"
+                           Content="{x:Static lang:SettingsWindow.OddGroupFiller}"/>
+                    <ComboBox Grid.Row="3" Grid.Column="2" MinWidth="80"
+                              SelectedItem="{Binding PairingSettings.OddGroupFiller}"
                               ItemsSource="{Binding PairingSettings.AllMethods}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>

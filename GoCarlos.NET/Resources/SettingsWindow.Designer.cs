@@ -385,6 +385,33 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Odd group player assignment.
+        /// </summary>
+        public static string OddGroupFiller {
+            get {
+                return ResourceManager.GetString("OddGroupFiller", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pair players from different cities.
+        /// </summary>
+        public static string PairDifferentCities {
+            get {
+                return ResourceManager.GetString("PairDifferentCities", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pairing in group.
+        /// </summary>
+        public static string PairingInGroup {
+            get {
+                return ResourceManager.GetString("PairingInGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pairings.
         /// </summary>
         public static string Pairings {
