@@ -18,6 +18,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="GoCarlos.NET.Tests\**" />
+    <Compile Remove="GoCarlos.NET\**" />
+    <EmbeddedResource Remove="GoCarlos.NET.Tests\**" />
+    <EmbeddedResource Remove="GoCarlos.NET\**" />
+    <None Remove="GoCarlos.NET.Tests\**" />
+    <None Remove="GoCarlos.NET\**" />
+    <Page Remove="GoCarlos.NET.Tests\**" />
+    <Page Remove="GoCarlos.NET\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="favicon.ico" />
   </ItemGroup>
 
