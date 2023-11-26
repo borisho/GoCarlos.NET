@@ -217,9 +217,34 @@ internal static class Utils
         };
     }
 
-    public static IOrderedEnumerable<Player> GetOrderedPlayerList(List<Player> players, TournamentType tournamentType, int roundNumber)
+    public static IOrderedEnumerable<Player> GetOrderedPlayerList(List<Player> players, TournamentType tournamentType, int roundNumber, int numberOfRounds)
     {
-        if (roundNumber < 3)
+        if (roundNumber == numberOfRounds - 1)
+        {
+            return tournamentType switch
+            {
+                TournamentType.Swiss => players
+                        .OrderByDescending(p => p.Points)
+                        .ThenByDescending(p => p.Rating),
+                TournamentType.Championship => players
+                        .OrderByDescending(p => p.ScoreX)
+                        .ThenByDescending(p => p.SODOS)
+                        .ThenByDescending(p => p.SOS)
+                        .ThenByDescending(p => p, mutualGameComparer),
+                TournamentType.McMahon => players
+                        .OrderByDescending(p => p.ScoreX)
+                        .ThenByDescending(p => p.SODOS)
+                        .ThenByDescending(p => p.SOS)
+                        .ThenByDescending(p => p.Rating),
+                _ => players
+                        .OrderByDescending(p => p.ScoreX)
+                        .ThenByDescending(p => p.SOS)
+                        .ThenByDescending(p => p.SOSOS)
+                        .ThenByDescending(p => p.SODOS)
+                        .ThenByDescending(p => p.Rating),
+            };
+        }
+        else if (roundNumber < 3)
         {
             return tournamentType switch
             {

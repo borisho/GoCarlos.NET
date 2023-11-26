@@ -9,7 +9,8 @@ public record class PairingGeneratorParameters(Round Round,
     TournamentType TournamentType,
     PairingMethod PairingMethod,
     PairingMethod AdditionMethod,
-    List<Player> OrderedPlayers);
+    List<Player> OrderedPlayers,
+    int NumberOfRounds);
 
 public record class StackGroupParameters(Round Round,
     int HandicapReduction,

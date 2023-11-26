@@ -76,7 +76,8 @@ public static class PairingGenerator
             IOrderedEnumerable<Player> unpairedPlayers = Utils.GetOrderedPlayerList(
                 players.ToList(),
                 parameters.TournamentType,
-                parameters.Round.RoundNumber);
+                parameters.Round.RoundNumber,
+                parameters.NumberOfRounds);
 
             Debug.WriteLine("\nUnpaired players: ");
             PrintPlayers(unpairedPlayers);
@@ -274,7 +275,8 @@ public static class PairingGenerator
                 parameters.TournamentType,
                 parameters.PairingMethod,
                 parameters.AdditionMethod,
-                superGroup));
+                superGroup,
+                parameters.NumberOfRounds));
 
         pairings.Clear();
 
@@ -379,7 +381,8 @@ public static class PairingGenerator
                     players.Where(p => p.ByeBalancer == lowestBye)
                         .ToList(),
                     parameters.TournamentType,
-                    parameters.Round.RoundNumber)
+                    parameters.Round.RoundNumber,
+                    parameters.NumberOfRounds)
                 .Last();
 
             PrintPlayer(byePlayer);

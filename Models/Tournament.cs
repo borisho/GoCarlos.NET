@@ -370,7 +370,7 @@ public class Tournament
 
     private void GetPlayerPlace()
     {
-        List<Player> orderedList = Utils.GetOrderedPlayerList(players, TournamentType, currentRound).ToList();
+        List<Player> orderedList = Utils.GetOrderedPlayerList(players, TournamentType, currentRound, numberOfRounds).ToList();
 
         foreach (Player p in orderedList)
         {

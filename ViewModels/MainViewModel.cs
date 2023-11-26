@@ -334,8 +334,10 @@ public partial class MainViewModel : ObservableObject
             tournament.AdditionMethod,
             Utils.GetOrderedPlayerList(playersToPair,
                 tournament.TournamentType,
-                currentRound.RoundNumber)
-            .ToList()
+                currentRound.RoundNumber,
+                tournament.NumberOfRounds)
+            .ToList(),
+            tournament.NumberOfRounds
         );
 
         PairingGenerator.PerformPairings(parameters);
