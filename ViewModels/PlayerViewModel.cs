@@ -125,7 +125,7 @@ public partial class PlayerViewModel : ObservableObject, IEquatable<PlayerViewMo
                 }
                 else
                 {
-                    result = pairing.White.Place.ToString() + Utils.EQUALS;
+                    result = pairing.Black.Place.ToString() + Utils.EQUALS;
                     return pairing.Handicap == 0 ? result : result + "/w" + pairing.Handicap;
                 }
             case Result.BOTH_WON:
@@ -136,7 +136,7 @@ public partial class PlayerViewModel : ObservableObject, IEquatable<PlayerViewMo
                 }
                 else
                 {
-                    result = pairing.White.Place.ToString() + Utils.PLUS;
+                    result = pairing.Black.Place.ToString() + Utils.PLUS;
                     return pairing.Handicap == 0 ? result : result + "/w" + pairing.Handicap;
                 }
             case Result.BOTH_LOST:
@@ -147,7 +147,7 @@ public partial class PlayerViewModel : ObservableObject, IEquatable<PlayerViewMo
                 }
                 else
                 {
-                    result = pairing.White.Place.ToString() + Utils.DASH;
+                    result = pairing.Black.Place.ToString() + Utils.DASH;
                     return pairing.Handicap == 0 ? result : result + "/w" + pairing.Handicap;
                 }
             default:
