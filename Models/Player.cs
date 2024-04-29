@@ -115,6 +115,7 @@ public class Player : IEquatable<Player?>
     public Dictionary<int, Player> Opponents { get => opponents; }
     public Dictionary<int, Pairing> Pairings { get => pairings; }
     public EGD_Data Data { get => data; set => data = value; }
+    public string FullName { get => $"{data.Last_Name} {data.Name}"; }
 
     public string Grade
     {

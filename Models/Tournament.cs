@@ -19,6 +19,7 @@ public class Tournament
     private PairingMethod additionMethod;
 
     private bool avoidSameCityPairing;
+    private bool handicapBasedMm;
 
     private bool countCurrentRound;
     private int currentRound;
@@ -41,6 +42,7 @@ public class Tournament
         additionMethod = PairingMethod.Weakest;
 
         avoidSameCityPairing = true;
+        handicapBasedMm = false;
 
         countCurrentRound = false;
         currentRound = 0;
@@ -102,6 +104,12 @@ public class Tournament
         set => avoidSameCityPairing = value;
     }
 
+    public bool HandicapBasedMm
+    {
+        get => handicapBasedMm;
+        set => handicapBasedMm = value;
+    }
+
     public bool CountCurrentRound
     {
         get => countCurrentRound;
@@ -144,20 +152,18 @@ public class Tournament
         }
     }
 
-    public void UpdatePairingHandicaps(int handicapReduction)
+    public void UpdatePairingHandicaps()
     {
-        HandicapReduction = handicapReduction;
-
         foreach (Round round in rounds)
         {
             foreach (Pairing pairing in round.Pairings)
             {
                 if (pairing.Result.Equals(Result.NONE))
                 {
-                    int p1GradeN = Utils.GetValue(pairing.Black.Grade);
-                    int p2GradeN = Utils.GetValue(pairing.White.Grade);
+                    int p1 = HandicapBasedMm == true ? (int)Math.Round(pairing.Black.Score) : Utils.GetValue(pairing.Black.Grade);
+                    int p2 = HandicapBasedMm == true ? (int)Math.Round(pairing.White.Score) : Utils.GetValue(pairing.White.Grade);
 
-                    pairing.Handicap = handicapReduction >= 9 ? 0 : Math.Max(0, Math.Abs(p1GradeN - p2GradeN) - handicapReduction);
+                    pairing.Handicap = handicapReduction >= 9 ? 0 : Math.Max(0, Math.Abs(p1 - p2) - handicapReduction);
                 }
             }
         }

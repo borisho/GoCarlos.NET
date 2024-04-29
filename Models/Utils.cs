@@ -225,6 +225,8 @@ internal static class Utils
             {
                 TournamentType.Swiss => players
                         .OrderByDescending(p => p.Points)
+                        .ThenByDescending(p => p.SODOS)
+                        .ThenByDescending(p => p.SOS)
                         .ThenByDescending(p => p.Rating),
                 TournamentType.Championship => players
                         .OrderByDescending(p => p.ScoreX)

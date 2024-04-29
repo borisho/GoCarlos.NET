@@ -329,6 +329,7 @@ public partial class MainViewModel : ObservableObject
         PairingGeneratorParameters parameters = new(currentRound,
             tournament.AvoidSameCityPairing,
             tournament.HandicapReduction,
+            tournament.HandicapBasedMm,
             tournament.TournamentType,
             tournament.PairingMethod,
             tournament.AdditionMethod,
