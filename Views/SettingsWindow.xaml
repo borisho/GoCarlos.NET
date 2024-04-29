@@ -113,10 +113,18 @@
                                  PreviewTextInput="Numeric_PreviewTextInput"
                                  Text="{Binding HandicapReduction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                        <!-- Prioritné párovanie hráčov z iných miest -->
-                        <Label Grid.Row="4" Grid.Column="1">Párovanie hráčov z iných miest</Label>
-                        <CheckBox x:Name="CHX2"
+                        <!-- Hendikep na základe MM -->
+                        <Label Grid.Row="4" Grid.Column="1">Hendikep na základe MM</Label>
+                        <CheckBox x:Name="CHX3"
                                   Grid.Row="4" Grid.Column="2"
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"
+                                  IsChecked="{Binding HandicapBasedMm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <!-- Prioritné párovanie hráčov z iných miest -->
+                        <Label Grid.Row="5" Grid.Column="1">Párovanie hráčov z iných miest</Label>
+                        <CheckBox x:Name="CHX2"
+                                  Grid.Row="5" Grid.Column="2"
                                   VerticalAlignment="Center"
                                   HorizontalAlignment="Center"
                                   IsChecked="{Binding AvoidSameCityPairing, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>

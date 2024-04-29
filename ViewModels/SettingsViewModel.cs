@@ -47,6 +47,9 @@ public partial class SettingsViewModel : ObservableObject
     [ObservableProperty]
     private bool avoidSameCityPairing;
 
+    [ObservableProperty]
+    private bool handicapBasedMm;
+
     public SettingsViewModel(MainViewModel mvm)
     {
         this.mvm = mvm;
@@ -58,6 +61,7 @@ public partial class SettingsViewModel : ObservableObject
         bottomGroupBar = mvm.Tournament.BottomGroupBar.ToString();
 
         avoidSameCityPairing = mvm.Tournament.AvoidSameCityPairing;
+        handicapBasedMm = mvm.Tournament.HandicapBasedMm;
 
         TournamentTypeCollection = new ObservableCollection<string>
         {
@@ -113,8 +117,8 @@ public partial class SettingsViewModel : ObservableObject
         if (window is not null)
         {
             mvm.Tournament.Name = Name;
-
             mvm.Tournament.AvoidSameCityPairing = AvoidSameCityPairing;
+            mvm.Tournament.HandicapBasedMm = HandicapBasedMm;
 
             mvm.Tournament.TournamentType = SelectedTournamentType switch
             {
@@ -162,12 +166,14 @@ public partial class SettingsViewModel : ObservableObject
 
             if (int.TryParse(HandicapReduction, out int hr))
             {
-                mvm.Tournament.UpdatePairingHandicaps(hr);
+                mvm.Tournament.HandicapReduction = hr;
             }
             else
             {
                 MessageBox.Show("Nepodarilo sa nastaviť redukciu hendikepu!", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
+            mvm.Tournament.UpdatePairingHandicaps();
 
             if (float.TryParse(TopGroupBar, out float tgb))
             {

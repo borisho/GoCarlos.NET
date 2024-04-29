@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows;
 
 namespace GoCarlos.NET.Models;
 
@@ -116,6 +117,7 @@ public static class PairingGenerator
                         new PairingParameters(
                             parameters.Round,
                             parameters.HandicapReduction,
+                            parameters.HandicapBasedMm,
                             player,
                             opponent
                         )
@@ -147,6 +149,7 @@ public static class PairingGenerator
                         new PairingParameters(
                             parameters.Round,
                             parameters.HandicapReduction,
+                            parameters.HandicapBasedMm,
                             player,
                             opponent
                         )
@@ -183,6 +186,7 @@ public static class PairingGenerator
                         new PairingParameters(
                             parameters.Round,
                             parameters.HandicapReduction,
+                            parameters.HandicapBasedMm,
                             player,
                             opponent
                         )
@@ -210,6 +214,7 @@ public static class PairingGenerator
                     new PairingParameters(
                         parameters.Round,
                         parameters.HandicapReduction,
+                        parameters.HandicapBasedMm,
                         player,
                         opponent
                     )
@@ -272,6 +277,7 @@ public static class PairingGenerator
             new(parameters.Round,
                 parameters.AvoidSameCityPairing,
                 parameters.HandicapReduction,
+                parameters.HandicapBasedMm,
                 parameters.TournamentType,
                 parameters.PairingMethod,
                 parameters.AdditionMethod,
@@ -300,6 +306,7 @@ public static class PairingGenerator
         StackCrossPairing(
             new(parameters.Round,
                 parameters.HandicapReduction,
+                parameters.HandicapBasedMm,
                 parameters.AdditionMethod,
                 groupQueue));
     }
@@ -329,6 +336,7 @@ public static class PairingGenerator
             PerformCrossPairing(
                 new(parameters.Round,
                     parameters.HandicapReduction,
+                    parameters.HandicapBasedMm,
                     group));
 
             // Pokračuj kým nie je vylosovaná každá skupina
@@ -355,6 +363,7 @@ public static class PairingGenerator
                     new PairingParameters(
                         parameters.Round,
                         parameters.HandicapReduction,
+                        parameters.HandicapBasedMm,
                         p1,
                         p2
                     )
@@ -393,6 +402,7 @@ public static class PairingGenerator
                 new PairingParameters(
                     parameters.Round,
                     parameters.HandicapReduction,
+                    parameters.HandicapBasedMm,
                     byePlayer,
                     new()
                 )
@@ -407,10 +417,15 @@ public static class PairingGenerator
         Player p1 = parameters.P1;
         Player p2 = parameters.P2;
 
+        if (p1.Opponents.Values.Contains(p2))
+        {
+            MessageBox.Show($"Hráči {p1.FullName} a {p2.FullName} už proti sebe hrali!", "Kolízia pri párovaní!", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+
         Debug.WriteLine("\nPairing players: ");
         Debug.WriteLine(p1.Data.Last_Name + ", " + p1.Data.Name + ": " + p1.Data.Gor);
         Debug.WriteLine(p2.Data.Last_Name + ", " + p2.Data.Name + ": " + p2.Data.Gor);
-        Pairing pairing = parameters.Round.AddPairing(p1, p2, parameters.HandicapReduction);
+        Pairing pairing = parameters.Round.AddPairing(p1, p2, parameters.HandicapReduction, parameters.HandicapBasedMm);
 
         players.Remove(p1);
         players.Remove(p2);

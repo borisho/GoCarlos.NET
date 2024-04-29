@@ -75,15 +75,15 @@ public class Round : IEquatable<Round?>
         return pairing;
     }
 
-    public Pairing AddPairing(Player p1, Player p2, int handicapReduction)
+    public Pairing AddPairing(Player p1, Player p2, int handicapReduction, bool handicapBasedMm)
     {
         if (p2.IsBye)
         {
             return AddByePairing(p1);
         }
 
-        int p1GradeN = Utils.GetValue(p1.Grade);
-        int p2GradeN = Utils.GetValue(p2.Grade);
+        int p1GradeN = handicapBasedMm == true ? (int)Math.Round(p1.Score) : Utils.GetValue(p1.Grade);
+        int p2GradeN = handicapBasedMm == true ? (int)Math.Round(p2.Score) : Utils.GetValue(p2.Grade);
 
         int handicap = handicapReduction >= 9 ? 0 : Math.Max(0, Math.Abs(p1GradeN - p2GradeN) - handicapReduction);
 
