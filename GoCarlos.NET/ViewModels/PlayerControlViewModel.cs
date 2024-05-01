@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using GoCarlos.NET.Interfaces;
 using GoCarlos.NET.Messages;
 using GoCarlos.NET.Models;
+using GoCarlos.NET.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using System;
@@ -20,7 +21,7 @@ public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<Eg
     protected readonly IEgdService _egdService;
 
     [ObservableProperty]
-    private string pin, lastName, firstName, gor, grade, countryCode, club;
+    private string pin, lastName, firstName, gor, grade, gradeR, countryCode, club;
 
     public PlayerControlViewModel()
     {
@@ -38,6 +39,7 @@ public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<Eg
         FirstName = string.Empty;
         Gor = string.Empty;
         Grade = string.Empty;
+        GradeR = string.Empty;
         CountryCode = string.Empty;
         Club = string.Empty;
     }
@@ -47,7 +49,7 @@ public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<Eg
     protected IDialogService DialogService { get => _dialogService; }
     protected IEgdService EgdService { get => _egdService; }
 
-    public ObservableCollection<CheckBoxViewModel> CheckBoxes { get; } = new();
+    public ObservableCollection<CheckBoxViewModel> CheckBoxes { get; } = [];
 
     [RelayCommand]
     public void SearchbyPin()
@@ -102,6 +104,14 @@ public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<Eg
         Grade = data.Grade;
         CountryCode = data.Country_Code;
         Club = data.Club;
+
+        if (!string.IsNullOrEmpty(Gor))
+        {
+            if (int.TryParse(data.Gor, out int rating))
+            {
+                GradeR = GradeUtils.GetGradeFromRating(rating);
+            }
+        }
     }
 
     public void GenerateCheckBoxes(int rounds)

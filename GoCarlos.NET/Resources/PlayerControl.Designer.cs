@@ -79,6 +79,24 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Club:.
+        /// </summary>
+        public static string Club {
+            get {
+                return ResourceManager.GetString("Club", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Country:.
+        /// </summary>
+        public static string Country {
+            get {
+                return ResourceManager.GetString("Country", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EGD pin:.
         /// </summary>
         public static string EgdPin {
@@ -102,6 +120,24 @@ namespace GoCarlos.NET.Resources {
         public static string FirstName {
             get {
                 return ResourceManager.GetString("FirstName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grade:.
+        /// </summary>
+        public static string Grade {
+            get {
+                return ResourceManager.GetString("Grade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to by R.:.
+        /// </summary>
+        public static string GradeR {
+            get {
+                return ResourceManager.GetString("GradeR", resourceCulture);
             }
         }
         
@@ -142,6 +178,15 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rating:.
+        /// </summary>
+        public static string Rating {
+            get {
+                return ResourceManager.GetString("Rating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rating has to be number!.
         /// </summary>
         public static string RatingErrorMessage {
@@ -174,6 +219,15 @@ namespace GoCarlos.NET.Resources {
         public static string SearchPin {
             get {
                 return ResourceManager.GetString("SearchPin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search by name.
+        /// </summary>
+        public static string SearchPlayer {
+            get {
+                return ResourceManager.GetString("SearchPlayer", resourceCulture);
             }
         }
     }

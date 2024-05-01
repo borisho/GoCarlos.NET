@@ -430,7 +430,7 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rating from 2950 to -900.
+        ///   Looks up a localized string similar to Rating from -900 to ∞.
         /// </summary>
         public static string RATD {
             get {

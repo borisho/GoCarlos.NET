@@ -16,7 +16,7 @@ public partial class Player : ObservableObject
     private string lastName, firstName;
 
     [ObservableProperty]
-    private string pin, grade, countryCode, club;
+    private string pin, grade, gradeR, countryCode, club;
 
     private int gor;
 
@@ -31,10 +31,11 @@ public partial class Player : ObservableObject
         FirstName = string.Empty;
         Gor = MIN_RATING;
         Grade = string.Empty;
+        GradeR = string.Empty;
         CountryCode = string.Empty;
         Club = string.Empty;
 
-        RoundsPlaying = new List<bool>();
+        RoundsPlaying = [];
     }
 
     public int Gor

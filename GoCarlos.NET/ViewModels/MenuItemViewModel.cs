@@ -38,5 +38,5 @@ public partial class MenuItemViewModel : ObservableObject
         CommandParameter = commandParameter;
     }
 
-    public ObservableCollection<MenuItemViewModel> Items { get; set; } = new();
+    public ObservableCollection<MenuItemViewModel> Items { get; set; } = [];
 }

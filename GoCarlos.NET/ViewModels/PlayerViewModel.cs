@@ -23,6 +23,7 @@ public partial class PlayerViewModel : PlayerControlViewModel
         FirstName = new string(player.FirstName);
         Gor = player.Gor.ToString();
         Grade = new string(player.Grade);
+        GradeR = new string(player.GradeR);
         CountryCode = new string(player.CountryCode);
         Club = new string(player.Club);
     }
@@ -46,6 +47,7 @@ public partial class PlayerViewModel : PlayerControlViewModel
                     Player.FirstName = FirstName;
                     Player.Gor = gor;
                     Player.Grade = Grade;
+                    Player.GradeR = GradeR;
                     Player.CountryCode = CountryCode;
                     Player.Club = Club;
 

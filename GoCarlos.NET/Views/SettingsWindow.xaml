@@ -23,6 +23,7 @@
 
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
                         
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
@@ -55,16 +56,21 @@
                     <Label Grid.Row="5" Grid.Column="1" Content="{x:Static lang:SettingsWindow.EndDate}" />
                     <DatePicker Grid.Row="5" Grid.Column="2" Margin="5 2" FirstDayOfWeek="Monday"
                                 SelectedDate="{Binding GeneralSettings.EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    
-                    <!--MM bars-->
-                    <Label Grid.Row="6" Grid.Column="1" Content="{x:Static lang:SettingsWindow.TopGroupBar}" />
+
+                    <!--Počet kôl-->
+                    <Label Grid.Row="6" Grid.Column="1" Content="{x:Static lang:SettingsWindow.NumberOfRounds}" />
                     <TextBox Grid.Row="6" Grid.Column="2" Margin="5 2" MinWidth="160px" MaxLength="60"
+                             Text="{Binding GeneralSettings.NumberOfRounds, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <!--MM bars-->
+                    <Label Grid.Row="7" Grid.Column="1" Content="{x:Static lang:SettingsWindow.TopGroupBar}" />
+                    <TextBox Grid.Row="7" Grid.Column="2" Margin="5 2" MinWidth="160px" MaxLength="60"
                              PreviewTextInput="TextBox_PreviewTextInput_OnlyInteger"
                              DataObject.Pasting="TextBox_Pasting"
                              Text="{Binding GeneralSettings.TopGroupBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     
-                    <Label Grid.Row="7" Grid.Column="1" Content="{x:Static lang:SettingsWindow.BottomGroupBar}" />
-                    <TextBox Grid.Row="7" Grid.Column="2" Margin="5 2" MinWidth="160px" MaxLength="60"
+                    <Label Grid.Row="8" Grid.Column="1" Content="{x:Static lang:SettingsWindow.BottomGroupBar}" />
+                    <TextBox Grid.Row="8" Grid.Column="2" Margin="5 2" MinWidth="160px" MaxLength="60"
                              PreviewTextInput="TextBox_PreviewTextInput_OnlyInteger"
                              DataObject.Pasting="TextBox_Pasting"
                              Text="{Binding GeneralSettings.BottomGroupBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

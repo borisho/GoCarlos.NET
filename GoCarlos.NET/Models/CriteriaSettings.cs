@@ -4,11 +4,8 @@ namespace GoCarlos.NET.Models;
 
 public partial class CriteriaSettings : ObservableObject
 {
-    const int ALL_PARAMETERS_SIZE = 9;
-    const int SELECTABLE_PARAMETER_SIZE = 4;
-
-    private static readonly Criteria[] allCriterias = new Criteria[ALL_PARAMETERS_SIZE]
-    {
+    private static readonly Criteria[] allCriterias =
+    [
         new Criteria("NUL"),
         new Criteria("NBW"),
         new Criteria("MMS"),
@@ -18,20 +15,20 @@ public partial class CriteriaSettings : ObservableObject
         new Criteria("SDS"),
         new Criteria("SSS"),
         new Criteria("MTG"),
-    };
+    ];
 
     [ObservableProperty]
     private Criteria[] criterias;
 
     public CriteriaSettings()
     {
-        Criterias = new Criteria[SELECTABLE_PARAMETER_SIZE]
-        {
+        Criterias =
+        [
             allCriterias[2],
             allCriterias[6],
             allCriterias[5],
             allCriterias[8],
-        };
+        ];
     }
 
     public Criteria[] AllCriteria { get => allCriterias; }

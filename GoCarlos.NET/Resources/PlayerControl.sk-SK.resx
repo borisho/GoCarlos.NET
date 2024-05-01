@@ -123,6 +123,12 @@
   <data name="Cancel" xml:space="preserve">
     <value>Zrušiť</value>
   </data>
+  <data name="Club" xml:space="preserve">
+    <value>Klub:</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Krajina:</value>
+  </data>
   <data name="EgdPin" xml:space="preserve">
     <value>EGD pin:</value>
   </data>
@@ -131,6 +137,12 @@
   </data>
   <data name="FirstName" xml:space="preserve">
     <value>Meno:</value>
+  </data>
+  <data name="Grade" xml:space="preserve">
+    <value>Trieda:</value>
+  </data>
+  <data name="GradeR" xml:space="preserve">
+    <value>p. R.:</value>
   </data>
   <data name="LastName" xml:space="preserve">
     <value>Priezvisko:</value>
@@ -144,6 +156,9 @@
   <data name="PlayerNotFound" xml:space="preserve">
     <value>Hráča sa nepodarilo nájsť!</value>
   </data>
+  <data name="Rating" xml:space="preserve">
+    <value>Rating:</value>
+  </data>
   <data name="RatingErrorMessage" xml:space="preserve">
     <value>Rating musí byť číslo!</value>
   </data>
@@ -155,5 +170,8 @@
   </data>
   <data name="SearchPin" xml:space="preserve">
     <value>Vyhľadať PIN</value>
+  </data>
+  <data name="SearchPlayer" xml:space="preserve">
+    <value>Vyhľadať hráča</value>
   </data>
 </root>

@@ -11,9 +11,11 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" MinWidth="100"/>
+            <ColumnDefinition Width="auto" MinWidth="100"/>
+            <ColumnDefinition Width="auto" MinWidth="100"/>
+            <ColumnDefinition Width="auto" MinWidth="100"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -35,12 +37,10 @@
                Content="{x:Static lang:PlayerControl.EgdPin}" />
         <TextBox Grid.Row="0"
                  Grid.Column="1"
-                 MinWidth="100"
                  VerticalContentAlignment="Center"
                  Text="{Binding Pin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <Button Grid.Row="0"
                 Grid.Column="2"
-                MinWidth="100"
                 Content="{x:Static lang:PlayerControl.SearchPin}"
                 Command="{Binding SearchbyPinCommand}">
             <Button.Style>
@@ -65,7 +65,6 @@
                Content="{x:Static lang:PlayerControl.LastName}" />
         <TextBox  Grid.Row="2"
                   Grid.Column="1"
-                  MinWidth="100"
                   VerticalContentAlignment="Center"
                   Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -74,15 +73,13 @@
                Content="{x:Static lang:PlayerControl.FirstName}" />
         <TextBox Grid.Row="3"
                  Grid.Column="1"
-                 MinWidth="100"
                  VerticalContentAlignment="Center"
                  Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
         <Button Grid.Row="2"
                 Grid.Column="2"
-                Content="Vyhľadať hráča"
-                Command="{Binding SearchByDataCommand}"
-                MinWidth="100">
+                Content="{x:Static lang:PlayerControl.SearchPlayer}"
+                Command="{Binding SearchByDataCommand}">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Style.Triggers>
@@ -102,33 +99,42 @@
                    Grid.ColumnSpan="4"
                    Margin="0 5"/>
 
-
         <!-- Údaje o hráčovi -->
         <Label Grid.Row="5"
                Grid.Column="0"
-               Content="Rating:" />
+               Content="{x:Static lang:PlayerControl.Rating}" />
         <TextBox Grid.Row="5"
                  Grid.Column="1"
-                 MinWidth="100"
                  MaxLength="4"
+                 IsReadOnly="True"
                  Text="{Binding Gor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <Label Grid.Row="6"
                Grid.Column="0"
-               Content="Trieda:" />
+               Content="{x:Static lang:PlayerControl.Grade}" />
         <TextBox Grid.Row="6"
                  Grid.Column="1"
                  MaxLength="3"
                  Text="{Binding Grade, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Label Grid.Row="6"
+               Grid.Column="2"
+               Padding="0, 0, 10, 0"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Content="{x:Static lang:PlayerControl.GradeR}" />
+        <TextBox Grid.Row="6"
+                 Grid.Column="3"
+                 MaxLength="4"
+                 Text="{Binding GradeR, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <Label Grid.Row="7"
                Grid.Column="0"
-               Content="Krajina:" />
+               Content="{x:Static lang:PlayerControl.Country}" />
         <TextBox Grid.Row="7"
                  Grid.Column="1"
                  MaxLength="3"
                  Text="{Binding CountryCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <Label Grid.Row="8"
                Grid.Column="0"
-               Content="Klub:" />
+               Content="{x:Static lang:PlayerControl.Club}" />
         <TextBox Grid.Row="8"
                  Grid.Column="1"
                  MaxLength="4"

@@ -123,6 +123,12 @@
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="Club" xml:space="preserve">
+    <value>Club:</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Country:</value>
+  </data>
   <data name="EgdPin" xml:space="preserve">
     <value>EGD pin:</value>
   </data>
@@ -131,6 +137,12 @@
   </data>
   <data name="FirstName" xml:space="preserve">
     <value>First Name:</value>
+  </data>
+  <data name="Grade" xml:space="preserve">
+    <value>Grade:</value>
+  </data>
+  <data name="GradeR" xml:space="preserve">
+    <value>by R.:</value>
   </data>
   <data name="LastName" xml:space="preserve">
     <value>Last Name:</value>
@@ -144,6 +156,9 @@
   <data name="PlayerNotFound" xml:space="preserve">
     <value>The player could not be found!</value>
   </data>
+  <data name="Rating" xml:space="preserve">
+    <value>Rating:</value>
+  </data>
   <data name="RatingErrorMessage" xml:space="preserve">
     <value>Rating has to be number!</value>
   </data>
@@ -155,5 +170,8 @@
   </data>
   <data name="SearchPin" xml:space="preserve">
     <value>Search by PIN</value>
+  </data>
+  <data name="SearchPlayer" xml:space="preserve">
+    <value>Search by name</value>
   </data>
 </root>

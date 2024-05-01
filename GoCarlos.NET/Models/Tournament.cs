@@ -8,8 +8,7 @@ namespace GoCarlos.NET.Models;
 
 public partial class Tournament : ITournament, IRecipient<AddPlayerMessage>
 {
-    const int DEFAULT_NUMBER_OF_ROUNDS = 5;
-    private int numberOfRounds, currentRound;
+    private int currentRound;
 
     private Settings settings;
 
@@ -18,20 +17,17 @@ public partial class Tournament : ITournament, IRecipient<AddPlayerMessage>
 
     public Tournament()
     {
-        numberOfRounds = DEFAULT_NUMBER_OF_ROUNDS;
         currentRound = 1;
 
         settings = new();
 
-        players = new();
-        pairings = new();
+        players = [];
+        pairings = [];
 
         WeakReferenceMessenger.Default.Register(this);
     }
 
     public int CurrentRound { get => currentRound; set => currentRound = value; }
-
-    public int NumberOfRounds { get => numberOfRounds; set => numberOfRounds = value; }
 
     // SETTINGS
     public Settings Settings { get => settings; set => settings = value; }
@@ -92,7 +88,7 @@ public partial class Tournament : ITournament, IRecipient<AddPlayerMessage>
 
     public void Reset()
     {
-        numberOfRounds = DEFAULT_NUMBER_OF_ROUNDS;
+        Settings.GeneralSettings.NumberOfRounds = GeneralSettings.DEFAULT_NUMBER_OF_ROUNDS;
 
         players.Clear();
         pairings.Clear();

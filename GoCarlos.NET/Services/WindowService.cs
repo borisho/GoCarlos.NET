@@ -8,28 +8,19 @@ using System.Windows;
 namespace GoCarlos.NET.Services;
 
 /// <inheritdoc cref="IWindowService"/>
-public sealed class WindowService : IWindowService
+public sealed class WindowService(ITournament tournament, IServiceProvider serviceProvider) : IWindowService
 {
-    private readonly ITournament tournament;
-    private readonly IServiceProvider serviceProvider;
-
-    public WindowService(ITournament tournament, IServiceProvider serviceProvider)
-    {
-        this.tournament = tournament;
-        this.serviceProvider = serviceProvider;
-    }
-
     public void ShowAddPlayerWindow()
     {
         AddPlayerWindow window = serviceProvider.GetRequiredService<AddPlayerWindow>();
-        window.GenerateCheckBoxes(tournament.NumberOfRounds);
+        window.GenerateCheckBoxes(tournament.Settings.GeneralSettings.NumberOfRounds);
         window.Show();
     }
 
     public void ShowAddPlayerWindowWithParam(bool param)
     {
         AddPlayerWindow window = serviceProvider.GetRequiredService<AddPlayerWindow>();
-        window.GenerateCheckBoxes(tournament.NumberOfRounds);
+        window.GenerateCheckBoxes(tournament.Settings.GeneralSettings.NumberOfRounds);
         window.AddOneMore(param);
         window.Show();
     }

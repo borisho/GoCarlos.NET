@@ -10,7 +10,6 @@ public interface ITournament
 {
     const int TOKEN_REFRESH_MAIN_VIEW_MODEL = 1;
     public int CurrentRound { get; set; }
-    public int NumberOfRounds { get; set; }
     public Settings Settings { get; }
     public IEnumerable<Player> Players { get; }
     public IEnumerable<Pairing> Pairings { get; }

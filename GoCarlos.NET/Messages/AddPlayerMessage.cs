@@ -3,7 +3,6 @@ using GoCarlos.NET.Models;
 
 namespace GoCarlos.NET.Messages;
 
-public class AddPlayerMessage : ValueChangedMessage<Player>
+public class AddPlayerMessage(Player value) : ValueChangedMessage<Player>(value)
 {
-    public AddPlayerMessage(Player value) : base(value) { }
 }

@@ -30,7 +30,7 @@ public partial class AddPlayerViewModel : PlayerControlViewModel
         {
             if (int.TryParse(Gor.Trim(), out int parsedGor))
             {
-                List<bool> roundsPlaying = new();
+                List<bool> roundsPlaying = [];
 
                 foreach (CheckBoxViewModel checkBox in CheckBoxes)
                 {
@@ -44,6 +44,7 @@ public partial class AddPlayerViewModel : PlayerControlViewModel
                     FirstName = FirstName,
                     Gor = parsedGor,
                     Grade = Grade,
+                    GradeR = GradeR,
                     CountryCode = CountryCode,
                     Club = Club,
                     RoundsPlaying = roundsPlaying

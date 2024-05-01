@@ -7,7 +7,7 @@ namespace GoCarlos.NET.Tests;
 public class TournamentTest
 {
 
-    private readonly ITournament tournament;
+    private readonly Tournament tournament;
 
     public TournamentTest()
     {
@@ -56,10 +56,10 @@ public class TournamentTest
     [TestMethod]
     public void Reset_CreateNewTournament_ResetNumberOfRounds()
     {
-        tournament.SetNumberOfRounds(10);
+        tournament.Settings.GeneralSettings.NumberOfRounds = 10;
 
         tournament.Reset();
 
-        Assert.AreEqual(tournament.NumberOfRounds, 5);
+        Assert.AreEqual(tournament.Settings.GeneralSettings.NumberOfRounds, 5);
     }
 }

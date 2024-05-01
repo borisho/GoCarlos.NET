@@ -5,6 +5,10 @@ namespace GoCarlos.NET.Models;
 
 public partial class GeneralSettings : ObservableObject
 {
+    public const int DEFAULT_NUMBER_OF_ROUNDS = 5;
+    const int DEFAULT_TOP_GROUP_BAR = 29;
+    const int DEFAULT_BOTTOM_GROUP_BAR = 10;
+
     [ObservableProperty]
     private string
         shortName = "Turnaj",
@@ -18,7 +22,7 @@ public partial class GeneralSettings : ObservableObject
 
     [ObservableProperty]
     private int
-        numberOfRounds = 5,
-        topGroupBar = 29,
-        bottomGroupBar  = 10;
+        numberOfRounds = DEFAULT_NUMBER_OF_ROUNDS,
+        topGroupBar = DEFAULT_TOP_GROUP_BAR,
+        bottomGroupBar  = DEFAULT_BOTTOM_GROUP_BAR;
 }

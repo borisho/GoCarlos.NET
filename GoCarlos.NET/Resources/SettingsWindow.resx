@@ -241,7 +241,7 @@
     <value>RAT</value>
   </data>
   <data name="RATD" xml:space="preserve">
-    <value>Rating from 2950 to -900</value>
+    <value>Rating from -900 to ∞</value>
   </data>
   <data name="RATN" xml:space="preserve">
     <value>Rating</value>

@@ -4,12 +4,7 @@ using Microsoft.Extensions.Localization;
 namespace GoCarlos.NET.Services;
 
 /// <inheritdoc cref="IMenuItemsService"/>
-public sealed class MenuItemsService : IMenuItemsService
+public sealed class MenuItemsService(IStringLocalizer<MenuItemsService> localizer) : IMenuItemsService
 {
-    private readonly IStringLocalizer<MenuItemsService> _localizer = null!;
-
-    public MenuItemsService(IStringLocalizer<MenuItemsService> localizer) =>
-        _localizer = localizer;
-
-    public LocalizedString this[string name] => _localizer[name];
+    public LocalizedString this[string name] => localizer[name];
 }

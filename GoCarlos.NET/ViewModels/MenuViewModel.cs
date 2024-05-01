@@ -29,10 +29,10 @@ public partial class MenuViewModel : ObservableObject
         goToRoundRoot = new MenuItemViewModel(menuItemsService["GoToRound"]);
 
         GenerateMenuItems();
-        GenerateGoToRound(tournament.NumberOfRounds);
+        GenerateGoToRound(tournament.Settings.GeneralSettings.NumberOfRounds);
     }
 
-    public ObservableCollection<MenuItemViewModel> Items { get; } = new();
+    public ObservableCollection<MenuItemViewModel> Items { get; } = [];
 
     [RelayCommand]
     public void NewTournament()
