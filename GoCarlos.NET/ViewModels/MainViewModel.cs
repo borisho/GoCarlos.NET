@@ -10,7 +10,7 @@ using System.Windows.Data;
 
 namespace GoCarlos.NET.ViewModels;
 
-public partial class MainViewModel : ObservableObject, IRecipient<BoolMessage>
+public partial class MainViewModel : ObservableObject, IRecipient<BoolMessage>, IReferenceCleanup
 {
     private readonly IWindowService windowService;
     private readonly ITournament tournament;
@@ -98,5 +98,11 @@ public partial class MainViewModel : ObservableObject, IRecipient<BoolMessage>
             Pairings.Refresh();
             UnpairedPlayers.Refresh();
         }
+    }
+
+    public void Unregister()
+    {
+        tournament.Unregister();
+        WeakReferenceMessenger.Default.Unregister<BoolMessage, int>(this, ITournament.TOKEN_REFRESH_MAIN_VIEW_MODEL);
     }
 }

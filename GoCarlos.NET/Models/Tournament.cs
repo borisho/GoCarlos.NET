@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using GoCarlos.NET.Interfaces;
 using GoCarlos.NET.Messages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,6 +16,9 @@ public partial class Tournament : ITournament, IRecipient<AddPlayerMessage>
     private List<Player> players;
     private List<Pairing> pairings;
 
+    /* Scored player list  */
+    private Dictionary<Guid, ScoredPlayer> scoredPlayers;
+
     public Tournament()
     {
         currentRound = 1;
@@ -23,6 +27,8 @@ public partial class Tournament : ITournament, IRecipient<AddPlayerMessage>
 
         players = [];
         pairings = [];
+
+        scoredPlayers = [];
 
         WeakReferenceMessenger.Default.Register(this);
     }
@@ -95,4 +101,9 @@ public partial class Tournament : ITournament, IRecipient<AddPlayerMessage>
     }
 
     public void Receive(AddPlayerMessage message) => AddPlayer(message.Value);
+
+    public void Unregister()
+    {
+        WeakReferenceMessenger.Default.Unregister<AddPlayerMessage>(this);
+    }
 }

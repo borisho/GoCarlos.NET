@@ -1,5 +1,6 @@
 ﻿using GoCarlos.NET.Interfaces;
 using GoCarlos.NET.ViewModels;
+using System.ComponentModel;
 using System.Windows;
 
 namespace GoCarlos.NET.Views;
@@ -26,5 +27,15 @@ public partial class AddPlayerWindow : Window, IPlayerWindow, ICloseable
         {
             viewModel.GenerateCheckBoxes(rounds);
         }
+    }
+
+    protected override void OnClosing(CancelEventArgs e)
+    {
+        if (DataContext is IReferenceCleanup viewModel)
+        {
+            viewModel.Unregister();
+        }
+
+        base.OnClosing(e);
     }
 }

@@ -79,7 +79,7 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Club:.
+        ///   Looks up a localized string similar to Club.
         /// </summary>
         public static string Club {
             get {
@@ -88,7 +88,7 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Country:.
+        ///   Looks up a localized string similar to Country.
         /// </summary>
         public static string Country {
             get {
@@ -97,7 +97,7 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EGD pin:.
+        ///   Looks up a localized string similar to EGD pin.
         /// </summary>
         public static string EgdPin {
             get {
@@ -124,7 +124,7 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Grade:.
+        ///   Looks up a localized string similar to Grade.
         /// </summary>
         public static string Grade {
             get {
@@ -133,7 +133,16 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to by R.:.
+        ///   Looks up a localized string similar to Could not parse numerical value of grade from EGD!.
+        /// </summary>
+        public static string GradeNParseErrorMessage {
+            get {
+                return ResourceManager.GetString("GradeNParseErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to by R..
         /// </summary>
         public static string GradeR {
             get {
@@ -142,7 +151,7 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Last Name:.
+        ///   Looks up a localized string similar to Last Name.
         /// </summary>
         public static string LastName {
             get {
@@ -178,7 +187,7 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rating:.
+        ///   Looks up a localized string similar to Rating.
         /// </summary>
         public static string Rating {
             get {
@@ -192,6 +201,15 @@ namespace GoCarlos.NET.Resources {
         public static string RatingErrorMessage {
             get {
                 return ResourceManager.GetString("RatingErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not parse rating from EGD!.
+        /// </summary>
+        public static string RatingParseErrorMessage {
+            get {
+                return ResourceManager.GetString("RatingParseErrorMessage", resourceCulture);
             }
         }
         

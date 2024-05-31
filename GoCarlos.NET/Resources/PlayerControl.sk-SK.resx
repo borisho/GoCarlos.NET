@@ -124,28 +124,31 @@
     <value>Zrušiť</value>
   </data>
   <data name="Club" xml:space="preserve">
-    <value>Klub:</value>
+    <value>Klub</value>
   </data>
   <data name="Country" xml:space="preserve">
-    <value>Krajina:</value>
+    <value>Krajina</value>
   </data>
   <data name="EgdPin" xml:space="preserve">
-    <value>EGD pin:</value>
+    <value>EGD pin</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Chyba</value>
   </data>
   <data name="FirstName" xml:space="preserve">
-    <value>Meno:</value>
+    <value>Meno</value>
   </data>
   <data name="Grade" xml:space="preserve">
-    <value>Trieda:</value>
+    <value>Trieda</value>
+  </data>
+  <data name="GradeNParseErrorMessage" xml:space="preserve">
+    <value>Nepodarilo sa získať numerickú hodnotu triedy z EGD!</value>
   </data>
   <data name="GradeR" xml:space="preserve">
-    <value>p. R.:</value>
+    <value>p. R.</value>
   </data>
   <data name="LastName" xml:space="preserve">
-    <value>Priezvisko:</value>
+    <value>Priezvisko</value>
   </data>
   <data name="NameErrorMessage" xml:space="preserve">
     <value>Meno a priezvisko nesmú byť prázdne!</value>
@@ -157,10 +160,13 @@
     <value>Hráča sa nepodarilo nájsť!</value>
   </data>
   <data name="Rating" xml:space="preserve">
-    <value>Rating:</value>
+    <value>Rating</value>
   </data>
   <data name="RatingErrorMessage" xml:space="preserve">
     <value>Rating musí byť číslo!</value>
+  </data>
+  <data name="RatingParseErrorMessage" xml:space="preserve">
+    <value>Nepodarilo sa získať hodnotu ratingu z EGD!</value>
   </data>
   <data name="Round" xml:space="preserve">
     <value>Kolo</value>

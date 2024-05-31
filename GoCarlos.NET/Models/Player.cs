@@ -6,7 +6,7 @@ namespace GoCarlos.NET.Models;
 
 public partial class Player : ObservableObject
 {
-    const int MIN_RATING = -900;
+    private const int MIN_RATING = -900;
 
     [ObservableProperty]
     private Guid guid;
@@ -17,6 +17,9 @@ public partial class Player : ObservableObject
 
     [ObservableProperty]
     private string pin, grade, gradeR, countryCode, club;
+
+    [ObservableProperty]
+    private int gradeN, gradeNR;
 
     private int gor;
 
@@ -32,10 +35,29 @@ public partial class Player : ObservableObject
         Gor = MIN_RATING;
         Grade = string.Empty;
         GradeR = string.Empty;
+        GradeN = 0;
+        GradeNR = 0;
         CountryCode = string.Empty;
         Club = string.Empty;
 
         RoundsPlaying = [];
+    }
+
+    public Player(Player player)
+    {
+        Guid = player.Guid;
+        Pin = player.Pin;
+        LastName = player.LastName;
+        FirstName = player.FirstName;
+        Gor = player.Gor;
+        Grade = player.Grade;
+        GradeR = player.GradeR;
+        GradeN = player.GradeN;
+        GradeNR = player.GradeNR;
+        CountryCode = player.CountryCode;
+        Club = player.Club;
+
+        RoundsPlaying = player.RoundsPlaying;
     }
 
     public int Gor

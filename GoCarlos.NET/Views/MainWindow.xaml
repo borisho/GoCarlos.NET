@@ -46,13 +46,21 @@
                 <TabItem Header="{x:Static lang:AppProperties.Wallist}">
                     <DataGrid Name="Wallist"
                               ItemsSource="{Binding Players}"
-                              AutoGenerateColumns="True"
+                              AutoGenerateColumns="False"
                               CanUserSortColumns="True"
                               SelectedItem="{Binding SelectedPlayer, Mode=OneWayToSource}"
                               SelectionMode="Single"
                               SelectionUnit="FullRow"
                               IsReadOnly="True"
                               ContextMenuOpening="ContextMenu_ContextMenuOpening">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{x:Static lang:PlayerControl.FirstName}" Binding="{Binding FullName}" />
+                            <DataGridTextColumn Header="{x:Static lang:PlayerControl.Club}" Binding="{Binding Club}" />
+                            <DataGridTextColumn Header="{x:Static lang:PlayerControl.Grade}" Binding="{Binding Grade}" />
+                            <DataGridTextColumn Header="{x:Static lang:PlayerControl.Rating}" Binding="{Binding Gor}" />
+                            <!--Generated rounds-->
+                            <!--Criteria-->
+                        </DataGrid.Columns>
                         <DataGrid.ContextMenu>
                             <ContextMenu>
                                 <MenuItem IsEnabled="False">

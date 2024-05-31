@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using GoCarlos.NET.Enums;
 using GoCarlos.NET.Interfaces;
 using GoCarlos.NET.Messages;
 using GoCarlos.NET.Models;
@@ -13,7 +14,7 @@ using System.Collections.ObjectModel;
 
 namespace GoCarlos.NET.ViewModels;
 
-public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<EgdMessage>
+public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<EgdMessage>, IReferenceCleanup
 {
     protected readonly IStringLocalizer _localizer;
     protected readonly IWindowService _windowService;
@@ -21,7 +22,9 @@ public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<Eg
     protected readonly IEgdService _egdService;
 
     [ObservableProperty]
-    private string pin, lastName, firstName, gor, grade, gradeR, countryCode, club;
+    private string pin, lastName, firstName, gor, gradeR, countryCode, club;
+
+    private string grade;
 
     public PlayerControlViewModel()
     {
@@ -34,15 +37,20 @@ public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<Eg
         _dialogService = serviceProvider.GetRequiredService<IDialogService>();
         _egdService = serviceProvider.GetRequiredService<IEgdService>();
 
-        Pin = string.Empty;
-        LastName = string.Empty;
-        FirstName = string.Empty;
-        Gor = string.Empty;
-        Grade = string.Empty;
-        GradeR = string.Empty;
-        CountryCode = string.Empty;
-        Club = string.Empty;
+        pin = string.Empty;
+        lastName = string.Empty;
+        firstName = string.Empty;
+        gor = string.Empty;
+        grade = string.Empty;
+        gradeR = string.Empty;
+        countryCode = string.Empty;
+        club = string.Empty;
+
+        GradeN = 0;
+        GradeNR = 0;
     }
+
+    protected int GradeN, GradeNR;
 
     protected IStringLocalizer Localizer { get => _localizer; }
     protected IWindowService WindowService { get => _windowService; }
@@ -50,6 +58,17 @@ public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<Eg
     protected IEgdService EgdService { get => _egdService; }
 
     public ObservableCollection<CheckBoxViewModel> CheckBoxes { get; } = [];
+
+    public string Grade
+    {
+        get => grade;
+        set
+        {
+            grade = value != null ? value.ToLower() : string.Empty;
+
+            OnPropertyChanged(nameof(Grade));
+        }
+    }
 
     [RelayCommand]
     public void SearchbyPin()
@@ -110,7 +129,21 @@ public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<Eg
             if (int.TryParse(data.Gor, out int rating))
             {
                 GradeR = GradeUtils.GetGradeFromRating(rating);
+                GradeNR = GradeUtils.GetGradeNFromRating(rating);
             }
+            else
+            {
+                DialogService.Show(_localizer["RatingParseErrorMessage"], _localizer["Error"], MessageType.WARNING);
+            }
+        }
+
+        if (int.TryParse(data.Grade_n, out int grade_n))
+        {
+            GradeN = grade_n;
+        }
+        else
+        {
+            DialogService.Show(_localizer["GradeNParseErrorMessage"], _localizer["Error"], MessageType.WARNING);
         }
     }
 
@@ -135,5 +168,10 @@ public partial class PlayerControlViewModel : ObservableRecipient, IRecipient<Eg
     public void Receive(EgdMessage message)
     {
         SetData(message.Value);
+    }
+
+    public void Unregister()
+    {
+        WeakReferenceMessenger.Default.Unregister<EgdMessage>(this);
     }
 }

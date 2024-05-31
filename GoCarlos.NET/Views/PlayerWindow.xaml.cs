@@ -1,6 +1,7 @@
 ﻿using GoCarlos.NET.Interfaces;
 using GoCarlos.NET.Models;
 using GoCarlos.NET.ViewModels;
+using System.ComponentModel;
 using System.Windows;
 
 namespace GoCarlos.NET.Views;
@@ -19,5 +20,15 @@ public partial class PlayerWindow : Window, IPlayerWindow, ICloseable
         {
             viewModel.SetSelectedPlayer(player);
         }
+    }
+
+    protected override void OnClosing(CancelEventArgs e)
+    {
+        if (DataContext is IReferenceCleanup viewModel)
+        {
+            viewModel.Unregister();
+        }
+
+        base.OnClosing(e);
     }
 }

@@ -124,13 +124,13 @@
     <value>Cancel</value>
   </data>
   <data name="Club" xml:space="preserve">
-    <value>Club:</value>
+    <value>Club</value>
   </data>
   <data name="Country" xml:space="preserve">
-    <value>Country:</value>
+    <value>Country</value>
   </data>
   <data name="EgdPin" xml:space="preserve">
-    <value>EGD pin:</value>
+    <value>EGD pin</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Chyba</value>
@@ -139,13 +139,16 @@
     <value>First Name:</value>
   </data>
   <data name="Grade" xml:space="preserve">
-    <value>Grade:</value>
+    <value>Grade</value>
+  </data>
+  <data name="GradeNParseErrorMessage" xml:space="preserve">
+    <value>Could not parse numerical value of grade from EGD!</value>
   </data>
   <data name="GradeR" xml:space="preserve">
-    <value>by R.:</value>
+    <value>by R.</value>
   </data>
   <data name="LastName" xml:space="preserve">
-    <value>Last Name:</value>
+    <value>Last Name</value>
   </data>
   <data name="NameErrorMessage" xml:space="preserve">
     <value>Firstname and lastname cannot be empty!</value>
@@ -157,10 +160,13 @@
     <value>The player could not be found!</value>
   </data>
   <data name="Rating" xml:space="preserve">
-    <value>Rating:</value>
+    <value>Rating</value>
   </data>
   <data name="RatingErrorMessage" xml:space="preserve">
     <value>Rating has to be number!</value>
+  </data>
+  <data name="RatingParseErrorMessage" xml:space="preserve">
+    <value>Could not parse rating from EGD!</value>
   </data>
   <data name="Round" xml:space="preserve">
     <value>Round</value>

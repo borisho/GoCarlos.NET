@@ -1,4 +1,6 @@
-﻿namespace GoCarlos.NET.Utils;
+﻿using System;
+
+namespace GoCarlos.NET.Utils;
 
 public static class GradeUtils
 {
@@ -92,6 +94,58 @@ public static class GradeUtils
             < 2750 => "7d",
             < 2850 => "8d",
               _    => "9d"
+        };
+    }
+
+    public static int GetGradeNFromRating(int rating)
+    {
+        return (int)Math.Round((rating + 950) / 100d, MidpointRounding.AwayFromZero);
+    }
+
+    public static int GetGradeNFromGrade(string grade)
+    {
+        return grade switch
+        {
+            "9d" => 38,
+            "8d" => 37,
+            "7d" => 36,
+            "6d" => 35,
+            "5d" => 34,
+            "4d" => 33,
+            "3d" => 32,
+            "2d" => 31,
+            "1d" => 30,
+            "1k" => 29,
+            "2k" => 28,
+            "3k" => 27,
+            "4k" => 26,
+            "5k" => 25,
+            "6k" => 24,
+            "7k" => 23,
+            "8k" => 22,
+            "9k" => 21,
+            "10k" => 20,
+            "11k" => 19,
+            "12k" => 18,
+            "13k" => 17,
+            "14k" => 16,
+            "15k" => 15,
+            "16k" => 14,
+            "17k" => 13,
+            "18k" => 12,
+            "19k" => 11,
+            "20k" => 10,
+            "21k" => 9,
+            "22k" => 8,
+            "23k" => 7,
+            "24k" => 6,
+            "25k" => 5,
+            "26k" => 4,
+            "27k" => 3,
+            "28k" => 2,
+            "29k" => 1,
+            "30k" => 0,
+            _ => 0
         };
     }
 }

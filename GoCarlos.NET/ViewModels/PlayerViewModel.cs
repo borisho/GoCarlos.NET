@@ -2,6 +2,7 @@
 using GoCarlos.NET.Enums;
 using GoCarlos.NET.Interfaces;
 using GoCarlos.NET.Models;
+using GoCarlos.NET.Utils;
 using System.Collections.Generic;
 
 namespace GoCarlos.NET.ViewModels;
@@ -47,7 +48,7 @@ public partial class PlayerViewModel : PlayerControlViewModel
                     Player.FirstName = FirstName;
                     Player.Gor = gor;
                     Player.Grade = Grade;
-                    Player.GradeR = GradeR;
+                    Player.GradeN = GradeUtils.GetGradeNFromGrade(Grade);
                     Player.CountryCode = CountryCode;
                     Player.Club = Club;
 

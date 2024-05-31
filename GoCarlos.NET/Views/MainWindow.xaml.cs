@@ -1,5 +1,6 @@
 ﻿using GoCarlos.NET.Interfaces;
 using GoCarlos.NET.ViewModels;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -12,7 +13,7 @@ public partial class MainWindow : Window, ICloseable
         InitializeComponent();
     }
 
-    private void ContextMenu_ContextMenuOpening(object sender, System.Windows.Controls.ContextMenuEventArgs e)
+    private void ContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
     {
         if (DataContext is MainViewModel viewModel)
         {
@@ -25,5 +26,15 @@ public partial class MainWindow : Window, ICloseable
                 }
             }
         }
+    }
+
+    protected override void OnClosing(CancelEventArgs e)
+    {
+        if (DataContext is IReferenceCleanup viewModel)
+        {
+            viewModel.Unregister();
+        }
+
+        base.OnClosing(e);
     }
 }

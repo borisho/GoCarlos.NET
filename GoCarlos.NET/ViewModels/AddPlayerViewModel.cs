@@ -45,6 +45,8 @@ public partial class AddPlayerViewModel : PlayerControlViewModel
                     Gor = parsedGor,
                     Grade = Grade,
                     GradeR = GradeR,
+                    GradeN = GradeN,
+                    GradeNR = GradeNR,
                     CountryCode = CountryCode,
                     Club = Club,
                     RoundsPlaying = roundsPlaying

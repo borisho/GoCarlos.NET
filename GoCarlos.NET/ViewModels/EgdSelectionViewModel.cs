@@ -12,7 +12,7 @@ public partial class EgdSelectionViewModel : ObservableObject
 
     public EgdSelectionViewModel()
     {
-        players = new ObservableCollection<EgdData>();
+        players = [];
 
         Players = CollectionViewSource.GetDefaultView(players);
         Players.SortDescriptions.Add(new SortDescription(nameof(EgdData.Last_Name), ListSortDirection.Ascending));

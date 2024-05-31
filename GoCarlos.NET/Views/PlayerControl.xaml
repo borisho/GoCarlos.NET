@@ -124,6 +124,7 @@
         <TextBox Grid.Row="6"
                  Grid.Column="3"
                  MaxLength="4"
+                 IsReadOnly="True"
                  Text="{Binding GradeR, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <Label Grid.Row="7"
                Grid.Column="0"

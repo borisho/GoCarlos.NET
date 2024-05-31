@@ -6,7 +6,7 @@ namespace GoCarlos.NET.Interfaces;
 /// <summary>
 /// To be added
 /// </summary>
-public interface ITournament
+public interface ITournament : IReferenceCleanup
 {
     const int TOKEN_REFRESH_MAIN_VIEW_MODEL = 1;
     public int CurrentRound { get; set; }
