@@ -6,23 +6,14 @@ using System.Linq;
 
 namespace GoCarlos.NET.Models;
 
-public class Round : IEquatable<Round?>
+public class Round(int roundNumber, TournamentType tournamentType) : IEquatable<Round?>
 {
     [JsonProperty]
-    private readonly int roundNumber;
-    private readonly TournamentType tournamentType;
-    private HashSet<Player> players;
-    private HashSet<Player> unpairedPlayers;
-    private List<Pairing> pairings;
-
-    public Round(int roundNumber, TournamentType tournamentType)
-    {
-        this.roundNumber = roundNumber;
-        this.tournamentType = tournamentType;
-        players = new();
-        unpairedPlayers = new();
-        pairings = new();
-    }
+    private readonly int roundNumber = roundNumber;
+    private readonly TournamentType tournamentType = tournamentType;
+    private HashSet<Player> players = [];
+    private HashSet<Player> unpairedPlayers = [];
+    private List<Pairing> pairings = [];
 
     public int RoundNumber { get => roundNumber; }
     public HashSet<Player> Players { get => players; set => players = value; }

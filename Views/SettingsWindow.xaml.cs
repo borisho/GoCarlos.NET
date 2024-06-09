@@ -14,7 +14,7 @@ public partial class SettingsWindow : Window, ICloseable
 
     private void Numeric_PreviewTextInput(object sender, TextCompositionEventArgs e)
     {
-        Regex regex = new("[^0-9]+");
+        Regex regex = NonNumeric();
         e.Handled = regex.IsMatch(e.Text);
     }
 
@@ -23,4 +23,7 @@ public partial class SettingsWindow : Window, ICloseable
         if (e.Key == Key.Space)
             e.Handled = true;
     }
+
+    [GeneratedRegex("[^0-9]+")]
+    private static partial Regex NonNumeric();
 }

@@ -18,12 +18,7 @@ public partial class EGDSelectionViewModel : ObservableObject
 
     public EGDSelectionViewModel(EGD_Data[] eGD_Datas)
     {
-        players = new ObservableCollection<EGD_Data>();
-
-        foreach (EGD_Data data in eGD_Datas)
-        {
-            players.Add(data);
-        }
+        players = [.. eGD_Datas];
 
         Players = CollectionViewSource.GetDefaultView(players);
         Players.SortDescriptions.Add(new SortDescription(nameof(EGD_Data.Last_Name), ListSortDirection.Ascending));

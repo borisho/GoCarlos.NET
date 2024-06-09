@@ -246,7 +246,7 @@ internal static class Utils
                         .ThenByDescending(p => p.Rating),
             };
         }
-        else if (roundNumber < 3)
+        else if (roundNumber < 2)
         {
             return tournamentType switch
             {

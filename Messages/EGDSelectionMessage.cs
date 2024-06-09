@@ -3,9 +3,6 @@ using GoCarlos.NET.Models;
 
 namespace GoCarlos.NET.Messages;
 
-public class EGDSelectionMessage : ValueChangedMessage<EGD_Data>
+public class EGDSelectionMessage(EGD_Data value) : ValueChangedMessage<EGD_Data>(value)
 {
-    public EGDSelectionMessage(EGD_Data value) : base(value)
-    {
-    }
 }

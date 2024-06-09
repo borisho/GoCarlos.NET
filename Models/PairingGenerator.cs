@@ -11,12 +11,12 @@ namespace GoCarlos.NET.Models;
 public static class PairingGenerator
 {
     private static readonly Stack<Pairing> pairings = new();
-    private static List<Player> players = new();
+    private static List<Player> players = [];
     private static Player? superGroupAddition = null;
 
     public static void PerformPairings(PairingGeneratorParameters parameters)
     {
-        if (!parameters.OrderedPlayers.Any())
+        if (parameters.OrderedPlayers.Count == 0)
         {
             Debug.WriteLine("\nEmpty list no pairing is made");
             return;
@@ -26,7 +26,7 @@ public static class PairingGenerator
         Debug.WriteLine("\nTournamentType: " + parameters.TournamentType);
         Debug.WriteLine("\nPairingMethod: " + parameters.PairingMethod);
 
-        players = parameters.OrderedPlayers.ToList();
+        players = [.. parameters.OrderedPlayers];
 
         CheckForBye(parameters);
 
@@ -75,7 +75,7 @@ public static class PairingGenerator
 
             // Zoznam potencionálnych oponentov
             IOrderedEnumerable<Player> unpairedPlayers = Utils.GetOrderedPlayerList(
-                players.ToList(),
+                [.. players],
                 parameters.TournamentType,
                 parameters.Round.RoundNumber,
                 parameters.NumberOfRounds);
@@ -255,7 +255,7 @@ public static class PairingGenerator
                 else
                 {
                     List<Player> additionList = parameters.OrderedPlayers.Where(p => !p.IsSuperGroup).ToList();
-                    if (additionList.Any())
+                    if (additionList.Count != 0)
                     {
                         superGroupAddition = additionList.First();
                     }
@@ -300,7 +300,7 @@ public static class PairingGenerator
 
         foreach (var group in groups.Reverse())
         {
-            groupQueue.Push(group.ToList());
+            groupQueue.Push([.. group]);
         }
 
         StackCrossPairing(
@@ -348,7 +348,7 @@ public static class PairingGenerator
     {
         Debug.WriteLine("\nPerforming cross pairing...");
 
-        List<Player> group = parameters.Group.ToList();
+        List<Player> group = [.. parameters.Group];
 
         int groupSize = group.Count;
         int groupHalf = groupSize / 2;
@@ -417,7 +417,7 @@ public static class PairingGenerator
         Player p1 = parameters.P1;
         Player p2 = parameters.P2;
 
-        if (p1.Opponents.Values.Contains(p2))
+        if (p1.Opponents.ContainsValue(p2))
         {
             MessageBox.Show($"Hráči {p1.FullName} a {p2.FullName} už proti sebe hrali!", "Kolízia pri párovaní!", MessageBoxButton.OK, MessageBoxImage.Warning);
         }

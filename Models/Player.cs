@@ -47,10 +47,10 @@ public class Player : IEquatable<Player?>
     {
         uuid = Guid.NewGuid();
 
-        roundsPlaying = new();
-        temporaryForbidenPairings = new();
-        opponents = new();
-        pairings = new();
+        roundsPlaying = [];
+        temporaryForbidenPairings = [];
+        opponents = [];
+        pairings = [];
         data = new()
         {
             Last_Name = "BYE",
@@ -79,10 +79,7 @@ public class Player : IEquatable<Player?>
 
     public Player(EGD_Data data) : this()
     {
-        roundsPlaying = new()
-        {
-            0, 1, 2, 3, 4,
-        };
+        roundsPlaying = [0,1,2,3,4];
 
         this.data = data;
         isBye = false;

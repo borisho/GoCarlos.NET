@@ -37,15 +37,15 @@ public partial class MainViewModel : ObservableObject
     {
         tournament = new(5);
 
-        playerViewModel = new();
+        playerViewModel = [];
         PlayerData = CollectionViewSource.GetDefaultView(playerViewModel);
         PlayerData.SortDescriptions.Add(new SortDescription(nameof(PlayerViewModel.Place), ListSortDirection.Ascending));
 
-        pairingViewModel = new();
+        pairingViewModel = [];
         PairingData = CollectionViewSource.GetDefaultView(pairingViewModel);
         PairingData.SortDescriptions.Add(new SortDescription(nameof(PairingViewModel.Board), ListSortDirection.Ascending));
 
-        unpairedPlayers = new();
+        unpairedPlayers = [];
         UnpairedPlayers = CollectionViewSource.GetDefaultView(unpairedPlayers);
         UnpairedPlayers.SortDescriptions.Add(new SortDescription(nameof(PlayerViewModel.Score), ListSortDirection.Descending));
         UnpairedPlayers.SortDescriptions.Add(new SortDescription(nameof(PlayerViewModel.Gor), ListSortDirection.Descending));
@@ -303,7 +303,7 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void DropPairings()
     {
-        List<Pairing> pairings = tournament.Rounds[tournament.CurrentRound].Pairings.ToList();
+        List<Pairing> pairings = [.. tournament.Rounds[tournament.CurrentRound].Pairings];
         foreach (Pairing p in pairings)
         {
             DeletePairing(p);
@@ -333,11 +333,10 @@ public partial class MainViewModel : ObservableObject
             tournament.TournamentType,
             tournament.PairingMethod,
             tournament.AdditionMethod,
-            Utils.GetOrderedPlayerList(playersToPair,
+            [.. Utils.GetOrderedPlayerList(playersToPair,
                 tournament.TournamentType,
                 currentRound.RoundNumber,
-                tournament.NumberOfRounds)
-            .ToList(),
+                tournament.NumberOfRounds)],
             tournament.NumberOfRounds
         );
 
@@ -750,8 +749,8 @@ public partial class MainViewModel : ObservableObject
     private void GeneratePlayers(int number)
     {
         Random random = new(DateAndTime.Now.Millisecond);
-        List<string> clubs = new()
-        {
+        List<string> clubs =
+        [
             "Kosi",
             "Brat",
             "Vlky",
@@ -763,9 +762,9 @@ public partial class MainViewModel : ObservableObject
             "SoIm",
             "ProG",
             "kVag",
-        };
-        List<string> countryCode = new()
-        {
+        ];
+        List<string> countryCode =
+        [
             "SK",
             "CZ",
             "DE",
@@ -777,9 +776,9 @@ public partial class MainViewModel : ObservableObject
             "RU",
             "RO",
             "BG",
-        };
+        ];
 
-        List<Player> players = new();
+        List<Player> players = [];
 
         for (int i = 0; i < number; i++)
         {

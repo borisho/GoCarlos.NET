@@ -31,8 +31,8 @@ public class Tournament
     [JsonConstructor]
     public Tournament()
     {
-        players = new();
-        rounds = new();
+        players = [];
+        rounds = [];
 
         name = "Turnaj";
 
@@ -301,11 +301,11 @@ public class Tournament
     {
         if (player.IsSuperGroup)
         {
-            return TopGroupBar + 2;
+            return TopGroupBar + 3;
         }
         else if (player.IsTopGroup)
         {
-            return TopGroupBar;
+            return TopGroupBar + 1;
         }
         else
         {
@@ -362,10 +362,9 @@ public class Tournament
     public void ResetBoardNumbers()
     {
         int boardNumber = 1;
-        List<Pairing> orderedPairings = rounds[currentRound].Pairings.OrderBy(p => p.White.IsBye)
+        List<Pairing> orderedPairings = [.. rounds[currentRound].Pairings.OrderBy(p => p.White.IsBye)
             .ThenBy(p => Math.Min(p.Black.Place, p.White.Place))
-            .ThenByDescending(p => Math.Max(p.Black.Rating, p.White.Rating))
-            .ToList();
+            .ThenByDescending(p => Math.Max(p.Black.Rating, p.White.Rating))];
 
         foreach (Pairing pairing in orderedPairings)
         {
@@ -376,7 +375,7 @@ public class Tournament
 
     private void GetPlayerPlace()
     {
-        List<Player> orderedList = Utils.GetOrderedPlayerList(players, TournamentType, currentRound, numberOfRounds).ToList();
+        List<Player> orderedList = [.. Utils.GetOrderedPlayerList(players, TournamentType, currentRound, numberOfRounds)];
 
         foreach (Player p in orderedList)
         {

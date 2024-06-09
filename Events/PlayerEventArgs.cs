@@ -3,13 +3,8 @@ using GoCarlos.NET.Models;
 
 namespace GoCarlos.NET.Events;
 
-public class PlayerEventArgs : EventArgs
+public class PlayerEventArgs(Player player) : EventArgs
 {
-    public PlayerEventArgs(Player player)
-    {
-        Player = player;
-    }
-
-    public Player Player { get; set; }
+    public Player Player { get; set; } = player;
     public bool? Bool { get; set; }
 }

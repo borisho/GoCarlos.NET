@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace GoCarlos.NET.ViewModels;
 
-public partial class SettingsViewModel : ObservableObject
+public partial class SettingsViewModel(MainViewModel mvm) : ObservableObject
 {
     private const string MacMahon = "MacMahon";
     private const string Championship = "Majstrovstvá";
@@ -18,98 +18,73 @@ public partial class SettingsViewModel : ObservableObject
     private const string Weakest = "Najslabší súper";
     private const string Random = "Náhodný súper";
 
-    private readonly MainViewModel mvm;
+    private readonly MainViewModel mvm = mvm;
 
     [ObservableProperty]
-    private string selectedTournamentType;
-
-    [ObservableProperty]
-    private string selectedPairingMethod;
-
-    [ObservableProperty]
-    private string selectedGroupAdditionMethod;
-
-    [ObservableProperty]
-    private string name;
-
-    [ObservableProperty]
-    private string numberOfRounds;
-
-    [ObservableProperty]
-    private string handicapReduction;
-
-    [ObservableProperty]
-    private string topGroupBar;
-
-    [ObservableProperty]
-    private string bottomGroupBar;
-
-    [ObservableProperty]
-    private bool avoidSameCityPairing;
-
-    [ObservableProperty]
-    private bool handicapBasedMm;
-
-    public SettingsViewModel(MainViewModel mvm)
+    private string selectedTournamentType = mvm.Tournament.TournamentType switch
     {
-        this.mvm = mvm;
+        TournamentType.Championship => Championship,
+        TournamentType.Swiss => Swiss,
+        _ => MacMahon,
+    };
 
-        name = mvm.Tournament.Name;
-        numberOfRounds = mvm.Tournament.NumberOfRounds.ToString();
-        handicapReduction = mvm.Tournament.HandicapReduction.ToString();
-        topGroupBar = mvm.Tournament.TopGroupBar.ToString();
-        bottomGroupBar = mvm.Tournament.BottomGroupBar.ToString();
+    [ObservableProperty]
+    private string selectedPairingMethod = mvm.Tournament.PairingMethod switch
+    {
+        PairingMethod.Cross => Cross,
+        PairingMethod.Strongest => Adjacent,
+        PairingMethod.Weakest => Weakest,
+        _ => Random,
+    };
 
-        avoidSameCityPairing = mvm.Tournament.AvoidSameCityPairing;
-        handicapBasedMm = mvm.Tournament.HandicapBasedMm;
+    [ObservableProperty]
+    private string selectedGroupAdditionMethod = mvm.Tournament.AdditionMethod switch
+    {
+        PairingMethod.Strongest => Adjacent,
+        PairingMethod.Random => Random,
+        _ => Weakest,
+    };
 
-        TournamentTypeCollection = new ObservableCollection<string>
-        {
+    [ObservableProperty]
+    private string name = mvm.Tournament.Name;
+
+    [ObservableProperty]
+    private string numberOfRounds = mvm.Tournament.NumberOfRounds.ToString();
+
+    [ObservableProperty]
+    private string handicapReduction = mvm.Tournament.HandicapReduction.ToString();
+
+    [ObservableProperty]
+    private string topGroupBar = mvm.Tournament.TopGroupBar.ToString();
+
+    [ObservableProperty]
+    private string bottomGroupBar = mvm.Tournament.BottomGroupBar.ToString();
+
+    [ObservableProperty]
+    private bool avoidSameCityPairing = mvm.Tournament.AvoidSameCityPairing;
+
+    [ObservableProperty]
+    private bool handicapBasedMm = mvm.Tournament.HandicapBasedMm;
+
+    public ObservableCollection<string> TournamentTypeCollection { get; private set; } =
+        [
             MacMahon,
             Championship,
             Swiss,
-        };
-
-        PairingMethodCollection = new ObservableCollection<string>
-        {
+        ];
+    public ObservableCollection<string> PairingMethodCollection { get; private set; } =
+        [
             Cross,
             Adjacent,
             Weakest,
             Random,
-        };
-
-        GroupAdditionCollection = new ObservableCollection<string>
-        {
+        ];
+    public ObservableCollection<string> GroupAdditionCollection { get; private set; } =
+        [
             Adjacent,
             Weakest,
             Random,
-        };
-
-        selectedTournamentType = mvm.Tournament.TournamentType switch
-        {
-            TournamentType.Championship => Championship,
-            TournamentType.Swiss => Swiss,
-            _ => MacMahon,
-        };
-
-        selectedPairingMethod = mvm.Tournament.PairingMethod switch
-        {
-            PairingMethod.Cross => Cross,
-            PairingMethod.Strongest => Adjacent,
-            PairingMethod.Weakest => Weakest,
-            _ => Random,
-        };
-
-        selectedGroupAdditionMethod = mvm.Tournament.AdditionMethod switch
-        {
-            PairingMethod.Strongest => Adjacent,
-            PairingMethod.Random => Random,
-            _ => Weakest,
-        };
-    }
-    public ObservableCollection<string> TournamentTypeCollection { get; private set; }
-    public ObservableCollection<string> PairingMethodCollection { get; private set; }
-    public ObservableCollection<string> GroupAdditionCollection { get; private set; }
+        ];
 
     [RelayCommand]
     private void SaveAndExit(ICloseable? window)

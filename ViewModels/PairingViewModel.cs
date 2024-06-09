@@ -28,15 +28,15 @@ public partial class PairingViewModel : ObservableObject, IEquatable<PairingView
     {
         this.pairing = pairing;
 
-        ResultList = new ObservableCollection<string>
-        {
+        ResultList =
+        [
             BLACK_WON,
             WHITE_WON,
             BOTH_WON,
             BOTH_LOST,
             DRAW,
             NONE,
-        };
+        ];
 
         switch (pairing.Result)
         {
