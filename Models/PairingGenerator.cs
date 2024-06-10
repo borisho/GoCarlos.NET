@@ -250,14 +250,14 @@ public static class PairingGenerator
 
                 if (topGroup.Any())
                 {
-                    superGroupAddition = topGroup.First();
+                    superGroupAddition = topGroup.OrderByDescending(p => p.Rating).First();
                 }
                 else
                 {
                     List<Player> additionList = parameters.OrderedPlayers.Where(p => !p.IsSuperGroup).ToList();
                     if (additionList.Count != 0)
                     {
-                        superGroupAddition = additionList.First();
+                        superGroupAddition = additionList.OrderByDescending(p => p.Rating).First();
                     }
                 }
             }

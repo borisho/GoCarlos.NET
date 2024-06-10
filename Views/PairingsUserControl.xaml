@@ -103,7 +103,13 @@
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Výsledok" Binding="{Binding Results, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Výsledok" Binding="{Binding Results, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <EventSetter Event="PreviewMouseDown" Handler="DataGridCell_PreviewMouseDown"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="Hendikep" Binding="{Binding Handicap, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
             </DataGrid.Columns>
         </DataGrid>

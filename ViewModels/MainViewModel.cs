@@ -424,10 +424,9 @@ public partial class MainViewModel : ObservableObject
     private void EditPairingResult()
     {
         if (SelectedPairing is not null &&
-            !SelectedPairing.Pairing.White.IsBye &&
-            !SelectedPairing.Pairing.ResultByReferee)
+            !SelectedPairing.Pairing.White.IsBye)
         {
-            SelectedPairing.Pairing.Result = Utils.Next(SelectedPairing.Pairing.Result);
+            SelectedPairing.SetResult(Utils.Next(SelectedPairing.Pairing.Result));
         }
     }
 

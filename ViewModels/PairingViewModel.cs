@@ -110,6 +110,39 @@ public partial class PairingViewModel : ObservableObject, IEquatable<PairingView
             OnPropertyChanged(nameof(Results));
         }
     }
+    public void SetResult(Result result)
+    {
+        IsRefereeEnabled = true;
+        RefereeDecision = false;
+        switch (result)
+        {
+            case Result.BLACK_WON:
+                pairing.Result = Result.BLACK_WON;
+                SelectedResult = BLACK_WON;
+                break;
+            case Result.WHITE_WON:
+                pairing.Result = Result.WHITE_WON;
+                SelectedResult = WHITE_WON;
+                break;
+            case Result.BOTH_WON:
+                pairing.Result = Result.BOTH_WON;
+                SelectedResult = BOTH_WON;
+                break;
+            case Result.BOTH_LOST:
+                pairing.Result = Result.BOTH_LOST;
+                SelectedResult = BOTH_LOST;
+                break;
+            case Result.DRAW:
+                pairing.Result = Result.DRAW;
+                SelectedResult = DRAW;
+                break;
+            case Result.NONE:
+                pairing.Result = Result.NONE;
+                SelectedResult = NONE;
+                break;
+            default: break;
+        }
+    }
     public Pairing Pairing { get => pairing; }
     public int Board { get => pairing.BoardNumber; }
     public string Black
