@@ -149,7 +149,7 @@ public partial class PairingViewModel : ObservableObject, IEquatable<PairingView
     {
         get
         {
-            if (pairing.Black.IsBye)
+            if (pairing.Black.Group == Group.Bye)
             {
                 return "BYE";
             }
@@ -161,7 +161,7 @@ public partial class PairingViewModel : ObservableObject, IEquatable<PairingView
     {
         get
         {
-            if (pairing.White.IsBye)
+            if (pairing.White.Group == Group.Bye)
             {
                 return "BYE";
             }

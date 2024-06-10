@@ -105,8 +105,8 @@
                 </DataGridTextColumn>
                 <DataGridTextColumn Header="Výsledok" Binding="{Binding Results, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                     <DataGridTextColumn.CellStyle>
-                        <Style TargetType="DataGridCell">
-                            <EventSetter Event="PreviewMouseDown" Handler="DataGridCell_PreviewMouseDown"/>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="DataGridCell_PreviewMouseDown"/>
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>

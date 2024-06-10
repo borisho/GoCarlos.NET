@@ -236,7 +236,7 @@ public static class PairingGenerator
         Debug.WriteLine("\nMaking Championship pairings...");
 
         // hráči v superGroup
-        List<Player> superGroup = parameters.OrderedPlayers.Where(p => p.IsSuperGroup).ToList();
+        List<Player> superGroup = parameters.OrderedPlayers.Where(p => p.Group == Group.SuperGroup).ToList();
 
         // pokiaľ je nepárny počet hráčov v superGroup, doplň hráča
         if (superGroup.Count % 2 == 1)
@@ -246,7 +246,7 @@ public static class PairingGenerator
             // v prvom kole zisti hráča, ktorý bude doplnený do superGroup
             if (superGroupAddition == null || parameters.Round.RoundNumber == 1)
             {
-                IEnumerable<Player> topGroup = parameters.OrderedPlayers.Where(p => p.IsTopGroup);
+                IEnumerable<Player> topGroup = parameters.OrderedPlayers.Where(p => p.Group == Group.TopGroup);
 
                 if (topGroup.Any())
                 {
@@ -254,7 +254,7 @@ public static class PairingGenerator
                 }
                 else
                 {
-                    List<Player> additionList = parameters.OrderedPlayers.Where(p => !p.IsSuperGroup).ToList();
+                    List<Player> additionList = parameters.OrderedPlayers.Where(p => p.Group != Group.SuperGroup).ToList();
                     if (additionList.Count != 0)
                     {
                         superGroupAddition = additionList.OrderByDescending(p => p.Rating).First();
@@ -404,7 +404,7 @@ public static class PairingGenerator
                     parameters.HandicapReduction,
                     parameters.HandicapBasedMm,
                     byePlayer,
-                    new()
+                    new() { Group = Group.Bye }
                 )
             );
 

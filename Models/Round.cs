@@ -68,7 +68,7 @@ public class Round(int roundNumber, TournamentType tournamentType) : IEquatable<
 
     public Pairing AddPairing(Player p1, Player p2, int handicapReduction, bool handicapBasedMm)
     {
-        if (p2.IsBye)
+        if (p2.Group == Group.Bye)
         {
             return AddByePairing(p1);
         }
@@ -143,7 +143,7 @@ public class Round(int roundNumber, TournamentType tournamentType) : IEquatable<
 
             AdjustPairingBalancer(black, white, false);
 
-            if (!white.IsBye)
+            if (white.Group != Group.Bye)
             {
                 white.ColorBalancer--;
                 white.Pairings.Remove(roundNumber);

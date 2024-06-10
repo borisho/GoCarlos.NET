@@ -208,8 +208,8 @@ public class Tournament
             foreach (Player player in players)
             {
                 player.Points = 0;
-                player.Score = GetMacMahon(player);
-                player.ScoreX = GetMacMahon(player);
+                player.Score = StartScore(player);
+                player.ScoreX = StartScore(player);
                 player.SOS = 0;
                 player.SOSOS = 0;
                 player.SODOS = 0;
@@ -221,8 +221,8 @@ public class Tournament
             foreach (Player player in players)
             {
                 player.Points = GetPoints(player, roundNumber);
-                player.Score = GetMacMahon(player) + GetResults(player, roundNumber);
-                player.ScoreX = GetMacMahon(player) + player.Points;
+                player.Score = StartScore(player) + GetResults(player, roundNumber);
+                player.ScoreX = StartScore(player) + player.Points;
                 player.SOS = 0;
                 player.SOSOS = 0;
                 player.SODOS = 0;
@@ -252,7 +252,7 @@ public class Tournament
                     {
                         float startscore = tournamentType == TournamentType.Swiss ? 0 : StartScore(player);
 
-                        player.SOS += player.IsSuperGroup ? startscore + 2 : startscore;
+                        player.SOS += startscore;
                         player.SODOS += startscore / 2f;
                     }
                 }
@@ -294,34 +294,16 @@ public class Tournament
             startscore = player.StartScore;
         }
 
-        return startscore;
-    }
+        if (player.Group == Group.SuperGroup)
+        {
+            startscore += 3f;
+        }
+        else if (player.Group == Group.TopGroup)
+        {
+            startscore++;
+        }
 
-    private float GetMacMahon(Player player)
-    {
-        if (player.IsSuperGroup)
-        {
-            return TopGroupBar + 3;
-        }
-        else if (player.IsTopGroup)
-        {
-            return TopGroupBar + 1;
-        }
-        else
-        {
-            if (player.StartScore > TopGroupBar)
-            {
-                return TopGroupBar;
-            }
-            else if (player.StartScore < BottomGroupBar)
-            {
-                return BottomGroupBar;
-            }
-            else
-            {
-                return player.StartScore;
-            }
-        }
+        return startscore;
     }
 
     private static float GetPoints(Player player, int roundNumber)
@@ -362,7 +344,7 @@ public class Tournament
     public void ResetBoardNumbers()
     {
         int boardNumber = 1;
-        List<Pairing> orderedPairings = [.. rounds[currentRound].Pairings.OrderBy(p => p.White.IsBye)
+        List<Pairing> orderedPairings = [.. rounds[currentRound].Pairings.OrderBy(p => p.White.Group == Group.Bye)
             .ThenBy(p => Math.Min(p.Black.Place, p.White.Place))
             .ThenByDescending(p => Math.Max(p.Black.Rating, p.White.Rating))];
 

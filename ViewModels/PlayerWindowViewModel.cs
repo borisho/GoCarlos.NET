@@ -5,9 +5,11 @@ using GoCarlos.NET.Events;
 using GoCarlos.NET.Interfaces;
 using GoCarlos.NET.Messages;
 using GoCarlos.NET.Models;
+using GoCarlos.NET.Models.Enums;
 using GoCarlos.NET.Services;
 using Newtonsoft.Json;
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 
@@ -15,6 +17,10 @@ namespace GoCarlos.NET.ViewModels;
 
 public partial class PlayerWindowViewModel : ObservableRecipient, IRecipient<EGDSelectionMessage>
 {
+    private const string SuperGroup = "Super group";
+    private const string TopGroup = "Top group";
+    private const string Default = "Predvolené";
+
     private readonly PlayerViewModel? pvm;
 
     [ObservableProperty]
@@ -25,10 +31,10 @@ public partial class PlayerWindowViewModel : ObservableRecipient, IRecipient<EGD
     private int numberOfRounds;
 
     [ObservableProperty]
-    private bool isSuperGroup, isTopGroup, addOneMore;
+    private Group groupType;
 
     [ObservableProperty]
-    private bool ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9, ch10;
+    private bool ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9, ch10, addOneMore;
 
     public PlayerWindowViewModel(PlayerViewModel? pvm, int numberOfRounds, bool addOneMore)
     {
@@ -38,8 +44,7 @@ public partial class PlayerWindowViewModel : ObservableRecipient, IRecipient<EGD
         data = new();
         this.numberOfRounds = numberOfRounds;
 
-        isSuperGroup = false;
-        isTopGroup = false;
+        groupType = Group.Default;
         ch1 = true;
         ch2 = true;
         ch3 = true;
@@ -54,8 +59,7 @@ public partial class PlayerWindowViewModel : ObservableRecipient, IRecipient<EGD
         if (pvm is not null)
         {
             data = new(pvm.Player.Data);
-            isSuperGroup = pvm.Player.IsSuperGroup;
-            isTopGroup = pvm.Player.IsTopGroup;
+            groupType = pvm.Player.Group;
 
             if (!pvm.Player.RoundsPlaying.Contains(0))
                 ch1 = false;
@@ -100,6 +104,30 @@ public partial class PlayerWindowViewModel : ObservableRecipient, IRecipient<EGD
     #endregion
 
     #region Player properties and linking for UI
+
+    public ObservableCollection<string> GroupCollection { get; private set; } =
+    [
+        SuperGroup,
+        TopGroup,
+        Default,
+    ];
+
+    public string SelectedGroup
+    {
+        get => GroupType switch
+        {
+            Group.SuperGroup => SuperGroup,
+            Group.TopGroup => TopGroup,
+            _ => Default
+        };
+        set => GroupType = value switch
+        {
+            SuperGroup => Group.SuperGroup,
+            TopGroup => Group.TopGroup,
+            _ => Group.Default
+        };
+    }
+
     public string Pin_Player
     {
         get => Data.Pin_Player;
@@ -250,12 +278,7 @@ public partial class PlayerWindowViewModel : ObservableRecipient, IRecipient<EGD
             player.Data = Data;
             player.Rating = int.Parse(Data.Gor);
             player.Grade = Data.Grade;
-
-            if (player.IsSuperGroup != IsSuperGroup || player.IsTopGroup != IsTopGroup)
-            {
-                player.IsSuperGroup = IsSuperGroup;
-                player.IsTopGroup = IsTopGroup;
-            }
+            player.Group = GroupType;
 
             SetPlayingRounds(player);
             EditPlayerEvent?.Invoke(this, new PlayerEventArgs(player));
@@ -271,8 +294,7 @@ public partial class PlayerWindowViewModel : ObservableRecipient, IRecipient<EGD
         {
             Player player = new(Data)
             {
-                IsSuperGroup = IsSuperGroup,
-                IsTopGroup = IsTopGroup
+                Group = GroupType,
             };
 
             SetPlayingRounds(player);

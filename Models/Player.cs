@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using GoCarlos.NET.Models.Enums;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -26,9 +27,7 @@ public class Player : IEquatable<Player?>
     private string grade;
     private int rating;
 
-    private bool isBye;
-    private bool isSuperGroup;
-    private bool isTopGroup;
+    private Group group;
 
     private int byeBalancer;
     private int colorBalancer;
@@ -59,9 +58,7 @@ public class Player : IEquatable<Player?>
         grade = "30k";
         rating = -900;
 
-        isBye = true;
-        isSuperGroup = false;
-        isTopGroup = false;
+        group = Group.Default;
 
         byeBalancer = 99;
         colorBalancer = 0;
@@ -82,8 +79,6 @@ public class Player : IEquatable<Player?>
         roundsPlaying = [0,1,2,3,4];
 
         this.data = data;
-        isBye = false;
-
         grade = this.data.Grade;
 
         if (data.Gor == "")
@@ -103,7 +98,6 @@ public class Player : IEquatable<Player?>
     public Player(HashSet<int> roundsPlaying, EGD_Data data) : this(data)
     {
         this.roundsPlaying = roundsPlaying;
-        isBye = false;
     }
 
     public Guid Guid { get => uuid; }
@@ -128,9 +122,7 @@ public class Player : IEquatable<Player?>
     }
     public int Rating { get => rating; set => rating = value; }
 
-    public bool IsBye { get => isBye; set => isBye = value; }
-    public bool IsSuperGroup { get => isSuperGroup; set => isSuperGroup = value; }
-    public bool IsTopGroup { get => isTopGroup; set => isTopGroup = value; }
+    public Group Group { get => group; set => group = value; }
 
     public int ByeBalancer { get => byeBalancer; set => byeBalancer = value; }
     public int ColorBalancer { get => colorBalancer; set => colorBalancer = value; }

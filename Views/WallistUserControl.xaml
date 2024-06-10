@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GoCarlos.NET.Views"
              xmlns:viewModels="clr-namespace:GoCarlos.NET.ViewModels"
+             xmlns:enums="clr-namespace:GoCarlos.NET.Models.Enums"
              d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -45,17 +46,18 @@
                 <DataGridTextColumn Header="Klub" Binding="{Binding Club, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="Trieda" Binding="{Binding Grade, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="Rating" Binding="{Binding Gor, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <DataGridTextColumn Header="" CanUserResize="False" MinWidth="5" Width="5">
+                <DataGridTextColumn Header="" CanUserResize="False" MinWidth="12" Width="12">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="{x:Type DataGridCell}">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding GroupColor}" Value="2">
+                                <DataTrigger Binding="{Binding GroupColor}" Value="{x:Static enums:Group.SuperGroup}">
                                     <Setter Property="Background" Value="Orange"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding GroupColor}" Value="1">
+                                <DataTrigger Binding="{Binding GroupColor}" Value="{x:Static enums:Group.TopGroup}">
                                     <Setter Property="Background" Value="Blue"/>
                                 </DataTrigger>
                             </Style.Triggers>
+                            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="DataGridCell_PreviewMouseDown"/>
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>

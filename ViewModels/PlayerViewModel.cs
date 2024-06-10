@@ -25,7 +25,15 @@ public partial class PlayerViewModel(Player player, int currentRound) : Observab
     public string Club { get => player.Data.Club; }
     public string Grade { get => player.Grade; }
     public int Gor { get => player.Rating; }
-    public string GroupColor { get => player.IsSuperGroup ? "2" : player.IsTopGroup ? "1" : ""; }
+    public Group GroupColor
+    {
+        get => player.Group;
+        set
+        {
+            player.Group = value;
+            OnPropertyChanged(nameof(GroupColor));
+        }
+    }
     public string R1 { get => GetRoundResult(0); }
     public string R2 { get => GetRoundResult(1); }
     public string R3 { get => GetRoundResult(2); }

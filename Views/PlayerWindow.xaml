@@ -173,13 +173,11 @@
             </DockPanel>
         </DockPanel>
 
-        <Label Grid.Row="14" Grid.Column="1">SuperGroup</Label>
-        <CheckBox Grid.Row="14" Grid.Column="2" VerticalAlignment="Center"
-                  IsChecked="{Binding IsSuperGroup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-        <Label Grid.Row="15" Grid.Column="1">TopGroup</Label>
-        <CheckBox Grid.Row="15" Grid.Column="2" VerticalAlignment="Center"
-                  IsChecked="{Binding IsTopGroup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Grid.Row="14" Grid.Column="1">Skupina</Label>
+        <ComboBox Grid.Row="14" Grid.Column="2" Margin="5 2" MinWidth="100px"
+                  HorizontalAlignment="Left"
+                  ItemsSource="{Binding GroupCollection}"
+                  SelectedItem="{Binding SelectedGroup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
         <!-- Pridanei hráča -->
         <Button Grid.Row="16" Grid.Column="1"

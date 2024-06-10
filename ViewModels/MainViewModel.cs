@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using GoCarlos.NET.Events;
 using GoCarlos.NET.Models;
+using GoCarlos.NET.Models.Enums;
 using GoCarlos.NET.Models.Records;
 using Microsoft.VisualBasic;
 using Microsoft.Win32;
@@ -62,7 +63,7 @@ public partial class MainViewModel : ObservableObject
         {
             if (SelectedPairing is not null)
             {
-                if (SelectedPairing.Pairing.White.IsBye)
+                if (SelectedPairing.Pairing.White.Group == Group.Bye)
                 {
                     return Visibility.Collapsed;
                 }
@@ -279,7 +280,6 @@ public partial class MainViewModel : ObservableObject
     {
         foreach (Player player in players)
         {
-            player.IsSuperGroup = false;
             AddPlayer(player);
         }
     }
@@ -423,10 +423,19 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void EditPairingResult()
     {
-        if (SelectedPairing is not null &&
-            !SelectedPairing.Pairing.White.IsBye)
+        if (SelectedPairing is not null && SelectedPairing.Pairing.White.Group != Group.Bye)
         {
             SelectedPairing.SetResult(Utils.Next(SelectedPairing.Pairing.Result));
+        }
+    }
+
+    [RelayCommand]
+    private void EditPlayerGroup()
+    {
+        if (SelectedPlayer is not null && SelectedPlayer.Player.Group != Group.Bye)
+        {
+            Group newGroup = Utils.Next(SelectedPlayer.GroupColor);
+            SelectedPlayer.GroupColor = newGroup == Group.Bye ? Utils.Next(newGroup) : newGroup;
         }
     }
 
@@ -446,7 +455,7 @@ public partial class MainViewModel : ObservableObject
         {
             unpairedPlayers.Add(new(pairing.Black, CurrentRoundNumber));
 
-            if (!pairing.White.IsBye)
+            if (pairing.White.Group != Group.Bye)
             {
                 unpairedPlayers.Add(new(pairing.White, CurrentRoundNumber));
             }
