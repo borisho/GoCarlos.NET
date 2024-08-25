@@ -31,12 +31,12 @@ public class Pairing : IEquatable<Pairing?>
         comment = "";
     }
 
-    public Pairing(Player black) : this()
+    public Pairing(Player black, Player bye) : this()
     {
         result = Result.BLACK_WON;
 
         this.black = black;
-        white = new();
+        white = bye;
         handicap = 0;
         boardNumber = 0;
         resultByReferee = false;

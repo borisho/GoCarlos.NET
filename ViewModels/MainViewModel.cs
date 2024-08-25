@@ -425,7 +425,12 @@ public partial class MainViewModel : ObservableObject
     {
         if (SelectedPairing is not null && SelectedPairing.Pairing.White.Group != Group.Bye)
         {
-            SelectedPairing.SetResult(Utils.Next(SelectedPairing.Pairing.Result));
+            Group whitePlayerGroup = SelectedPairing.Pairing.White.Group;
+            if (whitePlayerGroup != Group.Bye)
+            {
+                SelectedPairing.SetResult(Utils.Next(SelectedPairing.Pairing.Result));
+                GoToAndRefreshRound(CurrentRoundNumber);
+            }
         }
     }
 
@@ -436,6 +441,7 @@ public partial class MainViewModel : ObservableObject
         {
             Group newGroup = Utils.Next(SelectedPlayer.GroupColor);
             SelectedPlayer.GroupColor = newGroup == Group.Bye ? Utils.Next(newGroup) : newGroup;
+            GoToAndRefreshRound(CurrentRoundNumber);
         }
     }
 

@@ -70,7 +70,7 @@ public class Round(int roundNumber, TournamentType tournamentType) : IEquatable<
     {
         if (p2.Group == Group.Bye)
         {
-            return AddByePairing(p1);
+            return AddByePairing(p1, p2);
         }
 
         int p1GradeN = handicapBasedMm == true ? (int)Math.Round(p1.Score) : Utils.GetValue(p1.Grade);
@@ -114,9 +114,9 @@ public class Round(int roundNumber, TournamentType tournamentType) : IEquatable<
         }
     }
 
-    private Pairing AddByePairing(Player black)
+    private Pairing AddByePairing(Player black, Player bye)
     {
-        Pairing pairing = new(black);
+        Pairing pairing = new(black, bye);
 
         pairings.Add(pairing);
 
@@ -141,10 +141,10 @@ public class Round(int roundNumber, TournamentType tournamentType) : IEquatable<
             black.Opponents.Remove(roundNumber);
             unpairedPlayers.Add(black);
 
-            AdjustPairingBalancer(black, white, false);
-
             if (white.Group != Group.Bye)
             {
+                AdjustPairingBalancer(black, white, false);
+
                 white.ColorBalancer--;
                 white.Pairings.Remove(roundNumber);
                 white.Opponents.Remove(roundNumber);

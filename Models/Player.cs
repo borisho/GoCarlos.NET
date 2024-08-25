@@ -60,7 +60,7 @@ public class Player : IEquatable<Player?>
 
         group = Group.Default;
 
-        byeBalancer = 99;
+        byeBalancer = 0;
         colorBalancer = 0;
         pairingBalancer = 0;
         startScore = 0;

@@ -398,13 +398,18 @@ public static class PairingGenerator
 
             players.Remove(byePlayer);
 
+            Player bye = new()
+            {
+                Group = Group.Bye
+            };
+
             Pairing pairing = PairPlayers(
                 new PairingParameters(
                     parameters.Round,
                     parameters.HandicapReduction,
                     parameters.HandicapBasedMm,
                     byePlayer,
-                    new() { Group = Group.Bye }
+                    bye
                 )
             );
 
