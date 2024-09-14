@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace GoCarlos.NET.Models;
 
@@ -279,31 +280,29 @@ public class Tournament
 
     private float StartScore(Player player)
     {
-        float startscore;
-
-        if (player.StartScore < bottomGroupBar)
+        float getScore(int score)
         {
-            startscore = bottomGroupBar;
-        }
-        else if (player.StartScore > topGroupBar)
-        {
-            startscore = topGroupBar;
-        }
-        else
-        {
-            startscore = player.StartScore;
-        }
-
-        if (player.Group == Group.SuperGroup)
-        {
-            startscore += 3f;
-        }
-        else if (player.Group == Group.TopGroup)
-        {
-            startscore++;
+            if (score > topGroupBar)
+            {
+                return topGroupBar;
+            }
+            else if (score < bottomGroupBar)
+            {
+                return bottomGroupBar;
+            }
+            else
+            {
+                return score;
+            }
         }
 
-        return startscore;
+        return player.Group switch
+        {
+            Group.SuperGroup => topGroupBar + 3,
+            Group.TopGroup => topGroupBar + 1,
+            Group.Default => getScore(player.StartScore),
+            _ => 0,
+        };
     }
 
     private static float GetPoints(Player player, int roundNumber)
