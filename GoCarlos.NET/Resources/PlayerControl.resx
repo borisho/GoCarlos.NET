@@ -180,4 +180,7 @@
   <data name="SearchPlayer" xml:space="preserve">
     <value>Search by name</value>
   </data>
+  <data name="Place" xml:space="preserve">
+    <value>Place</value>
+  </data>
 </root>

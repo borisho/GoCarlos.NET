@@ -178,6 +178,15 @@ namespace GoCarlos.NET.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Place.
+        /// </summary>
+        public static string Place {
+            get {
+                return ResourceManager.GetString("Place", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The player could not be found!.
         /// </summary>
         public static string PlayerNotFound {

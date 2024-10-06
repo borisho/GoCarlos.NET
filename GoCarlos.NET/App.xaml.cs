@@ -1,4 +1,5 @@
-﻿using GoCarlos.NET.Interfaces;
+﻿using GoCarlos.NET.Factories;
+using GoCarlos.NET.Interfaces;
 using GoCarlos.NET.Models;
 using GoCarlos.NET.Services;
 using GoCarlos.NET.ViewModels;
@@ -27,11 +28,14 @@ public partial class App : Application
 
                 services.AddLocalization(options => { options.ResourcesPath = "Resources"; });
 
-                services.AddTransient<IWindowService, WindowService>();
-                services.AddTransient<IDialogService, DialogService>();
-                services.AddTransient<IMenuItemsService, MenuItemsService>();
+                services.AddSingleton<IWindowService, WindowService>();
+                services.AddSingleton<IDialogService, DialogService>();
                 services.AddSingleton<IEgdService, EgdService>();
                 services.AddSingleton<ITournament, Tournament>();
+
+                services.AddSingleton<MenuItemsService>();
+                services.AddSingleton<MainViewService>();
+                services.AddSingleton<ILocalizerFactory, LocalizerFactory>();
 
 
                 services.AddTransient<MenuViewModel>();

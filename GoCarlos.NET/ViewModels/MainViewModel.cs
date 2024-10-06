@@ -1,22 +1,28 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using GoCarlos.NET.Enums;
 using GoCarlos.NET.Interfaces;
 using GoCarlos.NET.Messages;
 using GoCarlos.NET.Models;
 using System.Collections;
 using System.ComponentModel;
+using System.Data;
 using System.Windows.Data;
 
 namespace GoCarlos.NET.ViewModels;
 
-public partial class MainViewModel : ObservableObject, IRecipient<BoolMessage>, IReferenceCleanup
+public partial class MainViewModel : ObservableObject, IRecipient<EmptyMessage>, IRecipient<BoolMessage>, IReferenceCleanup
 {
-    private readonly IWindowService windowService;
     private readonly ITournament tournament;
+    private readonly IWindowService windowService;
+    private readonly ILocalizerService localizerService;
 
     [ObservableProperty]
     private MenuViewModel menuViewModel;
+
+    [ObservableProperty]
+    private DataTable dataTable;
 
     [ObservableProperty]
     private Player? selectedPlayer;
@@ -24,17 +30,26 @@ public partial class MainViewModel : ObservableObject, IRecipient<BoolMessage>, 
     [ObservableProperty]
     private Pairing? selectedPairing;
 
-    public MainViewModel(IWindowService windowService, ITournament tournament, MenuViewModel menuViewModel)
+    public MainViewModel(ITournament tournament,
+        IWindowService windowService,
+        ILocalizerFactory localizerFactory,
+        MenuViewModel menuViewModel)
     {
         this.windowService = windowService;
         this.tournament = tournament;
         this.menuViewModel = menuViewModel;
 
+        // Get localizer service from factory
+        localizerService = localizerFactory.GetByQualifier(LocalizerType.MainViewService);
+
+        dataTable = CreateDataTable();
+
         Players = CollectionViewSource.GetDefaultView(tournament.Players);
         Pairings = CollectionViewSource.GetDefaultView(tournament.Pairings);
         UnpairedPlayers = CollectionViewSource.GetDefaultView(tournament.UnpairedPlayers);
 
-        WeakReferenceMessenger.Default.Register(this, ITournament.TOKEN_REFRESH_MAIN_VIEW_MODEL);
+        WeakReferenceMessenger.Default.Register<BoolMessage, int>(this, ITournament.TOKEN_REFRESH_MAIN_VIEW_MODEL);
+        WeakReferenceMessenger.Default.Register<EmptyMessage, int>(this, ITournament.TOKEN_ROUND_CHANGE);
     }
 
     public ICollectionView Players { get; }
@@ -58,7 +73,7 @@ public partial class MainViewModel : ObservableObject, IRecipient<BoolMessage>, 
         if (SelectedPlayer != null)
         {
             //Delete Player
-            SelectedPlayer = null;
+            //SelectedPlayer = null;
         }
     }
 
@@ -77,7 +92,7 @@ public partial class MainViewModel : ObservableObject, IRecipient<BoolMessage>, 
         if (SelectedPairing != null)
         {
             //Delete pairing
-            SelectedPairing = null;
+            //SelectedPairing = null;
         }
     }
 
@@ -100,9 +115,33 @@ public partial class MainViewModel : ObservableObject, IRecipient<BoolMessage>, 
         }
     }
 
+    public void Receive(EmptyMessage message)
+    {
+        // TODO create new table based on current round number
+    }
+
     public void Unregister()
     {
         tournament.Unregister();
         WeakReferenceMessenger.Default.Unregister<BoolMessage, int>(this, ITournament.TOKEN_REFRESH_MAIN_VIEW_MODEL);
+        WeakReferenceMessenger.Default.Unregister<EmptyMessage, int>(this, ITournament.TOKEN_REFRESH_MAIN_VIEW_MODEL);
+    }
+
+    private DataTable CreateDataTable()
+    {
+        var table = new DataTable();
+
+        // Create fix columns
+        table.Columns.Add(localizerService["Place"]);
+        table.Columns.Add(localizerService["Name"]);
+        table.Columns.Add(localizerService["Club"]);
+        table.Columns.Add(localizerService["Grade"]);
+        table.Columns.Add(localizerService["Rating"]);
+
+        // Create dynamic columns
+
+        // Fill with ScoredPlayers
+
+        return table;
     }
 }

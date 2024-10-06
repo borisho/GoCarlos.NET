@@ -117,70 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddOneMorePlayer" xml:space="preserve">
-    <value>Pridať ďalšieho hráča</value>
+  <data name="Place" xml:space="preserve">
+    <value>Poradie</value>
   </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Zrušiť</value>
+  <data name="Name" xml:space="preserve">
+    <value>Meno</value>
   </data>
   <data name="Club" xml:space="preserve">
     <value>Klub</value>
   </data>
-  <data name="Country" xml:space="preserve">
-    <value>Krajina</value>
-  </data>
-  <data name="EgdPin" xml:space="preserve">
-    <value>EGD pin</value>
-  </data>
-  <data name="Error" xml:space="preserve">
-    <value>Chyba</value>
-  </data>
-  <data name="FirstName" xml:space="preserve">
-    <value>Meno</value>
-  </data>
   <data name="Grade" xml:space="preserve">
     <value>Trieda</value>
   </data>
-  <data name="GradeNParseErrorMessage" xml:space="preserve">
-    <value>Nepodarilo sa získať numerickú hodnotu triedy z EGD!</value>
-  </data>
-  <data name="GradeR" xml:space="preserve">
-    <value>p. R.</value>
-  </data>
-  <data name="LastName" xml:space="preserve">
-    <value>Priezvisko</value>
-  </data>
-  <data name="NameErrorMessage" xml:space="preserve">
-    <value>Meno a priezvisko nesmú byť prázdne!</value>
-  </data>
-  <data name="PinContainsOnlyNumbers" xml:space="preserve">
-    <value>PIN musí obsahovať len čísla!</value>
-  </data>
-  <data name="PlayerNotFound" xml:space="preserve">
-    <value>Hráča sa nepodarilo nájsť!</value>
-  </data>
   <data name="Rating" xml:space="preserve">
     <value>Rating</value>
-  </data>
-  <data name="RatingErrorMessage" xml:space="preserve">
-    <value>Rating musí byť číslo!</value>
-  </data>
-  <data name="RatingParseErrorMessage" xml:space="preserve">
-    <value>Nepodarilo sa získať hodnotu ratingu z EGD!</value>
-  </data>
-  <data name="Round" xml:space="preserve">
-    <value>Kolo</value>
-  </data>
-  <data name="Save" xml:space="preserve">
-    <value>Uložiť</value>
-  </data>
-  <data name="SearchPin" xml:space="preserve">
-    <value>Vyhľadať PIN</value>
-  </data>
-  <data name="SearchPlayer" xml:space="preserve">
-    <value>Vyhľadať hráča</value>
-  </data>
-  <data name="Place" xml:space="preserve">
-    <value>Poradie</value>
   </data>
 </root>

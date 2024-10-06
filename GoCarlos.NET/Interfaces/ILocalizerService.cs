@@ -3,9 +3,9 @@
 namespace GoCarlos.NET.Interfaces;
 
 /// <summary>
-/// Provides localization for main window menu
+/// Provides localization
 /// </summary>
-public interface IMenuItemsService
+public interface ILocalizerService
 {
     LocalizedString this[string name] { get; }
 }

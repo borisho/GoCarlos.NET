@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using GoCarlos.NET.Enums;
 using GoCarlos.NET.Interfaces;
+using GoCarlos.NET.Messages;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
@@ -12,21 +14,23 @@ public partial class MenuViewModel : ObservableObject
     private readonly ITournament tournament;
     private readonly IDialogService dialogService;
     private readonly IWindowService windowService;
-    private readonly IMenuItemsService menuItemsService;
+    private readonly ILocalizerService localizerService;
 
     private readonly MenuItemViewModel goToRoundRoot;
 
     public MenuViewModel(ITournament tournament,
         IDialogService dialogService,
         IWindowService windowService,
-        IMenuItemsService menuItemsService)
+        ILocalizerFactory localizerFactory)
     {
         this.tournament = tournament;
         this.dialogService = dialogService;
         this.windowService = windowService;
-        this.menuItemsService = menuItemsService;
 
-        goToRoundRoot = new MenuItemViewModel(menuItemsService["GoToRound"]);
+        // Get localizer service from factory
+        localizerService = localizerFactory.GetByQualifier(LocalizerType.MenuItemsService);
+
+        goToRoundRoot = new MenuItemViewModel(localizerService["GoToRound"]);
 
         GenerateMenuItems();
         GenerateGoToRound(tournament.Settings.GeneralSettings.NumberOfRounds);
@@ -37,7 +41,7 @@ public partial class MenuViewModel : ObservableObject
     [RelayCommand]
     public void NewTournament()
     {
-        if (dialogService.Show(menuItemsService["CreateTournamentMessage"], menuItemsService["CreateTournamentTitle"], MessageType.WARNING_YES_NO)
+        if (dialogService.Show(localizerService["CreateTournamentMessage"], localizerService["CreateTournamentTitle"], MessageType.WARNING_YES_NO)
             == System.Windows.MessageBoxResult.Yes)
         {
             tournament.Reset();
@@ -65,7 +69,7 @@ public partial class MenuViewModel : ObservableObject
     [RelayCommand]
     public void Exit()
     {
-        if (dialogService.Show(menuItemsService["ExitTournamentMessage"], menuItemsService["ExitTournamentTitle"], MessageType.WARNING_YES_NO)
+        if (dialogService.Show(localizerService["ExitTournamentMessage"], localizerService["ExitTournamentTitle"], MessageType.WARNING_YES_NO)
             == System.Windows.MessageBoxResult.Yes)
         {
             windowService.Shutdown();
@@ -82,6 +86,7 @@ public partial class MenuViewModel : ObservableObject
     public void IncrementRound()
     {
         Debug.WriteLine("IncrementRound Command");
+        WeakReferenceMessenger.Default.Send(EmptyMessage.INSTANCE, ITournament.TOKEN_ROUND_CHANGE);
     }
 
     [RelayCommand]
@@ -156,54 +161,54 @@ public partial class MenuViewModel : ObservableObject
 
     private void GenerateMenuItems()
     {
-        Items.Add(new MenuItemViewModel(menuItemsService["Settings"])
+        Items.Add(new MenuItemViewModel(localizerService["Settings"])
         {
             Items = {
-                new MenuItemViewModel(menuItemsService["NewTournament"], NewTournamentCommand),
-                new MenuItemViewModel(menuItemsService["LoadTournament"], LoadTournamentCommand),
-                new MenuItemViewModel(menuItemsService["SaveTournament"], SaveTournamentCommand),
+                new MenuItemViewModel(localizerService["NewTournament"], NewTournamentCommand),
+                new MenuItemViewModel(localizerService["LoadTournament"], LoadTournamentCommand),
+                new MenuItemViewModel(localizerService["SaveTournament"], SaveTournamentCommand),
                 new MenuItemViewModel(null),
-                new MenuItemViewModel(menuItemsService["Settings"], SettingsCommand),
+                new MenuItemViewModel(localizerService["Settings"], SettingsCommand),
                 new MenuItemViewModel(null),
-                new MenuItemViewModel(menuItemsService["Exit"], ExitCommand),
+                new MenuItemViewModel(localizerService["Exit"], ExitCommand),
             }
         });
 
-        Items.Add(new MenuItemViewModel(menuItemsService["AddPlayer"], AddPlayerCommand));
-        Items.Add(new MenuItemViewModel(menuItemsService["Rounds"])
+        Items.Add(new MenuItemViewModel(localizerService["AddPlayer"], AddPlayerCommand));
+        Items.Add(new MenuItemViewModel(localizerService["Rounds"])
         {
             Items = {
-                new MenuItemViewModel(menuItemsService["IncrementRound"], IncrementRoundCommand),
-                new MenuItemViewModel(menuItemsService["DecrementRound"], DecrementRoundCommand),
+                new MenuItemViewModel(localizerService["IncrementRound"], IncrementRoundCommand),
+                new MenuItemViewModel(localizerService["DecrementRound"], DecrementRoundCommand),
                 new MenuItemViewModel(null),
                 goToRoundRoot,
                 new MenuItemViewModel(null),
-                new MenuItemViewModel(menuItemsService["CountCurrentRound"], CountCurrentRoundCommand),
+                new MenuItemViewModel(localizerService["CountCurrentRound"], CountCurrentRoundCommand),
             }
         }); ;
 
-        Items.Add(new MenuItemViewModel(menuItemsService["Pairings"])
+        Items.Add(new MenuItemViewModel(localizerService["Pairings"])
         {
             Items = {
-                new MenuItemViewModel(menuItemsService["MakePairings"], MakePairingsCommand),
-                new MenuItemViewModel(menuItemsService["DropPairings"], DropPairingsCommand),
+                new MenuItemViewModel(localizerService["MakePairings"], MakePairingsCommand),
+                new MenuItemViewModel(localizerService["DropPairings"], DropPairingsCommand),
             }
         });
 
-        Items.Add(new MenuItemViewModel(menuItemsService["Exports"])
+        Items.Add(new MenuItemViewModel(localizerService["Exports"])
         {
             Items = {
-                new MenuItemViewModel(menuItemsService["ExportWallist"], ExportWallistCommand),
-                new MenuItemViewModel(menuItemsService["ExportPairings"], ExportPairingsCommand),
-                new MenuItemViewModel(menuItemsService["ExportEGD"], ExportEGDCommand),
+                new MenuItemViewModel(localizerService["ExportWallist"], ExportWallistCommand),
+                new MenuItemViewModel(localizerService["ExportPairings"], ExportPairingsCommand),
+                new MenuItemViewModel(localizerService["ExportEGD"], ExportEGDCommand),
             }
         });
 
-        Items.Add(new MenuItemViewModel(menuItemsService["Debug"])
+        Items.Add(new MenuItemViewModel(localizerService["Debug"])
         {
             Items = {
-                new MenuItemViewModel(menuItemsService["Generate10"], Generate10Command),
-                new MenuItemViewModel(menuItemsService["Generate100"], Generate100Command),
+                new MenuItemViewModel(localizerService["Generate10"], Generate10Command),
+                new MenuItemViewModel(localizerService["Generate100"], Generate100Command),
             }
         });
     }

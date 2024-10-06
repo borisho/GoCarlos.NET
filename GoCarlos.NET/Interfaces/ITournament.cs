@@ -9,6 +9,7 @@ namespace GoCarlos.NET.Interfaces;
 public interface ITournament : IReferenceCleanup
 {
     const int TOKEN_REFRESH_MAIN_VIEW_MODEL = 1;
+    const int TOKEN_ROUND_CHANGE = 2;
     public int CurrentRound { get; set; }
     public Settings Settings { get; }
     public IEnumerable<Player> Players { get; }
