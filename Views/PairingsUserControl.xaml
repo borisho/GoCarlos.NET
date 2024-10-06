@@ -34,10 +34,6 @@
                     </Style.Triggers>
                 </Style>
             </DataGrid.RowStyle>
-            <DataGrid.InputBindings>
-                <MouseBinding Gesture="LeftDoubleClick"
-                     Command="{Binding EditPairingResultCommand}"/>
-            </DataGrid.InputBindings>
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem IsEnabled="False">

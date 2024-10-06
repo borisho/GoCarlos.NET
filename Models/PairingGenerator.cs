@@ -164,7 +164,7 @@ public static class PairingGenerator
 
                 if (closeMatch.Any())
                 {
-                    lowestPairingBalancer = closeMatch.Min(p => p.PairingBalancer);
+                    lowestPairingBalancer = closeMatch.Max(p => p.PairingBalancer);
 
                     closeMatch = closeMatch.Where(p => p.PairingBalancer == lowestPairingBalancer);
 
@@ -202,7 +202,7 @@ public static class PairingGenerator
                 IEnumerable<Player> strongestGroup = groups.First();
 
                 // vyberú sa hráči, ktorý majú byť dosadení podľa pairingBalancera
-                lowestPairingBalancer = strongestGroup.Min(p => p.PairingBalancer);
+                lowestPairingBalancer = strongestGroup.Max(p => p.PairingBalancer);
                 IEnumerable<Player> subGroup = strongestGroup
                     .Where(p => p.PairingBalancer == lowestPairingBalancer);
 

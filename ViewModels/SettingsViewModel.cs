@@ -18,7 +18,7 @@ public partial class SettingsViewModel(MainViewModel mvm) : ObservableObject
     private const string Weakest = "Najslabší súper";
     private const string Random = "Náhodný súper";
 
-    private readonly MainViewModel mvm = mvm;
+    public readonly MainViewModel mvm = mvm;
 
     [ObservableProperty]
     private string selectedTournamentType = mvm.Tournament.TournamentType switch
@@ -167,8 +167,6 @@ public partial class SettingsViewModel(MainViewModel mvm) : ObservableObject
             {
                 MessageBox.Show("Nepodarilo sa nastaviť hranicu BottomGroup!", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
-            mvm.GoToAndRefreshRound(mvm.CurrentRoundNumber);
 
             window?.Close();
         }

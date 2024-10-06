@@ -1,4 +1,7 @@
 ﻿using GoCarlos.NET.Interfaces;
+using GoCarlos.NET.ViewModels;
+using System;
+using System.ComponentModel;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
@@ -26,4 +29,15 @@ public partial class SettingsWindow : Window, ICloseable
 
     [GeneratedRegex("[^0-9]+")]
     private static partial Regex NonNumeric();
+
+    protected override void OnClosing(CancelEventArgs e)
+    {
+        if (DataContext is SettingsViewModel svm)
+        {
+            MainViewModel mvm = svm.mvm;
+            mvm.GoToAndRefreshRound(mvm.CurrentRoundNumber);
+        }
+
+        base.OnClosing(e);
+    }
 }

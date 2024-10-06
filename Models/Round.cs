@@ -52,7 +52,7 @@ public class Round(int roundNumber, TournamentType tournamentType) : IEquatable<
         black.Opponents.Add(roundNumber, white);
         white.Opponents.Add(roundNumber, black);
 
-        AdjustPairingBalancer(black, white, true);
+        AdjustPairingBalancer(black, white);
 
         Pairing pairing = new(black, white, handicap, comment);
 
@@ -143,7 +143,7 @@ public class Round(int roundNumber, TournamentType tournamentType) : IEquatable<
 
             if (white.Group != Group.Bye)
             {
-                AdjustPairingBalancer(black, white, false);
+                RemovePairingBalancer(black, white);
 
                 white.ColorBalancer--;
                 white.Pairings.Remove(roundNumber);
@@ -168,70 +168,47 @@ public class Round(int roundNumber, TournamentType tournamentType) : IEquatable<
         return false;
     }
 
-    private void AdjustPairingBalancer(Player black, Player white, bool mode)
+    private void AdjustPairingBalancer(Player p1, Player p2)
     {
-        if (mode)
+        float score1 = getScores(p1);
+        float score2 = getScores(p2);
+
+        if (score1 > score2)
         {
-            if (tournamentType.Equals(TournamentType.Swiss))
-            {
-                if (black.Points > white.Points)
-                {
-                    black.PairingBalancer++;
-                    white.PairingBalancer--;
-                }
-
-                if (black.Points < white.Points)
-                {
-                    black.PairingBalancer--;
-                    white.PairingBalancer++;
-                }
-            }
-            else
-            {
-                if (black.Score > white.Score)
-                {
-                    black.PairingBalancer++;
-                    white.PairingBalancer--;
-                }
-
-                if (black.Score < white.Score)
-                {
-                    black.PairingBalancer--;
-                    white.PairingBalancer++;
-                }
-            }
+            p1.PairingBalancer--;
+            p2.PairingBalancer++;
         }
         else
         {
-            if (tournamentType.Equals(TournamentType.Swiss))
-            {
-                if (black.Points > white.Points)
-                {
-                    black.PairingBalancer--;
-                    white.PairingBalancer++;
-                }
-
-                if (black.Points < white.Points)
-                {
-                    black.PairingBalancer++;
-                    white.PairingBalancer--;
-                }
-            }
-            else
-            {
-                if (black.Score > white.Score)
-                {
-                    black.PairingBalancer--;
-                    white.PairingBalancer++;
-                }
-
-                if (black.Score < white.Score)
-                {
-                    black.PairingBalancer++;
-                    white.PairingBalancer--;
-                }
-            }
+            p1.PairingBalancer++;
+            p2.PairingBalancer--;
         }
+    }
+
+    private void RemovePairingBalancer(Player p1, Player p2)
+    {
+        float score1 = getScores(p1);
+        float score2 = getScores(p2);
+
+        if (score1 > score2)
+        {
+            p1.PairingBalancer++;
+            p2.PairingBalancer--;
+        }
+        else
+        {
+            p1.PairingBalancer--;
+            p2.PairingBalancer++;
+        }
+    }
+
+    private float getScores(Player p)
+    {
+        return tournamentType switch
+        {
+            TournamentType.Swiss => p.Points,
+            _ => p.Score,
+        };
     }
 
     public override bool Equals(object? obj)
