@@ -137,7 +137,7 @@ public static class PairingGenerator
 
                 if (exactMatch.Any())
                 {
-                    if (parameters.AvoidSameCityPairing)
+                    if (parameters.AvoidSameCityPairing && parameters.Round.RoundNumber < 2)
                     {
                         // Pokiaľ je to možné vyber súpera, ktorý pochádza z iného mesta
                         exactMatch = TryToAvoidSameCity(exactMatch, player);

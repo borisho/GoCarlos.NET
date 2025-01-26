@@ -26,6 +26,7 @@ public class Tournament
     private int currentRound;
     private int numberOfRounds;
 
+    private bool automaticTopBar;
     private float topGroupBar;
     private float bottomGroupBar;
 
@@ -49,6 +50,7 @@ public class Tournament
         currentRound = 0;
         numberOfRounds = 5;
 
+        automaticTopBar = true;
         topGroupBar = 29f;
         bottomGroupBar = 10f;
     }
@@ -125,6 +127,12 @@ public class Tournament
     {
         get => numberOfRounds;
         set => numberOfRounds = value;
+    }
+
+    public bool AutomaticTopGroupBar
+    {
+        get => automaticTopBar;
+        set => automaticTopBar = value;
     }
 
     public float TopGroupBar
@@ -280,6 +288,9 @@ public class Tournament
 
     private float StartScore(Player player)
     {
+        TopGroupBar = automaticTopBar ? players.Where(p => p.Group == Group.Default)
+            .Max(p => p.StartScore) : TopGroupBar;
+
         float getScore(int score)
         {
             if (score > topGroupBar)

@@ -55,6 +55,9 @@ public partial class SettingsViewModel(MainViewModel mvm) : ObservableObject
     private string handicapReduction = mvm.Tournament.HandicapReduction.ToString();
 
     [ObservableProperty]
+    private bool automaticTopGroupBar = mvm.Tournament.AutomaticTopGroupBar;
+
+    [ObservableProperty]
     private string topGroupBar = mvm.Tournament.TopGroupBar.ToString();
 
     [ObservableProperty]
@@ -94,6 +97,7 @@ public partial class SettingsViewModel(MainViewModel mvm) : ObservableObject
             mvm.Tournament.Name = Name;
             mvm.Tournament.AvoidSameCityPairing = AvoidSameCityPairing;
             mvm.Tournament.HandicapBasedMm = HandicapBasedMm;
+            mvm.Tournament.AutomaticTopGroupBar = AutomaticTopGroupBar;
 
             mvm.Tournament.TournamentType = SelectedTournamentType switch
             {
