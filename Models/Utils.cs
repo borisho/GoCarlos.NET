@@ -9,7 +9,7 @@ namespace GoCarlos.NET.Models;
 
 internal static class Utils
 {
-    public const string VERSION = "2.0.2";
+    public const string VERSION = "0.0.8";
     public const string BYE = "0+";
     public const string QUESTION_MARK = "?";
     public const string EQUALS = "=";
@@ -228,15 +228,11 @@ internal static class Utils
                         .ThenByDescending(p => p.SODOS)
                         .ThenByDescending(p => p.SOS)
                         .ThenByDescending(p => p.Rating),
-                TournamentType.Championship => players
-                        .OrderByDescending(p => p.ScoreX)
-                        .ThenByDescending(p => p.SODOS)
-                        .ThenByDescending(p => p.SOS)
-                        .ThenByDescending(p => p, mutualGameComparer),
                 TournamentType.McMahon => players
                         .OrderByDescending(p => p.ScoreX)
                         .ThenByDescending(p => p.SODOS)
                         .ThenByDescending(p => p.SOS)
+                        .ThenByDescending(p => p, mutualGameComparer)
                         .ThenByDescending(p => p.Rating),
                 _ => players
                         .OrderByDescending(p => p.ScoreX)
@@ -253,13 +249,8 @@ internal static class Utils
                 TournamentType.Swiss => players
                         .OrderByDescending(p => p.Points)
                         .ThenByDescending(p => p.Rating),
-                TournamentType.Championship => players
-                        .OrderByDescending(p => p.Score)
-                        .ThenByDescending(p => p.Rating),
                 TournamentType.McMahon => players
                         .OrderByDescending(p => p.Score)
-                        .ThenByDescending(p => p.SODOS)
-                        .ThenByDescending(p => p.SOS)
                         .ThenByDescending(p => p.Rating),
                 _ => players
                         .OrderByDescending(p => p.Score)
@@ -276,15 +267,11 @@ internal static class Utils
                 TournamentType.Swiss => players
                         .OrderByDescending(p => p.Points)
                         .ThenByDescending(p => p.Rating),
-                TournamentType.Championship => players
-                        .OrderByDescending(p => p.Score)
-                        .ThenByDescending(p => p.SODOS)
-                        .ThenByDescending(p => p.SOS)
-                        .ThenByDescending(p => p, mutualGameComparer),
                 TournamentType.McMahon => players
                         .OrderByDescending(p => p.Score)
                         .ThenByDescending(p => p.SODOS)
                         .ThenByDescending(p => p.SOS)
+                        .ThenByDescending(p => p, mutualGameComparer)
                         .ThenByDescending(p => p.Rating),
                 _ => players
                         .OrderByDescending(p => p.Score)

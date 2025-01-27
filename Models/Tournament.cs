@@ -3,57 +3,33 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace GoCarlos.NET.Models;
 
-public class Tournament
+[method: JsonConstructor]
+public class Tournament()
 {
-    private List<Player> players;
-    private List<Round> rounds;
+    private List<Player> players = [];
+    private List<Round> rounds = [];
 
-    private string name;
+    private string name = "Turnaj";
 
-    private int handicapReduction;
-    private TournamentType tournamentType;
-    private PairingMethod pairingMethod;
-    private PairingMethod additionMethod;
+    private int handicapReduction = 2;
+    private TournamentType tournamentType = TournamentType.McMahon;
+    private PairingMethod topGroupPairingMethod = PairingMethod.Cross;
+    private PairingMethod pairingMethod = PairingMethod.Random;
+    private PairingMethod additionMethod = PairingMethod.Weakest;
 
-    private bool avoidSameCityPairing;
-    private bool handicapBasedMm;
+    private bool avoidSameCityPairing = true;
+    private bool handicapBasedMm = false;
 
-    private bool countCurrentRound;
-    private int currentRound;
-    private int numberOfRounds;
+    private bool countCurrentRound = false;
+    private int currentRound = 0;
+    private int numberOfRounds = 5;
 
-    private bool automaticTopBar;
-    private float topGroupBar;
-    private float bottomGroupBar;
-
-    [JsonConstructor]
-    public Tournament()
-    {
-        players = [];
-        rounds = [];
-
-        name = "Turnaj";
-
-        handicapReduction = 2;
-        tournamentType = TournamentType.McMahon;
-        pairingMethod = PairingMethod.Random;
-        additionMethod = PairingMethod.Weakest;
-
-        avoidSameCityPairing = true;
-        handicapBasedMm = false;
-
-        countCurrentRound = false;
-        currentRound = 0;
-        numberOfRounds = 5;
-
-        automaticTopBar = true;
-        topGroupBar = 29f;
-        bottomGroupBar = 10f;
-    }
+    private bool automaticTopBar = true;
+    private float topGroupBar = 29f;
+    private float bottomGroupBar = 10f;
 
     public Tournament(int numberOfRounds) : this()
     {
@@ -89,6 +65,11 @@ public class Tournament
     {
         get => tournamentType;
         set => tournamentType = value;
+    }
+    public PairingMethod TopGroupPairingMethod
+    {
+        get => topGroupPairingMethod;
+        set => topGroupPairingMethod = value;
     }
     public PairingMethod PairingMethod
     {

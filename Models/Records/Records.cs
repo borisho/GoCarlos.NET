@@ -8,16 +8,11 @@ public record class PairingGeneratorParameters(Round Round,
     int HandicapReduction,
     bool HandicapBasedMm,
     TournamentType TournamentType,
+    PairingMethod TopGroupPairingMethod,
     PairingMethod PairingMethod,
     PairingMethod AdditionMethod,
     List<Player> OrderedPlayers,
     int NumberOfRounds);
-
-public record class StackGroupParameters(Round Round,
-    int HandicapReduction,
-    bool HandicapBasedMm,
-    PairingMethod AdditionMethod,
-    Stack<List<Player>> GroupStack);
 
 public record class GroupParamters(Round Round,
     int HandicapReduction,

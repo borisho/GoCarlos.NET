@@ -10,10 +10,9 @@ namespace GoCarlos.NET.ViewModels;
 public partial class SettingsViewModel(MainViewModel mvm) : ObservableObject
 {
     private const string MacMahon = "MacMahon";
-    private const string Championship = "Majstrovstvá";
     private const string Swiss = "Swiss";
 
-    private const string Cross = "Cross";
+    private const string Cross = "Hrable";
     private const string Adjacent = "Najsilnejší súper";
     private const string Weakest = "Najslabší súper";
     private const string Random = "Náhodný súper";
@@ -23,15 +22,22 @@ public partial class SettingsViewModel(MainViewModel mvm) : ObservableObject
     [ObservableProperty]
     private string selectedTournamentType = mvm.Tournament.TournamentType switch
     {
-        TournamentType.Championship => Championship,
         TournamentType.Swiss => Swiss,
         _ => MacMahon,
     };
 
     [ObservableProperty]
-    private string selectedPairingMethod = mvm.Tournament.PairingMethod switch
+    private string selectedTopGroupPairingMethod = mvm.Tournament.TopGroupPairingMethod switch
     {
         PairingMethod.Cross => Cross,
+        PairingMethod.Strongest => Adjacent,
+        PairingMethod.Weakest => Weakest,
+        _ => Random,
+    };
+
+    [ObservableProperty]
+    private string selectedPairingMethod = mvm.Tournament.PairingMethod switch
+    {
         PairingMethod.Strongest => Adjacent,
         PairingMethod.Weakest => Weakest,
         _ => Random,
@@ -72,12 +78,17 @@ public partial class SettingsViewModel(MainViewModel mvm) : ObservableObject
     public ObservableCollection<string> TournamentTypeCollection { get; private set; } =
         [
             MacMahon,
-            Championship,
             Swiss,
+        ];
+    public ObservableCollection<string> TopGroupPairingMethodCollection { get; private set; } =
+        [
+            Cross,
+            Adjacent,
+            Weakest,
+            Random,
         ];
     public ObservableCollection<string> PairingMethodCollection { get; private set; } =
         [
-            Cross,
             Adjacent,
             Weakest,
             Random,
@@ -101,14 +112,20 @@ public partial class SettingsViewModel(MainViewModel mvm) : ObservableObject
 
             mvm.Tournament.TournamentType = SelectedTournamentType switch
             {
-                Championship => TournamentType.Championship,
                 Swiss => TournamentType.Swiss,
                 _ => TournamentType.McMahon,
             };
 
-            mvm.Tournament.PairingMethod = SelectedPairingMethod switch
+            mvm.Tournament.TopGroupPairingMethod = SelectedTopGroupPairingMethod switch
             {
                 Cross => PairingMethod.Cross,
+                Adjacent => PairingMethod.Strongest,
+                Weakest => PairingMethod.Weakest,
+                _ => PairingMethod.Random,
+            };
+
+            mvm.Tournament.PairingMethod = SelectedPairingMethod switch
+            {
                 Adjacent => PairingMethod.Strongest,
                 Weakest => PairingMethod.Weakest,
                 _ => PairingMethod.Random,

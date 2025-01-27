@@ -331,6 +331,7 @@ public partial class MainViewModel : ObservableObject
             tournament.HandicapReduction,
             tournament.HandicapBasedMm,
             tournament.TournamentType,
+            tournament.TopGroupPairingMethod,
             tournament.PairingMethod,
             tournament.AdditionMethod,
             [.. Utils.GetOrderedPlayerList(playersToPair,
@@ -661,6 +662,7 @@ public partial class MainViewModel : ObservableObject
 
             foreach (PairingViewModel p in PairingData)
             {
+                wText.WriteLine();
                 wText.WriteLine("{0, -2} {1, -" + blackLength + "} {2, -" + whiteLenght + "} {3, -8} {4, -2} ", p.Board, p.Black, p.White, p.Results, p.Handicap);
             }
 

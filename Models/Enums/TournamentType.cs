@@ -3,6 +3,5 @@
 public enum TournamentType
 {
     McMahon = 0,
-    Championship = 1,
-    Swiss = 2
+    Swiss = 1
 }

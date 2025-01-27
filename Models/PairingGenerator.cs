@@ -12,7 +12,6 @@ public static class PairingGenerator
 {
     private static readonly Stack<Pairing> pairings = new();
     private static List<Player> players = [];
-    private static Player? superGroupAddition = null;
 
     public static void PerformPairings(PairingGeneratorParameters parameters)
     {
@@ -33,15 +32,7 @@ public static class PairingGenerator
         Debug.WriteLine("\nOrdered players: ");
         PrintPlayers(parameters.OrderedPlayers);
 
-        switch (parameters.TournamentType)
-        {
-            case TournamentType.Championship:
-                MakeChampionshipPairing(parameters);
-                break;
-            default:
-                MakePairing(parameters);
-                break;
-        }
+        MakePairing(parameters);
 
         foreach (Player player in parameters.OrderedPlayers)
         {
@@ -54,10 +45,11 @@ public static class PairingGenerator
 
     private static void MakePairing(PairingGeneratorParameters parameters)
     {
-        if (parameters.PairingMethod is PairingMethod.Cross)
+        // Použi losovaciu strátégiu pre top skupiny v prvom kole
+        if (parameters.Round.RoundNumber == 0)
         {
-            CrossPairing(parameters);
-            return;
+            PairTopGroup(parameters, Group.SuperGroup);
+            PairTopGroup(parameters, Group.TopGroup);
         }
 
         foreach (Player player in parameters.OrderedPlayers)
@@ -74,11 +66,7 @@ public static class PairingGenerator
             }
 
             // Zoznam potencionálnych oponentov
-            IOrderedEnumerable<Player> unpairedPlayers = Utils.GetOrderedPlayerList(
-                [.. players],
-                parameters.TournamentType,
-                parameters.Round.RoundNumber,
-                parameters.NumberOfRounds);
+            List<Player> unpairedPlayers = [.. players];
 
             Debug.WriteLine("\nUnpaired players: ");
             PrintPlayers(unpairedPlayers);
@@ -168,7 +156,7 @@ public static class PairingGenerator
 
                     closeMatch = closeMatch.Where(p => p.PairingBalancer == lowestPairingBalancer);
 
-                    if (parameters.AvoidSameCityPairing)
+                    if (parameters.AvoidSameCityPairing && parameters.Round.RoundNumber < 2)
                     {
                         // Pokiaľ je to možné vyber súpera, ktorý pochádza z iného mesta
                         closeMatch = TryToAvoidSameCity(closeMatch, player);
@@ -225,130 +213,25 @@ public static class PairingGenerator
         }
     }
 
-    public static void MakeChampionshipPairing(PairingGeneratorParameters parameters)
+    private static void PairTopGroup(PairingGeneratorParameters parameters, Group group)
     {
-        if (parameters.Round.RoundNumber > 1)
+        players = parameters.TopGroupPairingMethod switch
         {
-            MakePairing(parameters);
-            return;
-        }
-
-        Debug.WriteLine("\nMaking Championship pairings...");
-
-        // hráči v superGroup
-        List<Player> superGroup = parameters.OrderedPlayers.Where(p => p.Group == Group.SuperGroup).ToList();
-
-        // pokiaľ je nepárny počet hráčov v superGroup, doplň hráča
-        if (superGroup.Count % 2 == 1)
-        {
-            Debug.WriteLine("\nOdd number of players in super group adding player ...");
-
-            // v prvom kole zisti hráča, ktorý bude doplnený do superGroup
-            if (superGroupAddition == null || parameters.Round.RoundNumber == 1)
-            {
-                IEnumerable<Player> topGroup = parameters.OrderedPlayers.Where(p => p.Group == Group.TopGroup);
-
-                if (topGroup.Any())
-                {
-                    superGroupAddition = topGroup.OrderByDescending(p => p.Rating).First();
-                }
-                else
-                {
-                    List<Player> additionList = parameters.OrderedPlayers.Where(p => p.Group != Group.SuperGroup).ToList();
-                    if (additionList.Count != 0)
-                    {
-                        superGroupAddition = additionList.OrderByDescending(p => p.Rating).First();
-                    }
-                }
-            }
-
-            if (superGroupAddition != null)
-            {
-                superGroup.Add(superGroupAddition);
-            }
-            else
-            {
-                superGroup = superGroup.Intersect(players).ToList();
-            }
-        }
-
-        // vylosuj párovanie
-        CrossPairing(
-            new(parameters.Round,
-                parameters.AvoidSameCityPairing,
-                parameters.HandicapReduction,
-                parameters.HandicapBasedMm,
-                parameters.TournamentType,
-                parameters.PairingMethod,
-                parameters.AdditionMethod,
-                superGroup,
-                parameters.NumberOfRounds));
-
-        pairings.Clear();
-
-        MakePairing(parameters);
+            PairingMethod.Cross => CrossPairing(parameters, players, group),
+            PairingMethod.Weakest => WeakestPairing(parameters, players, group),
+            PairingMethod.Strongest => StrongestPairing(parameters, players, group),
+            PairingMethod.Random => RandomPairing(parameters, players, group),
+            _ => throw new NotImplementedException(),
+        };
     }
 
-    private static void CrossPairing(PairingGeneratorParameters parameters)
+    private static List<Player> CrossPairing(PairingGeneratorParameters parameters, List<Player> players, Group playerGroup)
     {
-        IEnumerable<IGrouping<float, Player>> groups
-            = parameters.TournamentType is TournamentType.Swiss
-            ? parameters.OrderedPlayers.GroupBy(p => p.Points)
-            : parameters.OrderedPlayers.GroupBy(p => p.Score);
+        List<Player> group = players.Where(p => p.Group == playerGroup).ToList();
+        group = CheckAndFillOddCount(players, group);
 
-        Stack<List<Player>> groupQueue = new();
-
-        foreach (var group in groups.Reverse())
-        {
-            groupQueue.Push([.. group]);
-        }
-
-        StackCrossPairing(
-            new(parameters.Round,
-                parameters.HandicapReduction,
-                parameters.HandicapBasedMm,
-                parameters.AdditionMethod,
-                groupQueue));
-    }
-
-    private static void StackCrossPairing(StackGroupParameters parameters)
-    {
-        if (parameters.GroupStack.TryPop(out List<Player>? group))
-        {
-            if (group.Count % 2 == 1)
-            {
-                if (parameters.GroupStack.TryPop(out List<Player>? secondGroup))
-                {
-                    Player opponent = OpponentSelection(parameters.AdditionMethod, secondGroup);
-
-                    secondGroup.Remove(opponent);
-                    group.Add(opponent);
-
-                    parameters.GroupStack.Push(secondGroup);
-                }
-                else
-                {
-                    group.Add(new());
-                }
-            }
-
-            //Vylosuj aktuálnu skupinu
-            PerformCrossPairing(
-                new(parameters.Round,
-                    parameters.HandicapReduction,
-                    parameters.HandicapBasedMm,
-                    group));
-
-            // Pokračuj kým nie je vylosovaná každá skupina
-            StackCrossPairing(parameters);
-        }
-    }
-
-    private static void PerformCrossPairing(GroupParamters parameters)
-    {
-        Debug.WriteLine("\nPerforming cross pairing...");
-
-        List<Player> group = [.. parameters.Group];
+        Debug.WriteLine("\nPerforming cross pairing:");
+        PrintPlayers(group);
 
         int groupSize = group.Count;
         int groupHalf = groupSize / 2;
@@ -357,18 +240,13 @@ public static class PairingGenerator
         {
             for (int i = 0; i < groupHalf; i++)
             {
-                Player p1 = group[i];
-                Player p2 = group[i + groupHalf];
                 Pairing pairing = PairPlayers(
-                    new PairingParameters(
+                    new (
                         parameters.Round,
                         parameters.HandicapReduction,
                         parameters.HandicapBasedMm,
-                        p1,
-                        p2
-                    )
-                );
-
+                        group[i],
+                        group[i + groupHalf]));
                 pairings.Push(pairing);
             }
         }
@@ -376,6 +254,132 @@ public static class PairingGenerator
         {
             Debug.WriteLine("\nNo players were provided...");
         }
+
+        return players.Except(group).ToList();
+    }
+
+    private static List<Player> WeakestPairing(PairingGeneratorParameters parameters, List<Player> players, Group playerGroup)
+    {
+        List<Player> group = players.Where(p => p.Group == playerGroup).ToList();
+        group = CheckAndFillOddCount(players, group);
+
+        Debug.WriteLine("\nPerforming slaughter pairing:");
+        PrintPlayers(group);
+
+        int groupSize = group.Count;
+        int groupHalf = groupSize / 2;
+
+        if (groupSize != 0)
+        {
+            for (int i = 0, j = groupSize - 1; i < groupHalf; i++, j--)
+            {
+                Pairing pairing = PairPlayers(
+                    new (
+                        parameters.Round,
+                        parameters.HandicapReduction,
+                        parameters.HandicapBasedMm,
+                        group[i],
+                        group[j]));
+                pairings.Push(pairing);
+            }
+        }
+        else
+        {
+            Debug.WriteLine("\nNo players were provided...");
+        }
+
+        return players.Except(group).ToList();
+    }
+
+    private static List<Player> StrongestPairing(PairingGeneratorParameters parameters, List<Player> players, Group playerGroup)
+    {
+        List<Player> group = players.Where(p => p.Group == playerGroup).ToList();
+        group = CheckAndFillOddCount(players, group);
+
+        Debug.WriteLine("\nPerforming king of the hill pairing:");
+        PrintPlayers(group);
+
+        int groupSize = group.Count;
+
+        if (groupSize != 0)
+        {
+            for (int i = 0; i < groupSize - 1; i = i + 2)
+            {
+                Pairing pairing = PairPlayers(
+                    new(
+                        parameters.Round,
+                        parameters.HandicapReduction,
+                        parameters.HandicapBasedMm,
+                        group[i],
+                        group[i + 1]));
+                pairings.Push(pairing);
+            }
+        }
+        else
+        {
+            Debug.WriteLine("\nNo players were provided...");
+        }
+
+        return players.Except(group).ToList();
+    }
+
+    private static List<Player> RandomPairing(PairingGeneratorParameters parameters, List<Player> players, Group playerGroup)
+    {
+        List<Player> group = players.Where(p => p.Group == playerGroup).ToList();
+        group = CheckAndFillOddCount(players, group);
+        List<Player> unpairedPlayers = [.. group];
+
+        Debug.WriteLine("\nPerforming random pairing:");
+        PrintPlayers(group);
+
+        int groupSize = group.Count;
+
+        if (groupSize != 0)
+        {
+            foreach (Player p1 in group)
+            {
+
+                if (!parameters.Round.UnpairedPlayers.Contains(p1))
+                {
+                    Debug.WriteLine("Skipping: " + p1);
+                    continue;
+                }
+
+                Player p2 = unpairedPlayers[Utils.Random.Next(groupSize - 1) + 1];
+                Pairing pairing = PairPlayers(
+                    new(
+                        parameters.Round,
+                        parameters.HandicapReduction,
+                        parameters.HandicapBasedMm,
+                        p1, p2));
+                pairings.Push(pairing);
+
+                groupSize -= 2;
+
+                unpairedPlayers.Remove(p1);
+                unpairedPlayers.Remove(p2);
+            }
+        }
+        else
+        {
+            Debug.WriteLine("\nNo players were provided...");
+        }
+
+        return players.Except(group).ToList();
+    }
+
+    private static List<Player> CheckAndFillOddCount(List<Player> players, List<Player> group)
+    {
+        if (group.Count != 0)
+        {
+            if (group.Count % 2 == 1)
+            {
+                Player first = players.Except(group).First();
+                group.Add(first);
+            }
+        }
+
+        return group;
     }
 
     private static void CheckForBye(PairingGeneratorParameters parameters)
@@ -385,17 +389,9 @@ public static class PairingGenerator
             Debug.WriteLine("\nOdd players, making bye:");
 
             int lowestBye = players.Min(p => p.ByeBalancer);
-
-            Player byePlayer = Utils.GetOrderedPlayerList(
-                    players.Where(p => p.ByeBalancer == lowestBye)
-                        .ToList(),
-                    parameters.TournamentType,
-                    parameters.Round.RoundNumber,
-                    parameters.NumberOfRounds)
-                .Last();
+            Player byePlayer = players.Where(p => p.ByeBalancer == lowestBye).Last();
 
             PrintPlayer(byePlayer);
-
             players.Remove(byePlayer);
 
             Player bye = new()

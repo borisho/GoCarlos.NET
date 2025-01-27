@@ -44,7 +44,7 @@
 
                         <Label Grid.Row="2" Grid.Column="1">Typ turnaja</Label>
                         <ComboBox Grid.Row="2" Grid.Column="2" Margin="5 2" MinWidth="100px"
-                                  HorizontalAlignment="Left"
+                                  HorizontalAlignment="Stretch"
                                   ItemsSource="{Binding TournamentTypeCollection}"
                                   SelectedItem="{Binding SelectedTournamentType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
@@ -78,17 +78,19 @@
                                  PreviewTextInput="Numeric_PreviewTextInput"
                                  Text="{Binding BottomGroupBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                        <Button Grid.Row="7" Grid.Column="1"
-                            MinWidth="100" Height="20" Margin="5 0"
-                            Content="Uložiť zmeny"
-                            CommandParameter="{Binding ElementName=Settings}"
-                            Command="{Binding SaveAndExitCommand}"/>
+                        <Button Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2"
+                                HorizontalAlignment="Left"
+                                Width="200" Height="20"
+                                Content="Uložiť zmeny"
+                                CommandParameter="{Binding ElementName=Settings}"
+                                Command="{Binding SaveAndExitCommand}"/>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Losovanie">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="*"/>
@@ -101,58 +103,68 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
+                        <!-- Losovanie v rámci TOP skupiny -->
+                        <Label Grid.Row="1" Grid.Column="1">Losovanie Top skupiny</Label>
+                        <Label Grid.Row="1" Grid.Column="3">(Prvé kolo)</Label>
+                        <ComboBox Grid.Row="1" Grid.Column="2" Margin="5 2" MinWidth="115px"
+                                  HorizontalAlignment="Stretch"
+                                  ItemsSource="{Binding TopGroupPairingMethodCollection}"
+                                  SelectedItem="{Binding SelectedTopGroupPairingMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
                         <!-- Losovanie v rámci skupiny -->
-                        <Label Grid.Row="1" Grid.Column="1">Losovanie v skupine</Label>
-                        <ComboBox Grid.Row="1" Grid.Column="2" Margin="5 2" MinWidth="100px"
-                                  HorizontalAlignment="Left"
+                        <Label Grid.Row="2" Grid.Column="1">Losovanie v skupine</Label>
+                        <ComboBox Grid.Row="2" Grid.Column="2" Margin="5 2" MinWidth="115px"
+                                  HorizontalAlignment="Stretch"
                                   ItemsSource="{Binding PairingMethodCollection}"
                                   SelectedItem="{Binding SelectedPairingMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                         <!-- Dosadzovanie do skupiny -->
-                        <Label Grid.Row="2" Grid.Column="1">Dosadzovanie do skupiny</Label>
-                        <ComboBox Grid.Row="2" Grid.Column="2" Margin="5 2" MinWidth="100px"
-                                  HorizontalAlignment="Left"
+                        <Label Grid.Row="3" Grid.Column="1">Dosadzovanie do skupiny</Label>
+                        <ComboBox Grid.Row="3" Grid.Column="2" Margin="5 2" MinWidth="115px"
+                                  HorizontalAlignment="Stretch"
                                   ItemsSource="{Binding GroupAdditionCollection}"
                                   SelectedItem="{Binding SelectedGroupAdditionMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
 
                         <!-- Redukcia hendikepu -->
-                        <Label Grid.Row="3" Grid.Column="1">Redukcia hendikepu</Label>
-                        <TextBox Grid.Row="3" Grid.Column="2" Margin="5 2"
+                        <Label Grid.Row="4" Grid.Column="1">Redukcia hendikepu</Label>
+                        <TextBox Grid.Row="4" Grid.Column="2" Margin="5 2"
                                  MinWidth="80px" MaxLength="1"
                                  PreviewKeyDown="WhiteSpace_PreviewKeyDown"
                                  PreviewTextInput="Numeric_PreviewTextInput"
                                  Text="{Binding HandicapReduction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                         <!-- Hendikep na základe MM -->
-                        <Label Grid.Row="4" Grid.Column="1">Hendikep na základe MM</Label>
+                        <Label Grid.Row="5" Grid.Column="1">Hendikep na základe MM</Label>
                         <CheckBox x:Name="CHX3"
-                                  Grid.Row="4" Grid.Column="2"
+                                  Grid.Row="5" Grid.Column="2"
                                   VerticalAlignment="Center"
                                   HorizontalAlignment="Center"
                                   IsChecked="{Binding HandicapBasedMm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                         <!-- Prioritné párovanie hráčov z iných miest -->
-                        <Label Grid.Row="5" Grid.Column="1">Párovanie hráčov z iných miest</Label>
+                        <Label Grid.Row="6" Grid.Column="1">Párovanie hráčov z iných miest</Label>
                         <CheckBox x:Name="CHX2"
-                                  Grid.Row="5" Grid.Column="2"
+                                  Grid.Row="6" Grid.Column="2"
                                   VerticalAlignment="Center"
                                   HorizontalAlignment="Center"
                                   IsChecked="{Binding AvoidSameCityPairing, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                        <Button Grid.Row="7" Grid.Column="1"
-                            MinWidth="100" Height="20" Margin="5 0"
-                            Content="Uložiť zmeny"
-                            CommandParameter="{Binding ElementName=Settings}"
-                            Command="{Binding SaveAndExitCommand}"/>
+                        <Button Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2"
+                                HorizontalAlignment="Left"
+                                Width="200" Height="20"
+                                Content="Uložiť zmeny"
+                                CommandParameter="{Binding ElementName=Settings}"
+                                Command="{Binding SaveAndExitCommand}"/>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Pomocné kritérá">
+                <!--<TabItem Header="Pomocné kritérá">-->
                     <!--<views:PairingView/>-->
-                </TabItem>
+                <!--</TabItem>-->
             </TabControl>
         </DockPanel>
     </Grid>
