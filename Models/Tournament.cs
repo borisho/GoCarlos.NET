@@ -269,8 +269,7 @@ public class Tournament()
 
     private float StartScore(Player player)
     {
-        TopGroupBar = automaticTopBar ? players.Where(p => p.Group == Group.Default)
-            .Max(p => p.StartScore) : TopGroupBar;
+        TopGroupBar = automaticTopBar ? CalculateTopBar() : TopGroupBar;
 
         float getScore(int score)
         {
@@ -295,6 +294,14 @@ public class Tournament()
             Group.Default => getScore(player.StartScore),
             _ => 0,
         };
+    }
+
+    private int CalculateTopBar()
+    {
+        return players.Where(p => p.Group == Group.Default)
+                    .Select(p => p.StartScore)
+                    .DefaultIfEmpty(0)
+                    .Max();
     }
 
     private static float GetPoints(Player player, int roundNumber)
