@@ -4,7 +4,7 @@
     <!--Metadata-->
     <Authors>Boris Dovčík</Authors>
     <Title>GoCarlos</Title>
-    <Version>0.0.8</Version>
+    <Version>0.0.9</Version>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/borisho/GoCarlos.NET</RepositoryUrl>
     <VisualStudioVersion>17.5.4</VisualStudioVersion>
