@@ -575,7 +575,8 @@ public partial class MainViewModel : ObservableObject
                 }
                 wText.Write("{0, -" + rLength + "} ", rString);
             }
-            wText.Write("{0, -3} ", "NrW");
+            wText.Write("{0, -3} ", "Bi");
+            wText.Write("{0, -3} ", "Pb");
             wText.Write("{0, -4} ", "Body");
             wText.Write("{0, -" + scoreXLength + "} ", "MMX");
             wText.Write("{0, -" + scoreLength + "} ", "MM");
@@ -626,6 +627,7 @@ public partial class MainViewModel : ObservableObject
                 }
 
                 wText.Write("{0, -3} ", p.NrW);
+                wText.Write("{0, -3} ", p.PairingBalancer);
                 wText.Write("{0, -4} ", p.Points);
                 wText.Write("{0, -" + scoreXLength + "} ", p.ScoreX);
                 wText.Write("{0, -" + scoreLength + "} ", p.Score);

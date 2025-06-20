@@ -177,6 +177,9 @@ public class Round(int roundNumber, TournamentType tournamentType) : IEquatable<
         {
             p1.PairingBalancer--;
             p2.PairingBalancer++;
+        } else if (score1 == score2)
+        {
+            return;
         }
         else
         {

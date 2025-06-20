@@ -90,7 +90,8 @@
                 <DataGridTextColumn Header="10" 
                         Binding="{Binding R10, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                         Visibility="{Binding DataContext.R10V, Source={x:Reference dummyElement}, UpdateSourceTrigger=PropertyChanged}"/>
-                <DataGridTextColumn Header="NrW" Binding="{Binding NrW, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Bi" Binding="{Binding NrW, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Pb" Binding="{Binding PairingBalancer, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="Body" Binding="{Binding Points, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="MMX" Binding="{Binding ScoreX, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="MM" Binding="{Binding Score, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>

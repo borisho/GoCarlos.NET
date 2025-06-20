@@ -45,6 +45,7 @@ public partial class PlayerViewModel(Player player, int currentRound) : Observab
     public string R9 { get => GetRoundResult(8); }
     public string R10 { get => GetRoundResult(9); }
     public int NrW { get => player.ColorBalancer; }
+    public int PairingBalancer { get => player.PairingBalancer; }
     public float Points { get => player.Points; }
     public float Score { get => player.Score; }
     public float ScoreX { get => player.ScoreX; }
