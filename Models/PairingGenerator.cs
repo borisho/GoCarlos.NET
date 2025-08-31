@@ -123,7 +123,7 @@ public static class PairingGenerator
                 // Získa zoznam oponentov s rovnakým počtom bodov/MM
                 IEnumerable<Player> exactMatch = GetExactMatch(player, opponents, parameters.TournamentType);
 
-                if (exactMatch.Any())
+                if (exactMatch.Any() && !CheckPairingBalancer(player, exactMatch))
                 {
                     if (parameters.AvoidSameCityPairing && parameters.Round.RoundNumber < 2)
                     {
@@ -152,7 +152,7 @@ public static class PairingGenerator
 
                 if (closeMatch.Any())
                 {
-                    lowestPairingBalancer = closeMatch.Max(p => p.PairingBalancer);
+                    lowestPairingBalancer = closeMatch.Min(p => p.PairingBalancer);
 
                     closeMatch = closeMatch.Where(p => p.PairingBalancer == lowestPairingBalancer);
 
@@ -190,7 +190,7 @@ public static class PairingGenerator
                 IEnumerable<Player> strongestGroup = groups.First();
 
                 // vyberú sa hráči, ktorý majú byť dosadení podľa pairingBalancera
-                lowestPairingBalancer = strongestGroup.Max(p => p.PairingBalancer);
+                lowestPairingBalancer = strongestGroup.Min(p => p.PairingBalancer);
                 IEnumerable<Player> subGroup = strongestGroup
                     .Where(p => p.PairingBalancer == lowestPairingBalancer);
 
@@ -213,6 +213,14 @@ public static class PairingGenerator
         }
     }
 
+    // V prípade nepárneho počtu hráčov v skupine (párny počet opponentov)
+    // vyber hráča s najvyšším PB, ktorý bude nalosovaný dole
+    private static bool CheckPairingBalancer(Player p, IEnumerable<Player> exactMatch)
+    {
+        return exactMatch.Count() % 2 == 0 
+            && p.PairingBalancer > exactMatch.Max(p => p.PairingBalancer);
+    }
+
     private static void PairTopGroup(PairingGeneratorParameters parameters, Group group)
     {
         players = parameters.TopGroupPairingMethod switch
@@ -227,7 +235,7 @@ public static class PairingGenerator
 
     private static List<Player> CrossPairing(PairingGeneratorParameters parameters, List<Player> players, Group playerGroup)
     {
-        List<Player> group = players.Where(p => p.Group == playerGroup).ToList();
+        List<Player> group = [.. players.Where(p => p.Group == playerGroup)];
         group = CheckAndFillOddCount(players, group);
 
         Debug.WriteLine("\nPerforming cross pairing:");
@@ -255,12 +263,12 @@ public static class PairingGenerator
             Debug.WriteLine("\nNo players were provided...");
         }
 
-        return players.Except(group).ToList();
+        return [.. players.Except(group)];
     }
 
     private static List<Player> WeakestPairing(PairingGeneratorParameters parameters, List<Player> players, Group playerGroup)
     {
-        List<Player> group = players.Where(p => p.Group == playerGroup).ToList();
+        List<Player> group = [.. players.Where(p => p.Group == playerGroup)];
         group = CheckAndFillOddCount(players, group);
 
         Debug.WriteLine("\nPerforming slaughter pairing:");
@@ -288,12 +296,12 @@ public static class PairingGenerator
             Debug.WriteLine("\nNo players were provided...");
         }
 
-        return players.Except(group).ToList();
+        return [.. players.Except(group)];
     }
 
     private static List<Player> StrongestPairing(PairingGeneratorParameters parameters, List<Player> players, Group playerGroup)
     {
-        List<Player> group = players.Where(p => p.Group == playerGroup).ToList();
+        List<Player> group = [.. players.Where(p => p.Group == playerGroup)];
         group = CheckAndFillOddCount(players, group);
 
         Debug.WriteLine("\nPerforming king of the hill pairing:");
@@ -303,7 +311,7 @@ public static class PairingGenerator
 
         if (groupSize != 0)
         {
-            for (int i = 0; i < groupSize - 1; i = i + 2)
+            for (int i = 0; i < groupSize - 1; i += 2)
             {
                 Pairing pairing = PairPlayers(
                     new(
@@ -320,12 +328,12 @@ public static class PairingGenerator
             Debug.WriteLine("\nNo players were provided...");
         }
 
-        return players.Except(group).ToList();
+        return [.. players.Except(group)];
     }
 
     private static List<Player> RandomPairing(PairingGeneratorParameters parameters, List<Player> players, Group playerGroup)
     {
-        List<Player> group = players.Where(p => p.Group == playerGroup).ToList();
+        List<Player> group = [.. players.Where(p => p.Group == playerGroup)];
         group = CheckAndFillOddCount(players, group);
         List<Player> unpairedPlayers = [.. group];
 
@@ -365,7 +373,7 @@ public static class PairingGenerator
             Debug.WriteLine("\nNo players were provided...");
         }
 
-        return players.Except(group).ToList();
+        return [.. players.Except(group)];
     }
 
     private static List<Player> CheckAndFillOddCount(List<Player> players, List<Player> group)

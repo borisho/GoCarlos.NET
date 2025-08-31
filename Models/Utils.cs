@@ -9,7 +9,7 @@ namespace GoCarlos.NET.Models;
 
 internal static class Utils
 {
-    public const string VERSION = "0.0.10";
+    public const string VERSION = "0.0.11";
     public const string BYE = "0+";
     public const string QUESTION_MARK = "?";
     public const string EQUALS = "=";
@@ -281,5 +281,13 @@ internal static class Utils
                         .ThenByDescending(p => p.Rating),
             };
         }
+    }
+
+    public static bool ComparePlayerPlace(Player p1, Player p2)
+    {
+        return p1.ScoreX == p2.ScoreX &&
+            p1.SODOS == p2.SODOS &&
+            p1.SOS == p2.SOS &&
+            mutualGameComparer.Compare(p1, p2) == 0;
     }
 }

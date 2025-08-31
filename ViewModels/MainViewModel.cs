@@ -297,7 +297,7 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void MakePairings()
     {
-        MakePairings(unpairedPlayers.Select(pvm => pvm.Player).ToList());
+        MakePairings([.. unpairedPlayers.Select(pvm => pvm.Player)]);
     }
 
     [RelayCommand]
@@ -318,7 +318,7 @@ public partial class MainViewModel : ObservableObject
         if (obj is not null)
         {
             System.Collections.IList list = (System.Collections.IList)obj;
-            MakePairings(list.Cast<PlayerViewModel>().Select(pvm => pvm.Player).ToList());
+            MakePairings([.. list.Cast<PlayerViewModel>().Select(pvm => pvm.Player)]);
         }
     }
 
@@ -584,9 +584,16 @@ public partial class MainViewModel : ObservableObject
             wText.Write("{0, -" + sosLength + "}", "SOS");
             wText.Write("\n");
 
+            PlayerViewModel? temp = null;
+
             foreach (PlayerViewModel p in PlayerData)
             {
-                wText.Write("{0, -2} {1, -" + nameLength + "} {2, -" + clubLenght + "} {3, -3} {4, -4} ", p.Place, p.FullName, p.Club, p.Grade, p.Gor);
+                string place = GetPlace(temp, p);
+
+                wText.Write("{0, -2} {1, -" + nameLength + "} {2, -" + clubLenght + "} {3, -3} {4, -4} ", place, p.FullName, p.Club, p.Grade, p.Gor);
+
+                temp = p;
+
                 for (int i = 0; i <= tournament.CurrentRound; i++)
                 {
                     switch (i)
@@ -640,6 +647,20 @@ public partial class MainViewModel : ObservableObject
             wText.Close();
         }
     }
+
+    private static string GetPlace(PlayerViewModel? temp, PlayerViewModel p)
+    {
+        if (temp == null)
+        {
+            return p.Place.ToString();
+        }
+
+        else
+        {
+            return Utils.ComparePlayerPlace(temp.Player, p.Player) ? "" : p.Place.ToString();
+        }
+    }
+
 
     [RelayCommand]
     private void ExportPairing()

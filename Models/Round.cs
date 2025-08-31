@@ -170,17 +170,20 @@ public class Round(int roundNumber, TournamentType tournamentType) : IEquatable<
 
     private void AdjustPairingBalancer(Player p1, Player p2)
     {
-        float score1 = getScores(p1);
-        float score2 = getScores(p2);
+        float score1 = GetScores(p1);
+        float score2 = GetScores(p2);
 
         if (score1 > score2)
         {
             p1.PairingBalancer--;
             p2.PairingBalancer++;
-        } else if (score1 == score2)
+        }
+        
+        else if (score1 == score2)
         {
             return;
         }
+
         else
         {
             p1.PairingBalancer++;
@@ -190,14 +193,20 @@ public class Round(int roundNumber, TournamentType tournamentType) : IEquatable<
 
     private void RemovePairingBalancer(Player p1, Player p2)
     {
-        float score1 = getScores(p1);
-        float score2 = getScores(p2);
+        float score1 = GetScores(p1);
+        float score2 = GetScores(p2);
 
         if (score1 > score2)
         {
             p1.PairingBalancer++;
             p2.PairingBalancer--;
         }
+
+        else if (score1 == score2)
+        {
+            return;
+        }
+
         else
         {
             p1.PairingBalancer--;
@@ -205,7 +214,7 @@ public class Round(int roundNumber, TournamentType tournamentType) : IEquatable<
         }
     }
 
-    private float getScores(Player p)
+    private float GetScores(Player p)
     {
         return tournamentType switch
         {

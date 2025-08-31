@@ -4,13 +4,13 @@
     <!--Metadata-->
     <Authors>Boris Dovčík</Authors>
     <Title>GoCarlos</Title>
-    <Version>0.0.10</Version>
+    <Version>0.0.11</Version>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/borisho/GoCarlos.NET</RepositoryUrl>
     <VisualStudioVersion>17.5.4</VisualStudioVersion>
     <!--Publish-->
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
