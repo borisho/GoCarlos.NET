@@ -6,11 +6,10 @@ using System.Linq;
 
 namespace GoCarlos.NET.Models;
 
-public class Round(int roundNumber, TournamentType tournamentType) : IEquatable<Round?>
+public class Round(int roundNumber) : IEquatable<Round?>
 {
     [JsonProperty]
     private readonly int roundNumber = roundNumber;
-    private readonly TournamentType tournamentType = tournamentType;
     private HashSet<Player> players = [];
     private HashSet<Player> unpairedPlayers = [];
     private List<Pairing> pairings = [];
@@ -168,18 +167,15 @@ public class Round(int roundNumber, TournamentType tournamentType) : IEquatable<
         return false;
     }
 
-    private void AdjustPairingBalancer(Player p1, Player p2)
+    private static void AdjustPairingBalancer(Player p1, Player p2)
     {
-        float score1 = GetScores(p1);
-        float score2 = GetScores(p2);
-
-        if (score1 > score2)
+        if (p1.Score > p2.Score)
         {
             p1.PairingBalancer--;
             p2.PairingBalancer++;
         }
         
-        else if (score1 == score2)
+        else if (p1.Score == p2.Score)
         {
             return;
         }
@@ -191,18 +187,15 @@ public class Round(int roundNumber, TournamentType tournamentType) : IEquatable<
         }
     }
 
-    private void RemovePairingBalancer(Player p1, Player p2)
+    private static void RemovePairingBalancer(Player p1, Player p2)
     {
-        float score1 = GetScores(p1);
-        float score2 = GetScores(p2);
-
-        if (score1 > score2)
+        if (p1.Score > p2.Score)
         {
             p1.PairingBalancer++;
             p2.PairingBalancer--;
         }
 
-        else if (score1 == score2)
+        else if (p1.Score == p2.Score)
         {
             return;
         }
@@ -212,15 +205,6 @@ public class Round(int roundNumber, TournamentType tournamentType) : IEquatable<
             p1.PairingBalancer--;
             p2.PairingBalancer++;
         }
-    }
-
-    private float GetScores(Player p)
-    {
-        return tournamentType switch
-        {
-            TournamentType.Swiss => p.Points,
-            _ => p.Score,
-        };
     }
 
     public override bool Equals(object? obj)

@@ -4,16 +4,12 @@ using GoCarlos.NET.Interfaces;
 using GoCarlos.NET.Models;
 using GoCarlos.NET.Models.Enums;
 using System.Collections.ObjectModel;
-using System.Runtime.Intrinsics.X86;
 using System.Windows;
 
 namespace GoCarlos.NET.ViewModels;
 
 public partial class SettingsViewModel(MainViewModel mvm) : ObservableObject
 {
-    private const string MacMahon = "MacMahon";
-    private const string Swiss = "Swiss";
-
     private const string Cross = "Hrable";
     private const string Adjacent = "Najsilnejší súper";
     private const string Weakest = "Najslabší súper";
@@ -38,13 +34,6 @@ public partial class SettingsViewModel(MainViewModel mvm) : ObservableObject
 
     [ObservableProperty]
     private Criteria c5 = mvm.Tournament.CriteriaSettings.Criterias[4];
-
-    [ObservableProperty]
-    private string selectedTournamentType = mvm.Tournament.TournamentType switch
-    {
-        TournamentType.Swiss => Swiss,
-        _ => MacMahon,
-    };
 
     [ObservableProperty]
     private string selectedTopGroupPairingMethod = mvm.Tournament.TopGroupPairingMethod switch
@@ -95,11 +84,6 @@ public partial class SettingsViewModel(MainViewModel mvm) : ObservableObject
     [ObservableProperty]
     private bool handicapBasedMm = mvm.Tournament.HandicapBasedMm;
 
-    public ObservableCollection<string> TournamentTypeCollection { get; private set; } =
-        [
-            MacMahon,
-            Swiss,
-        ];
     public ObservableCollection<string> TopGroupPairingMethodCollection { get; private set; } =
         [
             Cross,
@@ -129,12 +113,6 @@ public partial class SettingsViewModel(MainViewModel mvm) : ObservableObject
             mvm.Tournament.AvoidSameCityPairing = AvoidSameCityPairing;
             mvm.Tournament.HandicapBasedMm = HandicapBasedMm;
             mvm.Tournament.AutomaticTopGroupBar = AutomaticTopGroupBar;
-
-            mvm.Tournament.TournamentType = SelectedTournamentType switch
-            {
-                Swiss => TournamentType.Swiss,
-                _ => TournamentType.McMahon,
-            };
 
             mvm.Tournament.TopGroupPairingMethod = SelectedTopGroupPairingMethod switch
             {

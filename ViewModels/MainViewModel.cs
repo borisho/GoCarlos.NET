@@ -335,7 +335,6 @@ public partial class MainViewModel : ObservableObject
             tournament.AvoidSameCityPairing,
             tournament.HandicapReduction,
             tournament.HandicapBasedMm,
-            tournament.TournamentType,
             tournament.TopGroupPairingMethod,
             tournament.PairingMethod,
             tournament.AdditionMethod,
@@ -590,7 +589,7 @@ public partial class MainViewModel : ObservableObject
 
             foreach (PlayerViewModel p in PlayerData)
             {
-                string place = GetPlace(temp, p);
+                string place = temp is not null && p.Player.SharedPlace ? "" : p.Place.ToString();
 
                 wText.Write("{0, -2} {1, -" + nameLength + "} {2, -" + clubLenght + "} {3, -3} {4, -4} ", place, p.FullName, p.Club, p.Grade, p.Gor);
 
@@ -649,20 +648,6 @@ public partial class MainViewModel : ObservableObject
             wText.Close();
         }
     }
-
-    private static string GetPlace(PlayerViewModel? temp, PlayerViewModel p)
-    {
-        if (temp == null)
-        {
-            return p.Place.ToString();
-        }
-
-        else
-        {
-            return Utils.ComparePlayerPlace(temp.Player, p.Player) ? "" : p.Place.ToString();
-        }
-    }
-
 
     [RelayCommand]
     private void ExportPairing()

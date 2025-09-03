@@ -17,7 +17,6 @@ public class Tournament()
     private string name = "Turnaj";
 
     private int handicapReduction = 2;
-    private TournamentType tournamentType = TournamentType.McMahon;
     private PairingMethod topGroupPairingMethod = PairingMethod.Cross;
     private PairingMethod pairingMethod = PairingMethod.Random;
     private PairingMethod additionMethod = PairingMethod.Weakest;
@@ -37,7 +36,7 @@ public class Tournament()
     {
         for(int i = 0; i < numberOfRounds; i++)
         {
-            rounds!.Add(new(i, tournamentType));
+            rounds!.Add(new(i));
         }
     }
 
@@ -69,11 +68,7 @@ public class Tournament()
         get => handicapReduction;
         set => handicapReduction = value;
     }
-    public TournamentType TournamentType
-    {
-        get => tournamentType;
-        set => tournamentType = value;
-    }
+
     public PairingMethod TopGroupPairingMethod
     {
         get => topGroupPairingMethod;
@@ -187,7 +182,7 @@ public class Tournament()
         {
             for (int i = rounds.Count - 1; i < numberOfRounds; i++)
             {
-                Round round = new(i + 1, TournamentType);
+                Round round = new(i + 1);
 
                 rounds.Add(round);
 
@@ -235,22 +230,12 @@ public class Tournament()
                         Pairing pairing = player.Pairings[i];
                         float pairingResult = pairing.GetPairingResult(player);
 
-                        if (tournamentType == TournamentType.Swiss)
-                        {
-                            player.SOS += opponent.Points;
-                            player.SODOS += opponent.Points * pairingResult;
-                        }
-                        else
-                        {
-                            player.SOS += opponent.Score;
-                            player.SODOS += opponent.Score * pairingResult;
-                        }
+                        player.SOS += opponent.Score;
+                        player.SODOS += opponent.Score * pairingResult;
                     }
                     else
                     {
-                        float startscore = tournamentType == TournamentType.Swiss ? 0 : StartScore(player);
-
-                        player.SOS += startscore;
+                        player.SOS += StartScore(player);
                     }
                 }
             }
@@ -364,9 +349,22 @@ public class Tournament()
     {
         List<Player> orderedList = [.. Utils.GetOrderedPlayerList(criteriaSettings, players, CountCurrentRound)];
 
+        Player? temp = null;
+
         foreach (Player p in orderedList)
         {
             p.Place = orderedList.IndexOf(p) + 1;
+            
+            if (countCurrentRound)
+            {
+                p.SharedPlace = temp is not null && Utils.ComparePlayerPlace(criteriaSettings, temp, p, countCurrentRound);
+                temp = p;
+            }
+
+            else
+            {
+                p.SharedPlace = false;
+            }
         }
     }
 }

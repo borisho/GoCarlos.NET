@@ -41,7 +41,17 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Poradie" Binding="{Binding Place, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Poradie" Binding="{Binding Place, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SharedPlace}" Value="True">
+                                    <Setter Property="Background" Value="Yellow"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="Meno" Binding="{Binding FullName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="Klub" Binding="{Binding Club, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="Trieda" Binding="{Binding Grade, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>

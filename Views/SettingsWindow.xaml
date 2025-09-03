@@ -42,11 +42,7 @@
                         <TextBox Grid.Column="2" Grid.Row="1" Margin="5 2" MinWidth="80px" MaxLength="60"
                                  Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                        <Label Grid.Row="2" Grid.Column="1">Typ turnaja</Label>
-                        <ComboBox Grid.Row="2" Grid.Column="2" Margin="5 2" MinWidth="100px"
-                                  HorizontalAlignment="Stretch"
-                                  ItemsSource="{Binding TournamentTypeCollection}"
-                                  SelectedItem="{Binding SelectedTournamentType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <!-- R2 prázdne -->
 
                         <!-- Počet kôl -->
                         <Label Grid.Row="3" Grid.Column="1">Počet kôl</Label>

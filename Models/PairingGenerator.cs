@@ -22,7 +22,6 @@ public static class PairingGenerator
         }
 
         Debug.WriteLine("\nCurrentRound: " + parameters.Round.RoundNumber);
-        Debug.WriteLine("\nTournamentType: " + parameters.TournamentType);
         Debug.WriteLine("\nPairingMethod: " + parameters.PairingMethod);
 
         players = [.. parameters.OrderedPlayers];
@@ -121,7 +120,7 @@ public static class PairingGenerator
                 Pairing pairing;
 
                 // Získa zoznam oponentov s rovnakým počtom bodov/MM
-                IEnumerable<Player> exactMatch = GetExactMatch(player, opponents, parameters.TournamentType);
+                IEnumerable<Player> exactMatch = players.Where(p => p.Score == player.Score);
 
                 if (exactMatch.Any() && !CheckPairingBalancer(player, exactMatch))
                 {
@@ -148,7 +147,7 @@ public static class PairingGenerator
                 }
 
                 // Získa zoznam oponentov s počtom bodov/MM o 1 nižším alebo vyšším
-                IEnumerable<Player> closeMatch = GetCloseMatch(player, opponents, parameters.TournamentType);
+                IEnumerable<Player> closeMatch = players.Where(p => p.Score == player.Score + 1 || p.Score == player.Score - 1);
 
                 if (closeMatch.Any())
                 {
@@ -162,10 +161,7 @@ public static class PairingGenerator
                         closeMatch = TryToAvoidSameCity(closeMatch, player);
                     }
 
-                    opponent = parameters.OrderedPlayers.Where(p => parameters.TournamentType 
-                            == TournamentType.Swiss
-                            ? p.Points == player.Points
-                            : p.Score == player.Score)
+                    opponent = parameters.OrderedPlayers.Where(p => p.Score == player.Score)
                         .Count() == 1
                     ? OpponentSelection(parameters.PairingMethod, closeMatch)
                     : OpponentSelection(parameters.AdditionMethod, closeMatch);
@@ -186,7 +182,7 @@ public static class PairingGenerator
 
                 // Párovanie ak nie je dostupný oponent s rovnakým alebo podobným skóre/bodmi,
                 // získa sa najsilnejšia skupina a oponent sa z nej vyberie podľa vybraných kritérií
-                IEnumerable<IGrouping<float, Player>> groups = GroupPlayers(opponents, parameters.TournamentType);
+                IEnumerable<IGrouping<float, Player>> groups = players.GroupBy(p => p.Score);
                 IEnumerable<Player> strongestGroup = groups.First();
 
                 // vyberú sa hráči, ktorý majú byť dosadení podľa pairingBalancera
@@ -457,37 +453,6 @@ public static class PairingGenerator
             PairingMethod.Strongest => opponents.First(),
             PairingMethod.Weakest => opponents.Last(),
             _ => opponents.ElementAt(Utils.Random.Next(opponents.Count())),
-        };
-    }
-
-    private static IEnumerable<Player> GetExactMatch(Player player, IEnumerable<Player> players, TournamentType tournamentType)
-    {
-        return tournamentType switch
-        {
-            TournamentType.Swiss => players.Where(p => p.Points == player.Points),
-            _ => players.Where(p => p.Score == player.Score),
-        };
-    }
-
-    private static IEnumerable<Player> GetCloseMatch(Player player, IEnumerable<Player> players, TournamentType tournamentType)
-    {
-        return tournamentType switch
-        {
-            TournamentType.Swiss => players.Where(
-                p => p.Points == player.Points + 1 ||
-                    p.Points == player.Points - 1),
-            _ => players.Where(
-                p => p.Score == player.Score + 1 ||
-                    p.Score == player.Score - 1),
-        };
-    }
-
-    private static IEnumerable<IGrouping<float, Player>> GroupPlayers(IEnumerable<Player> players, TournamentType tournamentType)
-    {
-        return tournamentType switch
-        {
-            TournamentType.Swiss => players.GroupBy(p => p.Points),
-            _ => players.GroupBy(p => p.Score),
         };
     }
 

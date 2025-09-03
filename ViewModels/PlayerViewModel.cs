@@ -34,6 +34,7 @@ public partial class PlayerViewModel(Player player, int currentRound) : Observab
             OnPropertyChanged(nameof(GroupColor));
         }
     }
+    public bool SharedPlace { get => player.SharedPlace; }
     public string R1 { get => GetRoundResult(0); }
     public string R2 { get => GetRoundResult(1); }
     public string R3 { get => GetRoundResult(2); }

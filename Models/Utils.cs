@@ -1,4 +1,5 @@
 ﻿using GoCarlos.NET.Models.Comparers;
+using GoCarlos.NET.Models.Enums;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ namespace GoCarlos.NET.Models;
 
 internal static class Utils
 {
-    public const string VERSION = "0.0.11";
+    public const string VERSION = "0.0.12";
     public const string BYE = "0+";
     public const string QUESTION_MARK = "?";
     public const string EQUALS = "=";
@@ -248,26 +249,44 @@ internal static class Utils
 
     private static IOrderedEnumerable<Player> ThenByHelper(Criteria criteria, IOrderedEnumerable<Player> players, bool countCurrentRound)
     {
-        return criteria.Abbreviation switch
+        return criteria.Type switch
         {
-            "NUL" => players,
-            "POV" => players.ThenByDescending(p => p.Points),
-            "MMS" => countCurrentRound ? players.ThenByDescending(p => p.ScoreX) : players.ThenByDescending(p => p.Score),
-            "RAT" => players.ThenByDescending(p => p.Rating),
-            "TRD" => players.ThenByDescending(p => GetValue(p.Grade)),
-            "SOS" => players.ThenByDescending(p => p.SOS),
-            "SDS" => players.ThenByDescending(p => p.SODOS),
-            "SSS" => players.ThenByDescending(p => p.SOSOS),
-            "VZP" => players.ThenByDescending(p => p, mutualGameComparer),
+            CriteriaType.POV => players.ThenByDescending(p => p.Points),
+            CriteriaType.MMS => countCurrentRound ? players.ThenByDescending(p => p.ScoreX) : players.ThenByDescending(p => p.Score),
+            CriteriaType.RAT => players.ThenByDescending(p => p.Rating),
+            CriteriaType.TRD => players.ThenByDescending(p => GetValue(p.Grade)),
+            CriteriaType.SOS => players.ThenByDescending(p => p.SOS),
+            CriteriaType.SDS => players.ThenByDescending(p => p.SODOS),
+            CriteriaType.SSS => players.ThenByDescending(p => p.SOSOS),
+            CriteriaType.VZP => players.ThenByDescending(p => p, mutualGameComparer),
             _ => players
         };
     }
 
-    public static bool ComparePlayerPlace(Player p1, Player p2)
+    public static bool ComparePlayerPlace(CriteriaSettings settings, Player p1, Player p2, bool countCurrentRound)
     {
-        return p1.ScoreX == p2.ScoreX &&
-            p1.SODOS == p2.SODOS &&
-            p1.SOS == p2.SOS &&
-            mutualGameComparer.Compare(p1, p2) == 0;
+        bool c1 = ComparePlayerPlaceHelper(settings.Criterias[0], p1, p2, countCurrentRound);
+        bool c2 = ComparePlayerPlaceHelper(settings.Criterias[1], p1, p2, countCurrentRound);
+        bool c3 = ComparePlayerPlaceHelper(settings.Criterias[2], p1, p2, countCurrentRound);
+        bool c4 = ComparePlayerPlaceHelper(settings.Criterias[3], p1, p2, countCurrentRound);
+        bool c5 = ComparePlayerPlaceHelper(settings.Criterias[4], p1, p2, countCurrentRound);
+
+        return c1 && c2 && c3 && c4 && c5;
+    }
+
+    private static bool ComparePlayerPlaceHelper(Criteria criteria, Player p1, Player p2, bool countCurrentRound)
+    {
+        return criteria.Type switch
+        {
+            CriteriaType.POV => p1.Points == p2.Points,
+            CriteriaType.MMS => countCurrentRound ? p1.ScoreX == p2.ScoreX : p1.Score == p2.Score,
+            CriteriaType.RAT => p1.Rating == p2.Rating,
+            CriteriaType.TRD => p1.Grade == p2.Grade,
+            CriteriaType.SOS => p1.SOS == p2.SOS,
+            CriteriaType.SDS => p1.SODOS == p2.SODOS,
+            CriteriaType.SSS => p1.SOSOS == p2.SOSOS,
+            CriteriaType.VZP => mutualGameComparer.Compare(p1, p2) == 0,
+            _ => true
+        };
     }
 }

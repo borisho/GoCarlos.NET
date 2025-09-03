@@ -28,6 +28,7 @@ public class Player : IEquatable<Player?>
     private int rating;
 
     private Group group;
+    private bool sharedPlace;
 
     private int byeBalancer;
     private int colorBalancer;
@@ -59,6 +60,7 @@ public class Player : IEquatable<Player?>
         rating = -900;
 
         group = Group.Default;
+        sharedPlace = false;
 
         byeBalancer = 0;
         colorBalancer = 0;
@@ -123,6 +125,7 @@ public class Player : IEquatable<Player?>
     public int Rating { get => rating; set => rating = value; }
 
     public Group Group { get => group; set => group = value; }
+    public bool SharedPlace { get => sharedPlace; set => sharedPlace = value; }
 
     public int ByeBalancer { get => byeBalancer; set => byeBalancer = value; }
     public int ColorBalancer { get => colorBalancer; set => colorBalancer = value; }
