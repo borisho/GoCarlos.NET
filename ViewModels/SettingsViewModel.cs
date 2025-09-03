@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GoCarlos.NET.Interfaces;
+using GoCarlos.NET.Models;
 using GoCarlos.NET.Models.Enums;
 using System.Collections.ObjectModel;
+using System.Runtime.Intrinsics.X86;
 using System.Windows;
 
 namespace GoCarlos.NET.ViewModels;
@@ -18,6 +20,24 @@ public partial class SettingsViewModel(MainViewModel mvm) : ObservableObject
     private const string Random = "Náhodný súper";
 
     public readonly MainViewModel mvm = mvm;
+
+    [ObservableProperty]
+    private Criteria[] allCriteria = CriteriaSettings.AllCriteria;
+
+    [ObservableProperty]
+    private Criteria c1 = mvm.Tournament.CriteriaSettings.Criterias[0];
+
+    [ObservableProperty]
+    private Criteria c2 = mvm.Tournament.CriteriaSettings.Criterias[1];
+
+    [ObservableProperty]
+    private Criteria c3 = mvm.Tournament.CriteriaSettings.Criterias[2];
+
+    [ObservableProperty]
+    private Criteria c4 = mvm.Tournament.CriteriaSettings.Criterias[3];
+
+    [ObservableProperty]
+    private Criteria c5 = mvm.Tournament.CriteriaSettings.Criterias[4];
 
     [ObservableProperty]
     private string selectedTournamentType = mvm.Tournament.TournamentType switch
@@ -188,6 +208,12 @@ public partial class SettingsViewModel(MainViewModel mvm) : ObservableObject
             {
                 MessageBox.Show("Nepodarilo sa nastaviť hranicu BottomGroup!", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
+            mvm.Tournament.CriteriaSettings.Criterias[0] = C1;
+            mvm.Tournament.CriteriaSettings.Criterias[1] = C2;
+            mvm.Tournament.CriteriaSettings.Criterias[2] = C3;
+            mvm.Tournament.CriteriaSettings.Criterias[3] = C4;
+            mvm.Tournament.CriteriaSettings.Criterias[4] = C5;
 
             window?.Close();
         }

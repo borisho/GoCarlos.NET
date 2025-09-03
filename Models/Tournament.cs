@@ -12,6 +12,8 @@ public class Tournament()
     private List<Player> players = [];
     private List<Round> rounds = [];
 
+    private CriteriaSettings criteriaSettings = new();
+
     private string name = "Turnaj";
 
     private int handicapReduction = 2;
@@ -48,6 +50,12 @@ public class Tournament()
     {
         get => rounds;
         set => rounds = value;
+    }
+
+    public CriteriaSettings CriteriaSettings
+    {
+        get => criteriaSettings;
+        set => criteriaSettings = value;
     }
 
     public string Name
@@ -243,7 +251,6 @@ public class Tournament()
                         float startscore = tournamentType == TournamentType.Swiss ? 0 : StartScore(player);
 
                         player.SOS += startscore;
-                        player.SODOS += startscore / 2f;
                     }
                 }
             }
@@ -355,7 +362,7 @@ public class Tournament()
 
     private void GetPlayerPlace()
     {
-        List<Player> orderedList = [.. Utils.GetOrderedPlayerList(players, TournamentType, currentRound, numberOfRounds)];
+        List<Player> orderedList = [.. Utils.GetOrderedPlayerList(criteriaSettings, players, CountCurrentRound)];
 
         foreach (Player p in orderedList)
         {

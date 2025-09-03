@@ -1,6 +1,5 @@
 ﻿using GoCarlos.NET.Interfaces;
 using GoCarlos.NET.ViewModels;
-using System;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 using System.Windows;

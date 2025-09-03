@@ -1,5 +1,4 @@
 ﻿using GoCarlos.NET.Models.Comparers;
-using GoCarlos.NET.Models.Enums;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -24,7 +23,7 @@ internal static class Utils
         PreserveReferencesHandling = PreserveReferencesHandling.Objects,
         ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
         Formatting = Formatting.None,
-        MaxDepth = 256,
+        MaxDepth = 256
     };
 
     public static Random Random { get => random; }
@@ -217,70 +216,51 @@ internal static class Utils
         };
     }
 
-    public static IOrderedEnumerable<Player> GetOrderedPlayerList(List<Player> players, TournamentType tournamentType, int roundNumber, int numberOfRounds)
+    public static IOrderedEnumerable<Player> GetOrderedPlayerList(CriteriaSettings settings, List<Player> players, bool lastRound)
     {
-        if (roundNumber == numberOfRounds - 1)
+
+        IOrderedEnumerable<Player> temp = OrderByHelper(settings.Criterias[0], players, lastRound);
+
+        for (int i = 1; i < settings.Criterias.Length; i++)
         {
-            return tournamentType switch
-            {
-                TournamentType.Swiss => players
-                        .OrderByDescending(p => p.Points)
-                        .ThenByDescending(p => p.SODOS)
-                        .ThenByDescending(p => p.SOS)
-                        .ThenByDescending(p => p.Rating),
-                TournamentType.McMahon => players
-                        .OrderByDescending(p => p.ScoreX)
-                        .ThenByDescending(p => p.SODOS)
-                        .ThenByDescending(p => p.SOS)
-                        .ThenByDescending(p => p, mutualGameComparer)
-                        .ThenByDescending(p => p.Rating),
-                _ => players
-                        .OrderByDescending(p => p.ScoreX)
-                        .ThenByDescending(p => p.SOS)
-                        .ThenByDescending(p => p.SOSOS)
-                        .ThenByDescending(p => p.SODOS)
-                        .ThenByDescending(p => p.Rating),
-            };
+            temp = ThenByHelper(settings.Criterias[i], temp, lastRound);
         }
-        else if (roundNumber < 2)
+
+        return temp;
+    }
+
+    private static IOrderedEnumerable<Player> OrderByHelper(Criteria criteria, List<Player> players, bool countCurrentRound)
+    {
+        return criteria.Abbreviation switch
         {
-            return tournamentType switch
-            {
-                TournamentType.Swiss => players
-                        .OrderByDescending(p => p.Points)
-                        .ThenByDescending(p => p.Rating),
-                TournamentType.McMahon => players
-                        .OrderByDescending(p => p.Score)
-                        .ThenByDescending(p => p.Rating),
-                _ => players
-                        .OrderByDescending(p => p.Score)
-                        .ThenByDescending(p => p.SOS)
-                        .ThenByDescending(p => p.SOSOS)
-                        .ThenByDescending(p => p.SODOS)
-                        .ThenByDescending(p => p.Rating),
-            };
-        }
-        else
+            "NUL" => players.OrderByDescending(p => false),
+            "POV" => players.OrderByDescending(p => p.Points),
+            "MMS" => countCurrentRound ? players.OrderByDescending(p => p.ScoreX) : players.OrderByDescending(p => p.Score),
+            "RAT" => players.OrderByDescending(p => p.Rating),
+            "TRD" => players.OrderByDescending(p => GetValue(p.Grade)),
+            "SOS" => players.OrderByDescending(p => p.SOS),
+            "SDS" => players.OrderByDescending(p => p.SODOS),
+            "SSS" => players.OrderByDescending(p => p.SOSOS),
+            "VZP" => players.OrderByDescending(p => p, mutualGameComparer),
+            _ => players.OrderByDescending(p => false)
+        };
+    }
+
+    private static IOrderedEnumerable<Player> ThenByHelper(Criteria criteria, IOrderedEnumerable<Player> players, bool countCurrentRound)
+    {
+        return criteria.Abbreviation switch
         {
-            return tournamentType switch
-            {
-                TournamentType.Swiss => players
-                        .OrderByDescending(p => p.Points)
-                        .ThenByDescending(p => p.Rating),
-                TournamentType.McMahon => players
-                        .OrderByDescending(p => p.Score)
-                        .ThenByDescending(p => p.SODOS)
-                        .ThenByDescending(p => p.SOS)
-                        .ThenByDescending(p => p, mutualGameComparer)
-                        .ThenByDescending(p => p.Rating),
-                _ => players
-                        .OrderByDescending(p => p.Score)
-                        .ThenByDescending(p => p.SOS)
-                        .ThenByDescending(p => p.SOSOS)
-                        .ThenByDescending(p => p.SODOS)
-                        .ThenByDescending(p => p.Rating),
-            };
-        }
+            "NUL" => players,
+            "POV" => players.ThenByDescending(p => p.Points),
+            "MMS" => countCurrentRound ? players.ThenByDescending(p => p.ScoreX) : players.ThenByDescending(p => p.Score),
+            "RAT" => players.ThenByDescending(p => p.Rating),
+            "TRD" => players.ThenByDescending(p => GetValue(p.Grade)),
+            "SOS" => players.ThenByDescending(p => p.SOS),
+            "SDS" => players.ThenByDescending(p => p.SODOS),
+            "SSS" => players.ThenByDescending(p => p.SOSOS),
+            "VZP" => players.ThenByDescending(p => p, mutualGameComparer),
+            _ => players
+        };
     }
 
     public static bool ComparePlayerPlace(Player p1, Player p2)

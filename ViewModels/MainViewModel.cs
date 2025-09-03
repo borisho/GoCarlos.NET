@@ -187,6 +187,11 @@ public partial class MainViewModel : ObservableObject
 
             if (t is not null)
             {
+                for (int i = 0; i < t.CriteriaSettings.Criterias.Length; i++)
+                {
+                    t.CriteriaSettings.Criterias[i] = CriteriaSettings.AllCriteriaDict[t.CriteriaSettings.Criterias[i].Type];
+                }
+
                 tournament = t;
 
                 playerViewModel.Clear();
@@ -334,10 +339,7 @@ public partial class MainViewModel : ObservableObject
             tournament.TopGroupPairingMethod,
             tournament.PairingMethod,
             tournament.AdditionMethod,
-            [.. Utils.GetOrderedPlayerList(playersToPair,
-                tournament.TournamentType,
-                currentRound.RoundNumber,
-                tournament.NumberOfRounds)],
+            [.. Utils.GetOrderedPlayerList(tournament.CriteriaSettings, playersToPair, tournament.CountCurrentRound)],
             tournament.NumberOfRounds
         );
 
