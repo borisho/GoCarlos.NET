@@ -1,6 +1,6 @@
 ﻿using GoCarlos.NET.Models;
 
-namespace GoCarlos.NET.Interfaces;
+namespace GoCarlos.NET.Services.Api;
 
 /// <summary>
 /// To be added

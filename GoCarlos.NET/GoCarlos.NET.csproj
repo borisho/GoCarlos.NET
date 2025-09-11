@@ -4,13 +4,13 @@
     <!--Metadata-->
     <Authors>Boris Dovčík</Authors>
     <Title>GoCarlos</Title>
-    <Version>2.0.3</Version>
+    <Version>0.1.0</Version>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/borisho/GoCarlos.NET</RepositoryUrl>
     <VisualStudioVersion>17.5.4</VisualStudioVersion>
     <!--Publish-->
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
@@ -22,12 +22,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Localization" Version="8.0.8" />
-    <PackageReference Include="System.Text.Json" Version="8.0.4" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.9" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.9" />
+    <PackageReference Include="System.Text.Json" Version="9.0.9" />
   </ItemGroup>
 
   <ItemGroup>
@@ -46,10 +46,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>MainWindowProperties.resx</DependentUpon>
     </Compile>
-    <Compile Update="Resources\Services.MainViewService.Designer.cs">
+    <Compile Update="Resources\Services.Impl.MainViewLocalizerService.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Services.MainViewService.resx</DependentUpon>
+      <DependentUpon>Services.Impl.MainViewLocalizerService.resx</DependentUpon>
     </Compile>
     <Compile Update="Resources\SettingsWindow.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -71,9 +71,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>MainWindowProperties.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Services.MainViewService.resx">
+    <EmbeddedResource Update="Resources\Services.Impl.MainViewLocalizerService.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Services.MainViewService.Designer.cs</LastGenOutput>
+      <LastGenOutput>Services.Impl.MainViewLocalizerService.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\SettingsWindow.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

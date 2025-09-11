@@ -1,11 +1,12 @@
 ﻿using GoCarlos.NET.Interfaces;
 using GoCarlos.NET.Models;
+using GoCarlos.NET.Services.Api;
 using GoCarlos.NET.Views;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
 
-namespace GoCarlos.NET.Services;
+namespace GoCarlos.NET.Services.Impl;
 
 /// <inheritdoc cref="IWindowService"/>
 public sealed class WindowService(ITournament tournament, IServiceProvider serviceProvider) : IWindowService

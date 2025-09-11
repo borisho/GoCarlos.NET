@@ -1,6 +1,7 @@
 ﻿using GoCarlos.NET.Interfaces;
 using GoCarlos.NET.Models;
 using GoCarlos.NET.ViewModels;
+using GoCarlos.NET.Views.Api;
 using System.ComponentModel;
 using System.Windows;
 

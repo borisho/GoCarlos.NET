@@ -1,8 +1,8 @@
 ﻿using GoCarlos.NET.Enums;
-using GoCarlos.NET.Interfaces;
+using GoCarlos.NET.Services.Api;
 using System.Windows;
 
-namespace GoCarlos.NET.Services;
+namespace GoCarlos.NET.Services.Impl;
 
 /// <inheritdoc cref="IDialogService"/>
 public sealed class DialogService : IDialogService

@@ -1,4 +1,5 @@
 ﻿using GoCarlos.NET.Interfaces;
+using GoCarlos.NET.Views.Api;
 using System.Text.RegularExpressions;
 using System.Windows;
 

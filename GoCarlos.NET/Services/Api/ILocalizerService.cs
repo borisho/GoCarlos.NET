@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Localization;
 
-namespace GoCarlos.NET.Interfaces;
+namespace GoCarlos.NET.Services.Api;
 
 /// <summary>
 /// Provides localization

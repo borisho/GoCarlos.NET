@@ -2,6 +2,6 @@
 
 public enum LocalizerType
 {
-    MainViewService = 0,
-    MenuItemsService = 1,
+    MainViewService,
+    MenuItemsService
 }

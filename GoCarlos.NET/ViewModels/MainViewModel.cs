@@ -1,10 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using GoCarlos.NET.Enums;
 using GoCarlos.NET.Interfaces;
 using GoCarlos.NET.Messages;
 using GoCarlos.NET.Models;
+using GoCarlos.NET.Services.Api;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -16,7 +16,7 @@ public partial class MainViewModel : ObservableObject, IRecipient<EmptyMessage>,
 {
     private readonly ITournament tournament;
     private readonly IWindowService windowService;
-    private readonly ILocalizerService localizerService;
+    private readonly IWallListService wallListService;
 
     [ObservableProperty]
     private MenuViewModel menuViewModel;
@@ -30,19 +30,18 @@ public partial class MainViewModel : ObservableObject, IRecipient<EmptyMessage>,
     [ObservableProperty]
     private Pairing? selectedPairing;
 
-    public MainViewModel(ITournament tournament,
+    public MainViewModel(
+        ITournament tournament,
         IWindowService windowService,
-        ILocalizerFactory localizerFactory,
+        IWallListService wallListService,
         MenuViewModel menuViewModel)
     {
         this.windowService = windowService;
         this.tournament = tournament;
+        this.wallListService = wallListService;
         this.menuViewModel = menuViewModel;
 
-        // Get localizer service from factory
-        localizerService = localizerFactory.GetByQualifier(LocalizerType.MainViewService);
-
-        dataTable = CreateDataTable();
+        dataTable = wallListService.Create();
 
         Players = CollectionViewSource.GetDefaultView(tournament.Players);
         Pairings = CollectionViewSource.GetDefaultView(tournament.Pairings);
@@ -112,6 +111,9 @@ public partial class MainViewModel : ObservableObject, IRecipient<EmptyMessage>,
             Players.Refresh();
             Pairings.Refresh();
             UnpairedPlayers.Refresh();
+
+            DataTable.Rows.Clear();
+            DataTable.Rows.Add(Players);
         }
     }
 
@@ -125,23 +127,5 @@ public partial class MainViewModel : ObservableObject, IRecipient<EmptyMessage>,
         tournament.Unregister();
         WeakReferenceMessenger.Default.Unregister<BoolMessage, int>(this, ITournament.TOKEN_REFRESH_MAIN_VIEW_MODEL);
         WeakReferenceMessenger.Default.Unregister<EmptyMessage, int>(this, ITournament.TOKEN_REFRESH_MAIN_VIEW_MODEL);
-    }
-
-    private DataTable CreateDataTable()
-    {
-        var table = new DataTable();
-
-        // Create fix columns
-        table.Columns.Add(localizerService["Place"]);
-        table.Columns.Add(localizerService["Name"]);
-        table.Columns.Add(localizerService["Club"]);
-        table.Columns.Add(localizerService["Grade"]);
-        table.Columns.Add(localizerService["Rating"]);
-
-        // Create dynamic columns
-
-        // Fill with ScoredPlayers
-
-        return table;
     }
 }

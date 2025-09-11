@@ -1,4 +1,4 @@
-﻿namespace GoCarlos.NET.Interfaces;
+﻿namespace GoCarlos.NET.Views.Api;
 
 /// <summary>
 /// Window for player selection from European Go Database

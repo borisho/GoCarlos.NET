@@ -2,8 +2,10 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using GoCarlos.NET.Enums;
+using GoCarlos.NET.Factories.Api;
 using GoCarlos.NET.Interfaces;
 using GoCarlos.NET.Messages;
+using GoCarlos.NET.Services.Api;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 

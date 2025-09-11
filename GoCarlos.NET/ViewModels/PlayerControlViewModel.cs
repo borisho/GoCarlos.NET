@@ -5,6 +5,7 @@ using GoCarlos.NET.Enums;
 using GoCarlos.NET.Interfaces;
 using GoCarlos.NET.Messages;
 using GoCarlos.NET.Models;
+using GoCarlos.NET.Services.Api;
 using GoCarlos.NET.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;

@@ -1,7 +1,7 @@
 ﻿using GoCarlos.NET.Enums;
 using System.Windows;
 
-namespace GoCarlos.NET.Interfaces;
+namespace GoCarlos.NET.Services.Api;
 
 /// <summary>
 /// To be added

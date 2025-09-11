@@ -1,6 +1,7 @@
 ﻿using GoCarlos.NET.Models;
+using GoCarlos.NET.Views.Api;
 
-namespace GoCarlos.NET.Interfaces;
+namespace GoCarlos.NET.Services.Api;
 
 /// <summary>
 /// Service for creating WPF windows

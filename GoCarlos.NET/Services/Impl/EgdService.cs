@@ -1,10 +1,10 @@
-﻿using GoCarlos.NET.Interfaces;
-using GoCarlos.NET.Models;
+﻿using GoCarlos.NET.Models;
+using GoCarlos.NET.Services.Api;
 using System;
 using System.Net.Http;
 using System.Text.Json;
 
-namespace GoCarlos.NET.Services;
+namespace GoCarlos.NET.Services.Impl;
 
 /// <inheritdoc cref="IEgdService"/>
 public sealed class EgdService : IEgdService
