@@ -1,25 +1,27 @@
 # GoCarlos.NET
 
-Pairing program for Go tournaments. Created for needs of Slovak Championship and to learn something new.
+Pairing program for Go tournaments. Created for the needs of the Slovak Championship and to learn something new.
 
-Current version: 2.0.2
+Current version: 0.0.12
 
 ## Features
 
-- McMahon or Swiss pairing
-- Special pairing for Slovak Championship
+- McMahon pairing system
+- Customizable TOP and BOTTOM group bars
+- Customizable tiebreakers
+- Customizable pairing options
 - Connection to European Go Database for player selection
-- Export wallist, pairings to txt
+- Export wallist and pairings to txt
 - Export results for European Go Database
 
 ### Todo list by priority
 
-1. selectable tiebeakers (currently hardcoded)
-2. GUI enhancements
-3. unlimited rounds
-4. Check compatibility with asian names
+1. Project overhaul
+2. Check compatibility with Asian names
 
 ### Known bugs
+
+- Sometimes player selection in wallist is stuck on previeously selected player
 
 ## How to run GoCarlos.NET
 
