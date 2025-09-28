@@ -120,7 +120,7 @@ public static class PairingGenerator
                 Pairing pairing;
 
                 // Získa zoznam oponentov s rovnakým počtom bodov/MM
-                IEnumerable<Player> exactMatch = players.Where(p => p.Score == player.Score);
+                IEnumerable<Player> exactMatch = opponents.Where(p => p.Score == player.Score);
 
                 if (exactMatch.Any() && !CheckPairingBalancer(player, exactMatch))
                 {
@@ -147,7 +147,7 @@ public static class PairingGenerator
                 }
 
                 // Získa zoznam oponentov s počtom bodov/MM o 1 nižším alebo vyšším
-                IEnumerable<Player> closeMatch = players.Where(p => p.Score == player.Score + 1 || p.Score == player.Score - 1);
+                IEnumerable<Player> closeMatch = opponents.Where(p => p.Score >= player.Score -1 && p.Score <= player.Score + 1);
 
                 if (closeMatch.Any())
                 {
@@ -182,7 +182,7 @@ public static class PairingGenerator
 
                 // Párovanie ak nie je dostupný oponent s rovnakým alebo podobným skóre/bodmi,
                 // získa sa najsilnejšia skupina a oponent sa z nej vyberie podľa vybraných kritérií
-                IEnumerable<IGrouping<float, Player>> groups = players.GroupBy(p => p.Score);
+                IEnumerable<IGrouping<float, Player>> groups = opponents.GroupBy(p => p.Score);
                 IEnumerable<Player> strongestGroup = groups.First();
 
                 // vyberú sa hráči, ktorý majú byť dosadení podľa pairingBalancera
