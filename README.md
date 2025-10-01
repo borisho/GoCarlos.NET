@@ -2,34 +2,34 @@
 
 Pairing program for Go tournaments. Created for the needs of the Slovak Championship and to learn something new.
 
-Current version: 0.0.12
+Current version: 0.0.13
 
 ## Features
 
-- McMahon pairing system
-- Customizable TOP and BOTTOM group bars
-- Customizable tiebreakers
-- Customizable pairing options
-- Connection to European Go Database for player selection
-- Export wallist and pairings to txt
-- Export results for European Go Database
+- McMahon pairing system,
+- Customizable TOP and BOTTOM group bars,
+- Customizable tiebreakers,
+- Customizable pairing options,
+- Connection to the European Go Database for player selection,
+- Export wallist and pairings to txt,
+- Export results for European Go Database.
 
-### Todo list by priority
+### TODO priority list
 
-1. Project overhaul
-2. Check compatibility with Asian names
+1. Migration to Avalonia XPF for cross-platform support,
+2. Life support to fix bugs and small improvements.
 
 ### Known bugs
 
-- Sometimes player selection in wallist is stuck on previeously selected player
+- Sometimes player selection in wallist is stuck on the previously selected player
 
 ## How to run GoCarlos.NET
 
-TODO
+.NET 9 needs to be installed for Portable versions. Others x64 and x86 are self-contained and can run without .NET installed.
 
 ## Author
 
-Boris DovËÌk
+Boris Dovƒç√≠k
 
 ## License
 
