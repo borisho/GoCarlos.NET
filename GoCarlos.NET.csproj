@@ -4,13 +4,13 @@
     <!--Metadata-->
     <Authors>Boris Dovčík</Authors>
     <Title>GoCarlos</Title>
-    <Version>0.0.13</Version>
+    <Version>0.0.14</Version>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/borisho/GoCarlos.NET</RepositoryUrl>
-    <VisualStudioVersion>17.5.4</VisualStudioVersion>
+    <VisualStudioVersion>18.1.1</VisualStudioVersion>
     <!--Publish-->
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0-windows</TargetFramework>
+    <TargetFramework>net10.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
@@ -34,7 +34,7 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
 
 </Project>
