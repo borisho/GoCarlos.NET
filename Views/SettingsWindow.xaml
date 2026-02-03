@@ -35,6 +35,7 @@
                             <RowDefinition Height="20"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
@@ -51,9 +52,16 @@
                                  PreviewKeyDown="WhiteSpace_PreviewKeyDown"
                                  PreviewTextInput="Numeric_PreviewTextInput"
                                  Text="{Binding NumberOfRounds, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        <!-- Top Group bar -->
-                        <Label Grid.Row="5" Grid.Column="1">Top Group bar</Label>
+                        <!-- Super Group gap -->
+                        <Label Grid.Row="5" Grid.Column="1">Super Group gap</Label>
                         <TextBox Grid.Row="5" Grid.Column="2" Margin="5 2"
+                                 MinWidth="80px" MaxLength="2"
+                                 PreviewKeyDown="WhiteSpace_PreviewKeyDown"
+                                 PreviewTextInput="Numeric_PreviewTextInput"
+                                 Text="{Binding SuperGroupGap, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <!-- Top Group bar -->
+                        <Label Grid.Row="6" Grid.Column="1">Top Group bar</Label>
+                        <TextBox Grid.Row="6" Grid.Column="2" Margin="5 2"
                                  MinWidth="80px" MaxLength="2"
                                  PreviewKeyDown="WhiteSpace_PreviewKeyDown"
                                  PreviewTextInput="Numeric_PreviewTextInput"
@@ -61,20 +69,20 @@
                                  Text="{Binding TopGroupBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         <!-- Automatic Top Group bar -->
                         <CheckBox x:Name="AUTOTOPGROUP"
-                                  Grid.Row="5" Grid.Column="3"
+                                  Grid.Row="6" Grid.Column="3"
                                   VerticalAlignment="Center"
                                   HorizontalAlignment="Center"
                                   IsChecked="{Binding AutomaticTopGroupBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        <Label Grid.Row="5" Grid.Column="4">Automaticky</Label>
+                        <Label Grid.Row="6" Grid.Column="4">Automaticky</Label>
                         <!-- Bottom Group bar -->
-                        <Label Grid.Row="6" Grid.Column="1">Bottom Group bar</Label>
-                        <TextBox Grid.Row="6" Grid.Column="2" Margin="5 2"
+                        <Label Grid.Row="7" Grid.Column="1">Bottom Group bar</Label>
+                        <TextBox Grid.Row="7" Grid.Column="2" Margin="5 2"
                                  MinWidth="80px" MaxLength="2"
                                  PreviewKeyDown="WhiteSpace_PreviewKeyDown"
                                  PreviewTextInput="Numeric_PreviewTextInput"
                                  Text="{Binding BottomGroupBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                        <Button Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2"
+                        <Button Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2"
                                 HorizontalAlignment="Left"
                                 Width="200" Height="20"
                                 Content="Uložiť zmeny"
@@ -134,18 +142,26 @@
                                  PreviewTextInput="Numeric_PreviewTextInput"
                                  Text="{Binding HandicapReduction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                        <!-- Hendikep na základe MM -->
-                        <Label Grid.Row="5" Grid.Column="1">Hendikep na základe MM</Label>
-                        <CheckBox x:Name="CHX3"
+                        <!-- Max 9 hendikep -->
+                        <Label Grid.Row="5" Grid.Column="1">Hendikep max. 9</Label>
+                        <CheckBox x:Name="CHX1"
                                   Grid.Row="5" Grid.Column="2"
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"
+                                  IsChecked="{Binding HandicapMaxNine, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <!-- Hendikep na základe MM -->
+                        <Label Grid.Row="6" Grid.Column="1">Hendikep na základe MM</Label>
+                        <CheckBox x:Name="CHX2"
+                                  Grid.Row="6" Grid.Column="2"
                                   VerticalAlignment="Center"
                                   HorizontalAlignment="Center"
                                   IsChecked="{Binding HandicapBasedMm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                         <!-- Prioritné párovanie hráčov z iných miest -->
-                        <Label Grid.Row="6" Grid.Column="1">Párovanie hráčov z iných miest</Label>
-                        <CheckBox x:Name="CHX2"
-                                  Grid.Row="6" Grid.Column="2"
+                        <Label Grid.Row="7" Grid.Column="1">Párovanie hráčov z iných miest</Label>
+                        <CheckBox x:Name="CHX3"
+                                  Grid.Row="7" Grid.Column="2"
                                   VerticalAlignment="Center"
                                   HorizontalAlignment="Center"
                                   IsChecked="{Binding AvoidSameCityPairing, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>

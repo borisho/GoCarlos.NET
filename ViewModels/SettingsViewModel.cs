@@ -70,7 +70,13 @@ public partial class SettingsViewModel(MainViewModel mvm) : ObservableObject
     private string handicapReduction = mvm.Tournament.HandicapReduction.ToString();
 
     [ObservableProperty]
+    private bool handicapMaxNine = mvm.Tournament.HandicapMaxNine;
+
+    [ObservableProperty]
     private bool automaticTopGroupBar = mvm.Tournament.AutomaticTopGroupBar;
+
+    [ObservableProperty]
+    private string superGroupGap = mvm.Tournament.SuperGroupGap.ToString();
 
     [ObservableProperty]
     private string topGroupBar = mvm.Tournament.TopGroupBar.ToString();
@@ -112,6 +118,7 @@ public partial class SettingsViewModel(MainViewModel mvm) : ObservableObject
             mvm.Tournament.Name = Name;
             mvm.Tournament.AvoidSameCityPairing = AvoidSameCityPairing;
             mvm.Tournament.HandicapBasedMm = HandicapBasedMm;
+            mvm.Tournament.HandicapMaxNine = HandicapMaxNine;
             mvm.Tournament.AutomaticTopGroupBar = AutomaticTopGroupBar;
 
             mvm.Tournament.TopGroupPairingMethod = SelectedTopGroupPairingMethod switch
@@ -167,7 +174,14 @@ public partial class SettingsViewModel(MainViewModel mvm) : ObservableObject
                 MessageBox.Show("Nepodarilo sa nastaviť redukciu hendikepu!", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            mvm.Tournament.UpdatePairingHandicaps();
+            if (float.TryParse(SuperGroupGap, out float sgg))
+            {
+                mvm.Tournament.SuperGroupGap = sgg;
+            }
+            else
+            {
+                MessageBox.Show("Nepodarilo sa nastaviť odskok SuperGroup!", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
             if (float.TryParse(TopGroupBar, out float tgb))
             {

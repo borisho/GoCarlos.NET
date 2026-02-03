@@ -105,6 +105,7 @@ public static class PairingGenerator
                             parameters.Round,
                             parameters.HandicapReduction,
                             parameters.HandicapBasedMm,
+                            parameters.HandicapMaxNine,
                             player,
                             opponent
                         )
@@ -137,6 +138,7 @@ public static class PairingGenerator
                             parameters.Round,
                             parameters.HandicapReduction,
                             parameters.HandicapBasedMm,
+                            parameters.HandicapMaxNine,
                             player,
                             opponent
                         )
@@ -171,6 +173,7 @@ public static class PairingGenerator
                             parameters.Round,
                             parameters.HandicapReduction,
                             parameters.HandicapBasedMm,
+                            parameters.HandicapMaxNine,
                             player,
                             opponent
                         )
@@ -199,6 +202,7 @@ public static class PairingGenerator
                         parameters.Round,
                         parameters.HandicapReduction,
                         parameters.HandicapBasedMm,
+                        parameters.HandicapMaxNine,
                         player,
                         opponent
                     )
@@ -249,6 +253,7 @@ public static class PairingGenerator
                         parameters.Round,
                         parameters.HandicapReduction,
                         parameters.HandicapBasedMm,
+                        parameters.HandicapMaxNine,
                         group[i],
                         group[i + groupHalf]));
                 pairings.Push(pairing);
@@ -282,6 +287,7 @@ public static class PairingGenerator
                         parameters.Round,
                         parameters.HandicapReduction,
                         parameters.HandicapBasedMm,
+                        parameters.HandicapMaxNine,
                         group[i],
                         group[j]));
                 pairings.Push(pairing);
@@ -314,6 +320,7 @@ public static class PairingGenerator
                         parameters.Round,
                         parameters.HandicapReduction,
                         parameters.HandicapBasedMm,
+                        parameters.HandicapMaxNine,
                         group[i],
                         group[i + 1]));
                 pairings.Push(pairing);
@@ -355,6 +362,7 @@ public static class PairingGenerator
                         parameters.Round,
                         parameters.HandicapReduction,
                         parameters.HandicapBasedMm,
+                        parameters.HandicapMaxNine,
                         p1, p2));
                 pairings.Push(pairing);
 
@@ -408,6 +416,7 @@ public static class PairingGenerator
                     parameters.Round,
                     parameters.HandicapReduction,
                     parameters.HandicapBasedMm,
+                    parameters.HandicapMaxNine,
                     byePlayer,
                     bye
                 )
@@ -430,7 +439,7 @@ public static class PairingGenerator
         Debug.WriteLine("\nPairing players: ");
         Debug.WriteLine(p1.Data.Last_Name + ", " + p1.Data.Name + ": " + p1.Data.Gor);
         Debug.WriteLine(p2.Data.Last_Name + ", " + p2.Data.Name + ": " + p2.Data.Gor);
-        Pairing pairing = parameters.Round.AddPairing(p1, p2, parameters.HandicapReduction, parameters.HandicapBasedMm);
+        Pairing pairing = parameters.Round.AddPairing(p1, p2, parameters.HandicapReduction, parameters.HandicapBasedMm, parameters.HandicapMaxNine);
 
         players.Remove(p1);
         players.Remove(p2);

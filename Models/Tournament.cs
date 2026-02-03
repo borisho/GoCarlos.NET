@@ -22,15 +22,17 @@ public class Tournament()
     private PairingMethod additionMethod = PairingMethod.Weakest;
 
     private bool avoidSameCityPairing = true;
-    private bool handicapBasedMm = false;
+    private bool handicapBasedMm = true;
+    private bool handicapMaxNine = true;
 
     private bool countCurrentRound = false;
     private int currentRound = 0;
     private int numberOfRounds = 5;
 
     private bool automaticTopBar = true;
+    private float superGroupGap = 2f;
     private float topGroupBar = 29f;
-    private float bottomGroupBar = 10f;
+    private float bottomGroupBar = 0f;
 
     public Tournament(int numberOfRounds) : this()
     {
@@ -97,6 +99,12 @@ public class Tournament()
         set => handicapBasedMm = value;
     }
 
+    public bool HandicapMaxNine
+    {
+        get => handicapMaxNine;
+        set => handicapMaxNine = value;
+    }
+
     public bool CountCurrentRound
     {
         get => countCurrentRound;
@@ -117,6 +125,12 @@ public class Tournament()
     {
         get => automaticTopBar;
         set => automaticTopBar = value;
+    }
+
+    public float SuperGroupGap
+    {
+        get => superGroupGap;
+        set => superGroupGap = value;
     }
 
     public float TopGroupBar
@@ -281,7 +295,7 @@ public class Tournament()
 
         return player.Group switch
         {
-            Group.SuperGroup => topGroupBar + 3,
+            Group.SuperGroup => topGroupBar + 1 + superGroupGap,
             Group.TopGroup => topGroupBar + 1,
             Group.Default => getScore(player.StartScore),
             _ => 0,

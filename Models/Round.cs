@@ -65,7 +65,7 @@ public class Round(int roundNumber) : IEquatable<Round?>
         return pairing;
     }
 
-    public Pairing AddPairing(Player p1, Player p2, int handicapReduction, bool handicapBasedMm)
+    public Pairing AddPairing(Player p1, Player p2, int handicapReduction, bool handicapBasedMm, bool handicapMaxNine)
     {
         if (p2.Group == Group.Bye)
         {
@@ -76,6 +76,7 @@ public class Round(int roundNumber) : IEquatable<Round?>
         int p2GradeN = handicapBasedMm == true ? (int)Math.Round(p2.Score) : Utils.GetValue(p2.Grade);
 
         int handicap = handicapReduction >= 9 ? 0 : Math.Max(0, Math.Abs(p1GradeN - p2GradeN) - handicapReduction);
+        handicap = handicapMaxNine ? Math.Min(handicap, 9) : handicap;
 
         if (handicap > 0)
         {

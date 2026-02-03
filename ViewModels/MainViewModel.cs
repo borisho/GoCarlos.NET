@@ -335,6 +335,7 @@ public partial class MainViewModel : ObservableObject
             tournament.AvoidSameCityPairing,
             tournament.HandicapReduction,
             tournament.HandicapBasedMm,
+            tournament.HandicapMaxNine,
             tournament.TopGroupPairingMethod,
             tournament.PairingMethod,
             tournament.AdditionMethod,
