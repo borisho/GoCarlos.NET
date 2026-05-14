@@ -4,7 +4,7 @@
     <!--Metadata-->
     <Authors>Boris Dovčík</Authors>
     <Title>GoCarlos</Title>
-    <Version>0.0.15</Version>
+    <Version>0.0.16</Version>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/borisho/GoCarlos.NET</RepositoryUrl>
     <VisualStudioVersion>18.1.1</VisualStudioVersion>
@@ -33,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
 

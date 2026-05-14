@@ -10,6 +10,8 @@ public class Pairing : IEquatable<Pairing?>
     [JsonProperty]
     private readonly Guid uuid;
 
+    private int roundNumber;
+
     private DateTime timeStamp;
     private int boardNumber;
 
@@ -21,9 +23,10 @@ public class Pairing : IEquatable<Pairing?>
     private bool resultByReferee;
     private string comment;
 
-    public Pairing()
+    public Pairing(int roundNumber)
     {
         uuid = Guid.NewGuid();
+        this.roundNumber = roundNumber;
 
         timeStamp = DateTime.Now;
         black = new();
@@ -31,7 +34,7 @@ public class Pairing : IEquatable<Pairing?>
         comment = "";
     }
 
-    public Pairing(Player black, Player bye) : this()
+    public Pairing(Player black, Player bye, int roundNumber) : this(roundNumber)
     {
         result = Result.BLACK_WON;
 
@@ -43,7 +46,7 @@ public class Pairing : IEquatable<Pairing?>
         comment = "free";
     }
 
-    public Pairing(Player black, Player white, int handicap, string comment) : this()
+    public Pairing(Player black, Player white, int handicap, string comment, int roundNumber) : this(roundNumber)
     {
         result = Result.NONE;
 
@@ -63,6 +66,7 @@ public class Pairing : IEquatable<Pairing?>
     public Result Result { get => result; set => result = value; }
     public bool ResultByReferee { get => resultByReferee; set => resultByReferee = value; }
     public string Comment { get => comment; set => comment = value; }
+    public int RoundNumber { get => roundNumber; set => roundNumber = value; }
 
     public float GetPairingResult(Player player)
     {

@@ -46,14 +46,15 @@ public class Round(int roundNumber) : IEquatable<Round?>
 
     private Pairing AddPairing(Player black, Player white, int handicap, string comment)
     {
-        white.ColorBalancer++;
 
         black.Opponents.Add(roundNumber, white);
         white.Opponents.Add(roundNumber, black);
 
-        AdjustPairingBalancer(black, white);
+        // Update balancers
+        white.ColorBalancer[roundNumber] = true;
+        AdjustPairingBalancer(black, white, roundNumber);
 
-        Pairing pairing = new(black, white, handicap, comment);
+        Pairing pairing = new(black, white, handicap, comment, roundNumber);
 
         pairings.Add(pairing);
         black.Pairings.Add(roundNumber, pairing);
@@ -63,6 +64,26 @@ public class Round(int roundNumber) : IEquatable<Round?>
         unpairedPlayers.Remove(white);
 
         return pairing;
+    }
+
+    private static void AdjustPairingBalancer(Player p1, Player p2, int roundNumber)
+    {
+        if (p1.Score > p2.Score)
+        {
+            p1.PairingBalancer[roundNumber] = -1;
+            p2.PairingBalancer[roundNumber] = 1;
+        }
+
+        else if (p1.Score == p2.Score)
+        {
+            return;
+        }
+
+        else
+        {
+            p1.PairingBalancer[roundNumber] = 1;
+            p2.PairingBalancer[roundNumber] = -1;
+        }
     }
 
     public Pairing AddPairing(Player p1, Player p2, int handicapReduction, bool handicapBasedMm, bool handicapMaxNine)
@@ -93,7 +114,9 @@ public class Round(int roundNumber) : IEquatable<Round?>
 
         else
         {
-            int cmp = p1.ColorBalancer.CompareTo(p2.ColorBalancer);
+            int p1cb = p1.ColorBalancer.Count(c => c);
+            int p2cb = p2.ColorBalancer.Count(c => c);
+            int cmp = p1cb.CompareTo(p2cb);
 
             if (cmp > 0)
             {
@@ -116,7 +139,7 @@ public class Round(int roundNumber) : IEquatable<Round?>
 
     private Pairing AddByePairing(Player black, Player bye)
     {
-        Pairing pairing = new(black, bye);
+        Pairing pairing = new(black, bye, roundNumber);
 
         pairings.Add(pairing);
 
@@ -143,9 +166,11 @@ public class Round(int roundNumber) : IEquatable<Round?>
 
             if (white.Group != Group.Bye)
             {
-                RemovePairingBalancer(black, white);
+                // Reset balancers
+                black.PairingBalancer[roundNumber] = 0;
+                white.PairingBalancer[roundNumber] = 0;
+                white.ColorBalancer[roundNumber] = false;
 
-                white.ColorBalancer--;
                 white.Pairings.Remove(roundNumber);
                 white.Opponents.Remove(roundNumber);
                 unpairedPlayers.Add(white);
@@ -166,46 +191,6 @@ public class Round(int roundNumber) : IEquatable<Round?>
         }
 
         return false;
-    }
-
-    private static void AdjustPairingBalancer(Player p1, Player p2)
-    {
-        if (p1.Score > p2.Score)
-        {
-            p1.PairingBalancer--;
-            p2.PairingBalancer++;
-        }
-        
-        else if (p1.Score == p2.Score)
-        {
-            return;
-        }
-
-        else
-        {
-            p1.PairingBalancer++;
-            p2.PairingBalancer--;
-        }
-    }
-
-    private static void RemovePairingBalancer(Player p1, Player p2)
-    {
-        if (p1.Score > p2.Score)
-        {
-            p1.PairingBalancer++;
-            p2.PairingBalancer--;
-        }
-
-        else if (p1.Score == p2.Score)
-        {
-            return;
-        }
-
-        else
-        {
-            p1.PairingBalancer--;
-            p2.PairingBalancer++;
-        }
     }
 
     public override bool Equals(object? obj)
