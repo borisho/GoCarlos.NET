@@ -66,7 +66,7 @@ public class Pairing : IEquatable<Pairing?>
     public Result Result { get => result; set => result = value; }
     public bool ResultByReferee { get => resultByReferee; set => resultByReferee = value; }
     public string Comment { get => comment; set => comment = value; }
-    public int RoundNumber { get => roundNumber; set => roundNumber = value; }
+    public int RoundNumber { get => roundNumber; }
 
     public float GetPairingResult(Player player)
     {

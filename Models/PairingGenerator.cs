@@ -124,8 +124,13 @@ public static class PairingGenerator
 
                 // Získa zoznam oponentov s rovnakým počtom bodov/MM
                 IEnumerable<Player> exactMatch = opponents.Where(p => p.Score == player.Score);
+                int exactMatchMax = exactMatch.Any() ? exactMatch.Max(p => CalculatePairingBalancer(p, roundNumber)): 0;
 
-                if (exactMatch.Any() && !CheckPairingBalancer(player, exactMatch))
+                // V prípade nepárneho počtu hráčov v skupine (párny počet opponentov)
+                // vyber hráča s najvyšším PB, ktorý bude nalosovaný dole
+                bool checkPb = exactMatch.Count() % 2 == 0 && CalculatePairingBalancer(player, roundNumber) > exactMatchMax;
+
+                if (exactMatch.Any() && !checkPb)
                 {
                     if (parameters.AvoidSameCityPairing && roundNumber < 2)
                     {
@@ -155,9 +160,9 @@ public static class PairingGenerator
 
                 if (closeMatch.Any())
                 {
-                    lowestPairingBalancer = closeMatch.Min(p => p.PairingBalancer[roundNumber]);
+                    lowestPairingBalancer = closeMatch.Min(p => CalculatePairingBalancer(p, roundNumber));
 
-                    closeMatch = closeMatch.Where(p => p.PairingBalancer[roundNumber] == lowestPairingBalancer);
+                    closeMatch = closeMatch.Where(p => CalculatePairingBalancer(p, roundNumber) == lowestPairingBalancer);
 
                     if (parameters.AvoidSameCityPairing && roundNumber < 2)
                     {
@@ -191,9 +196,9 @@ public static class PairingGenerator
                 IEnumerable<Player> strongestGroup = groups.First();
 
                 // vyberú sa hráči, ktorý majú byť dosadení podľa pairingBalancera
-                lowestPairingBalancer = strongestGroup.Min(p => p.PairingBalancer[roundNumber]);
+                lowestPairingBalancer = strongestGroup.Min(p => CalculatePairingBalancer(p, roundNumber));
                 IEnumerable<Player> subGroup = strongestGroup
-                    .Where(p => p.PairingBalancer[roundNumber] == lowestPairingBalancer);
+                    .Where(p => CalculatePairingBalancer(p, roundNumber) == lowestPairingBalancer);
 
                 // pokiaľ je to možné vyhni sa hendikepu viac ako 9
                 subGroup = TryToAvoidHighHandicap(subGroup, player, parameters.HandicapReduction);
@@ -215,12 +220,14 @@ public static class PairingGenerator
         }
     }
 
-    // V prípade nepárneho počtu hráčov v skupine (párny počet opponentov)
-    // vyber hráča s najvyšším PB, ktorý bude nalosovaný dole
-    private static bool CheckPairingBalancer(Player p, IEnumerable<Player> exactMatch)
+    private static int CalculatePairingBalancer(Player player, int roundNumber)
     {
-        return exactMatch.Count() % 2 == 0 
-            && p.PairingBalancer.Sum() > exactMatch.Max(p => p.PairingBalancer.Sum());
+        int pb = 0;
+        for (int i = 0; i < roundNumber; i++)
+        {
+           pb += player.PairingBalancer[i];
+        }
+        return pb;
     }
 
     private static void PairTopGroup(PairingGeneratorParameters parameters, Group group)
