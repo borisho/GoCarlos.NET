@@ -24,7 +24,7 @@ public partial class PlayerWindowViewModel : ObservableRecipient, IRecipient<EGD
     private readonly PlayerViewModel? pvm;
 
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(Pin_Player), nameof(Name), nameof(LastName), nameof(Gor), nameof(Grade), nameof(Country_Code), nameof(Club))]
+    [NotifyPropertyChangedFor(nameof(Pin_Player), nameof(Name), nameof(LastName), nameof(Gor), nameof(Grade), nameof(Country_Code), nameof(Club), nameof(RatingGrade))]
     private EGD_Data data;
 
     [ObservableProperty]
@@ -162,6 +162,7 @@ public partial class PlayerWindowViewModel : ObservableRecipient, IRecipient<EGD
         {
             Data.Gor = value;
             OnPropertyChanged(nameof(Gor));
+            OnPropertyChanged(nameof(RatingGrade));
         }
     }
     public string Grade
@@ -189,6 +190,16 @@ public partial class PlayerWindowViewModel : ObservableRecipient, IRecipient<EGD
         {
             Data.Club = value;
             OnPropertyChanged(nameof(Club));
+        }
+    }
+    public string RatingGrade
+    {
+        get
+        {
+            if (!int.TryParse(Data.Gor, out int rating))
+                rating = -1000; 
+
+            return Utils.GetGradeFromRating(rating);
         }
     }
 

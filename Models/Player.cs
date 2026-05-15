@@ -30,9 +30,9 @@ public class Player : IEquatable<Player?>
     private Group group;
     private bool sharedPlace;
 
+    private readonly bool[] colorBalancer;
+    private readonly int[] pairingBalancer;
     private int byeBalancer;
-    private int colorBalancer;
-    private int pairingBalancer;
     private int startScore;
 
     private int place;
@@ -63,8 +63,8 @@ public class Player : IEquatable<Player?>
         sharedPlace = false;
 
         byeBalancer = 0;
-        colorBalancer = 0;
-        pairingBalancer = 0;
+        colorBalancer = new bool[10];
+        pairingBalancer = new int[10];
         startScore = 0;
 
         place = 0;
@@ -123,15 +123,12 @@ public class Player : IEquatable<Player?>
         }
     }
     public int Rating { get => rating; set => rating = value; }
-
     public Group Group { get => group; set => group = value; }
     public bool SharedPlace { get => sharedPlace; set => sharedPlace = value; }
-
     public int ByeBalancer { get => byeBalancer; set => byeBalancer = value; }
-    public int ColorBalancer { get => colorBalancer; set => colorBalancer = value; }
-    public int PairingBalancer { get => pairingBalancer; set => pairingBalancer = value; }
+    public bool[] ColorBalancer { get => colorBalancer; }
+    public int[] PairingBalancer { get => pairingBalancer; }
     public int StartScore { get => startScore; set => startScore = value; }
-
     public int Place { get => place; set => place = value; }
     public float Points { get => points; set => points = value; }
     public float Score { get => score; set => score = value; }

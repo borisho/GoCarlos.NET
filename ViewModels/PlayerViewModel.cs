@@ -6,8 +6,9 @@ using System.Collections.Generic;
 
 namespace GoCarlos.NET.ViewModels;
 
-public partial class PlayerViewModel(Player player, int currentRound) : ObservableObject, IEquatable<PlayerViewModel?>
+public partial class PlayerViewModel(Tournament tournament, Player player) : ObservableObject, IEquatable<PlayerViewModel?>
 {
+    private readonly Tournament tournament = tournament;
     private readonly Player player = player;
 
     [ObservableProperty]
@@ -15,7 +16,7 @@ public partial class PlayerViewModel(Player player, int currentRound) : Observab
         nameof(R1), nameof(R2), nameof(R3), nameof(R4), nameof(R5), nameof(R6), nameof(R7), nameof(R8), nameof(R9), nameof(R10), nameof(Points),
         nameof(Score), nameof(ScoreX), nameof(SOS), nameof(SOSOS), nameof(SODOS), nameof(EGDPoints), nameof(EGDScore), nameof(EGDSOS),
         nameof(EGDSOSOS), nameof(EGDSODOS))]
-    private int currentRound = currentRound;
+    private int currentRound = tournament.CurrentRound;
 
     public Player Player { get => player; }
 
@@ -45,8 +46,44 @@ public partial class PlayerViewModel(Player player, int currentRound) : Observab
     public string R8 { get => GetRoundResult(7); }
     public string R9 { get => GetRoundResult(8); }
     public string R10 { get => GetRoundResult(9); }
-    public int NrW { get => player.ColorBalancer; }
-    public int PairingBalancer { get => player.PairingBalancer; }
+    public int NrW {
+        get
+        {
+            int roundNumber = CurrentRound - 1;
+
+            if (tournament.CountCurrentRound) roundNumber = CurrentRound;
+
+            int nrw = 0;
+
+            for (int i = 0; i <= roundNumber; i++)
+            {
+                if (player.ColorBalancer[i])
+                {
+                    nrw++;
+                }
+            }
+
+            return nrw;
+        }
+    }
+    public int PairingBalancer {
+        get
+        {
+            int roundNumber = CurrentRound - 1;
+
+            if (tournament.CountCurrentRound) roundNumber = CurrentRound;
+
+            int pb = 0;
+
+            for (int i = 0; i <= roundNumber; i++)
+            {
+                pb = pb + player.PairingBalancer[i];
+            }
+
+            return pb;
+        }
+    }
+
     public float Points { get => player.Points; }
     public float Score { get => player.Score; }
     public float ScoreX { get => player.ScoreX; }

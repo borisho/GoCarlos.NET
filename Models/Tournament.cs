@@ -369,7 +369,7 @@ public class Tournament()
         {
             p.Place = orderedList.IndexOf(p) + 1;
             
-            if (countCurrentRound)
+            if (CountCurrentRound)
             {
                 p.SharedPlace = temp is not null && Utils.ComparePlayerPlace(criteriaSettings, temp, p, countCurrentRound);
                 temp = p;

@@ -200,7 +200,7 @@ public partial class MainViewModel : ObservableObject
 
                 foreach (Player p in tournament.Players)
                 {
-                    playerViewModel.Add(new(p, tournament.CurrentRound));
+                    playerViewModel.Add(new(tournament, p));
                 }
 
                 GoToAndRefreshRound(t.CurrentRound);
@@ -273,12 +273,12 @@ public partial class MainViewModel : ObservableObject
 
             if (CurrentRoundNumber == i)
             {
-                unpairedPlayers.Add(new(player, CurrentRoundNumber));
+                unpairedPlayers.Add(new(tournament, player));
             }
         }
 
         tournament.Players.Add(player);
-        playerViewModel.Add(new(player, CurrentRoundNumber));
+        playerViewModel.Add(new(tournament, player));
     }
 
     private void AddPlayerBatch(List<Player> players)
@@ -462,11 +462,11 @@ public partial class MainViewModel : ObservableObject
 
         if (tournament.Rounds[tournament.CurrentRound].RemovePairing(pairing))
         {
-            unpairedPlayers.Add(new(pairing.Black, CurrentRoundNumber));
+            unpairedPlayers.Add(new(tournament, pairing.Black));
 
             if (pairing.White.Group != Group.Bye)
             {
-                unpairedPlayers.Add(new(pairing.White, CurrentRoundNumber));
+                unpairedPlayers.Add(new(tournament, pairing.White));
             }
 
             tournament.ResetBoardNumbers();
@@ -482,6 +482,12 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void ExportWallist()
     {
+        if (playerViewModel.Count == 0)
+        {
+            MessageBox.Show("Prázdny wallist!", "Výpis", MessageBoxButton.OK, MessageBoxImage.Information);
+            return;
+        }
+
         SaveFileDialog sfd = new()
         {
             Title = "Exportovať do",
@@ -653,6 +659,12 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void ExportPairing()
     {
+        if (pairingViewModel.Count == 0)
+        {
+            MessageBox.Show("Prázdne párovanie!", "Výpis", MessageBoxButton.OK, MessageBoxImage.Information);
+            return;
+        }
+
         SaveFileDialog sfd = new()
         {
             Title = "Exportovať do",
@@ -685,6 +697,12 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void ExportEgd()
     {
+        if (playerViewModel.Count == 0)
+        {
+            MessageBox.Show("Prázdny wallist!", "Výpis", MessageBoxButton.OK, MessageBoxImage.Information);
+            return;
+        }
+
         SaveFileDialog sfd = new()
         {
             Title = "Exportovať do",
@@ -880,7 +898,7 @@ public partial class MainViewModel : ObservableObject
 
         foreach (Player p in round.UnpairedPlayers)
         {
-            unpairedPlayers.Add(new(p, tournament.CurrentRound));
+            unpairedPlayers.Add(new(tournament, p));
         }
     }
 

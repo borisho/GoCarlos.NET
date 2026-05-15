@@ -9,7 +9,7 @@ namespace GoCarlos.NET.Models;
 
 internal static class Utils
 {
-    public const string VERSION = "0.0.15";
+    public const string VERSION = "0.0.16";
     public const string BYE = "0+";
     public const string QUESTION_MARK = "?";
     public const string EQUALS = "=";
@@ -214,6 +214,53 @@ internal static class Utils
             "29k" => -800,
             "30k" => -900,
             _ => -900,
+        };
+    }
+
+    public static string GetGradeFromRating(int rating)
+    {
+        return rating switch
+        {
+            >= 2850 => "9d",
+            >= 2750 => "8d",
+            >= 2650 => "7d",
+            >= 2550 => "6d",
+            >= 2450 => "5d",
+            >= 2350 => "4d",
+            >= 2250 => "3d",
+            >= 2150 => "2d",
+            >= 2050 => "1d",
+            >= 1950 => "1k",
+            >= 1850 => "2k",
+            >= 1750 => "3k",
+            >= 1650 => "4k",
+            >= 1550 => "5k",
+            >= 1450 => "6k",
+            >= 1350 => "7k",
+            >= 1250 => "8k",
+            >= 1150 => "9k",
+            >= 1050 => "10k",
+            >= 950 => "11k",
+            >= 850 => "12k",
+            >= 750 => "13k",
+            >= 650 => "14k",
+            >= 550 => "15k",
+            >= 450 => "16k",
+            >= 350 => "17k",
+            >= 250 => "18k",
+            >= 150 => "19k",
+            >= 50 => "20k",
+            >= -50 => "21k",
+            >= -150 => "22k",
+            >= -250 => "23k",
+            >= -350 => "24k",
+            >= -450 => "25k",
+            >= -550 => "26k",
+            >= -650 => "27k",
+            >= -750 => "28k",
+            >= -850 => "29k",
+            >= -900 => "30k",
+            _ => "",
         };
     }
 

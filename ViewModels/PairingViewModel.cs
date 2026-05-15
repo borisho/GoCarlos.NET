@@ -208,11 +208,13 @@ public partial class PairingViewModel : ObservableObject, IEquatable<PairingView
     [RelayCommand]
     private void SwapColors()
     {
+        int roundNumber = pairing.RoundNumber;
+
         Player black = pairing.Black;
         Player white = pairing.White;
 
-        white.ColorBalancer--;
-        black.ColorBalancer++;
+        white.ColorBalancer[roundNumber] = false;
+        black.ColorBalancer[roundNumber] = true;
 
         pairing.Black = white;
         pairing.White = black;
