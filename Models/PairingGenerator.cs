@@ -195,14 +195,9 @@ public static class PairingGenerator
                 IEnumerable<IGrouping<float, Player>> groups = opponents.GroupBy(p => p.Score);
                 IEnumerable<Player> strongestGroup = groups.First();
 
-                // vyberú sa hráči, ktorý majú byť dosadení podľa pairingBalancera
-                lowestPairingBalancer = strongestGroup.Min(p => CalculatePairingBalancer(p, roundNumber));
-                IEnumerable<Player> subGroup = strongestGroup
-                    .Where(p => CalculatePairingBalancer(p, roundNumber) == lowestPairingBalancer);
-
                 // pokiaľ je to možné vyhni sa hendikepu viac ako 9
-                subGroup = TryToAvoidHighHandicap(subGroup, player, parameters.HandicapReduction);
-                opponent = OpponentSelection(parameters.AdditionMethod, subGroup);
+                strongestGroup = TryToAvoidHighHandicap(strongestGroup, player, parameters.HandicapReduction);
+                opponent = OpponentSelection(parameters.AdditionMethod, strongestGroup);
 
                 pairing = PairPlayers(
                     new PairingParameters(
