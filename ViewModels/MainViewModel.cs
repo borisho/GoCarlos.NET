@@ -26,11 +26,11 @@ public partial class MainViewModel : ObservableObject
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(SelectedPairingIsNull), nameof(SelectedPairingIsBye))]
-    private PairingViewModel? selectedPairing;
+    public partial PairingViewModel? SelectedPairing { get; set; }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsSuitableToDelete))]
-    private PlayerViewModel? selectedPlayer;
+    public partial PlayerViewModel? SelectedPlayer { get; set; }
 
     private Tournament tournament;
 

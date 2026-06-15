@@ -30,9 +30,9 @@ public class Tournament()
     private int numberOfRounds = 5;
 
     private bool automaticTopBar = true;
-    private float superGroupGap = 2f;
-    private float topGroupBar = 29f;
-    private float bottomGroupBar = 0f;
+    private decimal superGroupGap = 2M;
+    private decimal topGroupBar = 29M;
+    private decimal bottomGroupBar = 0M;
 
     public Tournament(int numberOfRounds) : this()
     {
@@ -127,18 +127,18 @@ public class Tournament()
         set => automaticTopBar = value;
     }
 
-    public float SuperGroupGap
+    public decimal SuperGroupGap
     {
         get => superGroupGap;
         set => superGroupGap = value;
     }
 
-    public float TopGroupBar
+    public decimal TopGroupBar
     {
         get => topGroupBar;
         set => topGroupBar = value;
     }
-    public float BottomGroupBar
+    public decimal BottomGroupBar
     {
         get => bottomGroupBar;
         set => bottomGroupBar = value;
@@ -242,7 +242,7 @@ public class Tournament()
                     if (player.Opponents.TryGetValue(i, out Player? opponent))
                     {
                         Pairing pairing = player.Pairings[i];
-                        float pairingResult = pairing.GetPairingResult(player);
+                        decimal pairingResult = pairing.GetPairingResult(player);
 
                         player.SOS += opponent.Score;
                         player.SODOS += opponent.Score * pairingResult;
@@ -273,11 +273,11 @@ public class Tournament()
         GetPlayerPlace();
     }
 
-    private float StartScore(Player player)
+    private decimal StartScore(Player player)
     {
         TopGroupBar = automaticTopBar ? CalculateTopBar() : TopGroupBar;
 
-        float getScore(int score)
+        decimal getScore(int score)
         {
             if (score > topGroupBar)
             {
@@ -310,9 +310,9 @@ public class Tournament()
                     .Max();
     }
 
-    private static float GetPoints(Player player, int roundNumber)
+    private static decimal GetPoints(Player player, int roundNumber)
     {
-        float points = 0;
+        decimal points = 0M;
 
         for (int i = 0; i < roundNumber; i++)
         {
@@ -325,9 +325,9 @@ public class Tournament()
         return points;
     }
 
-    private static float GetResults(Player player, int roundNumber)
+    private static decimal GetResults(Player player, int roundNumber)
     {
-        float points = 0;
+        decimal points = 0M;
 
         for (int i = 0; i < roundNumber; i++)
         {
@@ -338,7 +338,7 @@ public class Tournament()
 
             else
             {
-                points += 0.5f;
+                points += 0.5M;
             }
         }
 

@@ -16,7 +16,7 @@ public partial class PlayerViewModel(Tournament tournament, Player player) : Obs
         nameof(R1), nameof(R2), nameof(R3), nameof(R4), nameof(R5), nameof(R6), nameof(R7), nameof(R8), nameof(R9), nameof(R10), nameof(Points),
         nameof(Score), nameof(ScoreX), nameof(SOS), nameof(SOSOS), nameof(SODOS), nameof(EGDPoints), nameof(EGDScore), nameof(EGDSOS),
         nameof(EGDSOSOS), nameof(EGDSODOS))]
-    private int currentRound = tournament.CurrentRound;
+    public partial int CurrentRound { get; set; } = tournament.CurrentRound;
 
     public Player Player { get => player; }
 
@@ -77,19 +77,19 @@ public partial class PlayerViewModel(Tournament tournament, Player player) : Obs
 
             for (int i = 0; i <= roundNumber; i++)
             {
-                pb = pb + player.PairingBalancer[i];
+                pb += player.PairingBalancer[i];
             }
 
             return pb;
         }
     }
 
-    public float Points { get => player.Points; }
-    public float Score { get => player.Score; }
-    public float ScoreX { get => player.ScoreX; }
-    public float SOS { get => player.SOS; }
-    public float SOSOS { get => player.SOSOS; }
-    public float SODOS { get => player.SODOS; }
+    public decimal Points { get => player.Points; }
+    public decimal Score { get => player.Score; }
+    public decimal ScoreX { get => player.ScoreX; }
+    public decimal SOS { get => player.SOS; }
+    public decimal SOSOS { get => player.SOSOS; }
+    public decimal SODOS { get => player.SODOS; }
 
     public string EGDPoints { get => player.Points % 1 > 0 ? Math.Floor(player.Points).ToString() + Utils.EQUALS : Math.Floor(player.Points).ToString(); }
     public string EGDScore { get => player.Score % 1 > 0 ? Math.Floor(player.Score).ToString() + Utils.EQUALS : Math.Floor(player.Score).ToString(); }

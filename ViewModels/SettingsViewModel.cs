@@ -18,34 +18,33 @@ public partial class SettingsViewModel(MainViewModel mvm) : ObservableObject
     public readonly MainViewModel mvm = mvm;
 
     [ObservableProperty]
-    private Criteria[] allCriteria = CriteriaSettings.AllCriteria;
+    public partial Criteria[] AllCriteria { get; set; } = CriteriaSettings.AllCriteria;
 
     [ObservableProperty]
-    private Criteria c1 = mvm.Tournament.CriteriaSettings.Criterias[0];
+    public partial Criteria C1 { get; set; } = mvm.Tournament.CriteriaSettings.Criterias[0];
 
     [ObservableProperty]
-    private Criteria c2 = mvm.Tournament.CriteriaSettings.Criterias[1];
+    public partial Criteria C2 { get; set; } = mvm.Tournament.CriteriaSettings.Criterias[1];
 
     [ObservableProperty]
-    private Criteria c3 = mvm.Tournament.CriteriaSettings.Criterias[2];
+    public partial Criteria C3 { get; set; } = mvm.Tournament.CriteriaSettings.Criterias[2];
 
     [ObservableProperty]
-    private Criteria c4 = mvm.Tournament.CriteriaSettings.Criterias[3];
+    public partial Criteria C4 { get; set; } = mvm.Tournament.CriteriaSettings.Criterias[3];
 
     [ObservableProperty]
-    private Criteria c5 = mvm.Tournament.CriteriaSettings.Criterias[4];
+    public partial Criteria C5 { get; set; } = mvm.Tournament.CriteriaSettings.Criterias[4];
 
     [ObservableProperty]
-    private string selectedTopGroupPairingMethod = mvm.Tournament.TopGroupPairingMethod switch
+    public partial string SelectedTopGroupPairingMethod { get; set; } = mvm.Tournament.TopGroupPairingMethod switch
     {
         PairingMethod.Cross => Cross,
         PairingMethod.Strongest => Adjacent,
         PairingMethod.Weakest => Weakest,
         _ => Random,
     };
-
     [ObservableProperty]
-    private string selectedPairingMethod = mvm.Tournament.PairingMethod switch
+    public partial string SelectedPairingMethod { get; set; } = mvm.Tournament.PairingMethod switch
     {
         PairingMethod.Strongest => Adjacent,
         PairingMethod.Weakest => Weakest,
@@ -53,7 +52,7 @@ public partial class SettingsViewModel(MainViewModel mvm) : ObservableObject
     };
 
     [ObservableProperty]
-    private string selectedGroupAdditionMethod = mvm.Tournament.AdditionMethod switch
+    public partial string SelectedGroupAdditionMethod { get; set; } = mvm.Tournament.AdditionMethod switch
     {
         PairingMethod.Strongest => Adjacent,
         PairingMethod.Random => Random,
@@ -61,34 +60,34 @@ public partial class SettingsViewModel(MainViewModel mvm) : ObservableObject
     };
 
     [ObservableProperty]
-    private string name = mvm.Tournament.Name;
+    public partial string Name { get; set; } = mvm.Tournament.Name;
 
     [ObservableProperty]
-    private string numberOfRounds = mvm.Tournament.NumberOfRounds.ToString();
+    public partial string NumberOfRounds { get; set; } = mvm.Tournament.NumberOfRounds.ToString();
 
     [ObservableProperty]
-    private string handicapReduction = mvm.Tournament.HandicapReduction.ToString();
+    public partial string HandicapReduction { get; set; } = mvm.Tournament.HandicapReduction.ToString();
 
     [ObservableProperty]
-    private bool handicapMaxNine = mvm.Tournament.HandicapMaxNine;
+    public partial bool HandicapMaxNine { get; set; } = mvm.Tournament.HandicapMaxNine;
 
     [ObservableProperty]
-    private bool automaticTopGroupBar = mvm.Tournament.AutomaticTopGroupBar;
+    public partial bool AutomaticTopGroupBar { get; set; } = mvm.Tournament.AutomaticTopGroupBar;
 
     [ObservableProperty]
-    private string superGroupGap = mvm.Tournament.SuperGroupGap.ToString();
+    public partial string SuperGroupGap { get; set; } = mvm.Tournament.SuperGroupGap.ToString();
 
     [ObservableProperty]
-    private string topGroupBar = mvm.Tournament.TopGroupBar.ToString();
+    public partial string TopGroupBar { get; set; } = mvm.Tournament.TopGroupBar.ToString();
 
     [ObservableProperty]
-    private string bottomGroupBar = mvm.Tournament.BottomGroupBar.ToString();
+    public partial string BottomGroupBar { get; set; } = mvm.Tournament.BottomGroupBar.ToString();
 
     [ObservableProperty]
-    private bool avoidSameCityPairing = mvm.Tournament.AvoidSameCityPairing;
+    public partial bool AvoidSameCityPairing { get; set; } = mvm.Tournament.AvoidSameCityPairing;
 
     [ObservableProperty]
-    private bool handicapBasedMm = mvm.Tournament.HandicapBasedMm;
+    public partial bool HandicapBasedMm { get; set; } = mvm.Tournament.HandicapBasedMm;
 
     public ObservableCollection<string> TopGroupPairingMethodCollection { get; private set; } =
         [
@@ -174,7 +173,7 @@ public partial class SettingsViewModel(MainViewModel mvm) : ObservableObject
                 MessageBox.Show("Nepodarilo sa nastaviť redukciu hendikepu!", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            if (float.TryParse(SuperGroupGap, out float sgg))
+            if (decimal.TryParse(SuperGroupGap, out decimal sgg))
             {
                 mvm.Tournament.SuperGroupGap = sgg;
             }
@@ -183,7 +182,7 @@ public partial class SettingsViewModel(MainViewModel mvm) : ObservableObject
                 MessageBox.Show("Nepodarilo sa nastaviť odskok SuperGroup!", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            if (float.TryParse(TopGroupBar, out float tgb))
+            if (decimal.TryParse(TopGroupBar, out decimal tgb))
             {
                 mvm.Tournament.TopGroupBar = tgb;
             }
@@ -192,7 +191,7 @@ public partial class SettingsViewModel(MainViewModel mvm) : ObservableObject
                 MessageBox.Show("Nepodarilo sa nastaviť hranicu TopGroup!", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            if (float.TryParse(BottomGroupBar, out float bgb))
+            if (decimal.TryParse(BottomGroupBar, out decimal bgb))
             {
                 mvm.Tournament.BottomGroupBar = bgb;
             }

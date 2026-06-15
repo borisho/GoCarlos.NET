@@ -192,7 +192,7 @@ public static class PairingGenerator
 
                 // Párovanie ak nie je dostupný oponent s rovnakým alebo podobným skóre/bodmi,
                 // získa sa najsilnejšia skupina a oponent sa z nej vyberie podľa vybraných kritérií
-                IEnumerable<IGrouping<float, Player>> groups = opponents.GroupBy(p => p.Score);
+                IEnumerable<IGrouping<decimal, Player>> groups = opponents.GroupBy(p => p.Score);
                 IEnumerable<Player> strongestGroup = groups.First();
 
                 // pokiaľ je to možné vyhni sa hendikepu viac ako 9

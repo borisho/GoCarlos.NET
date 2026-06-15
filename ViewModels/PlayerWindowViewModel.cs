@@ -25,62 +25,79 @@ public partial class PlayerWindowViewModel : ObservableRecipient, IRecipient<EGD
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(Pin_Player), nameof(Name), nameof(LastName), nameof(Gor), nameof(Grade), nameof(Country_Code), nameof(Club), nameof(RatingGrade))]
-    private EGD_Data data;
+    public partial EGD_Data Data { get; set; } = new();
 
     [ObservableProperty]
-    private int numberOfRounds;
+    public partial int NumberOfRounds { get; set; }
 
     [ObservableProperty]
-    private Group groupType;
+    public partial Group GroupType { get; set; } = Group.Default;
 
     [ObservableProperty]
-    private bool ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9, ch10, addOneMore;
+    public partial bool Ch1 { get; set; } = true;
+
+    [ObservableProperty]
+    public partial bool Ch2 { get; set; } = true;
+
+    [ObservableProperty]
+    public partial bool Ch3 { get; set; } = true;
+
+    [ObservableProperty]
+    public partial bool Ch4 { get; set; } = true;
+
+    [ObservableProperty]
+    public partial bool Ch5 { get; set; } = true;
+
+    [ObservableProperty]
+    public partial bool Ch6 { get; set; } = true;
+
+    [ObservableProperty]
+    public partial bool Ch7 { get; set; } = true;
+
+    [ObservableProperty]
+    public partial bool Ch8 { get; set; } = true;
+
+    [ObservableProperty]
+    public partial bool Ch9 { get; set; } = true;
+
+    [ObservableProperty]
+    public partial bool Ch10 { get; set; } = true;
+
+    [ObservableProperty]
+    public partial bool AddOneMore { get; set; }
 
     public PlayerWindowViewModel(PlayerViewModel? pvm, int numberOfRounds, bool addOneMore)
     {
-        this.addOneMore = addOneMore;
+        AddOneMore = addOneMore;
 
         this.pvm = pvm;
-        data = new();
-        this.numberOfRounds = numberOfRounds;
-
-        groupType = Group.Default;
-        ch1 = true;
-        ch2 = true;
-        ch3 = true;
-        ch4 = true;
-        ch5 = true;
-        ch6 = true;
-        ch7 = true;
-        ch8 = true;
-        ch9 = true;
-        ch10 = true;
+        NumberOfRounds = numberOfRounds;
 
         if (pvm is not null)
         {
-            data = new(pvm.Player.Data);
-            groupType = pvm.Player.Group;
+            Data = new(pvm.Player.Data);
+            GroupType = pvm.Player.Group;
 
             if (!pvm.Player.RoundsPlaying.Contains(0))
-                ch1 = false;
+                Ch1 = false;
             if (!pvm.Player.RoundsPlaying.Contains(1))
-                ch2 = false;
+                Ch2 = false;
             if (!pvm.Player.RoundsPlaying.Contains(2))
-                ch3 = false;
+                Ch3 = false;
             if (!pvm.Player.RoundsPlaying.Contains(3))
-                ch4 = false;
+                Ch4 = false;
             if (!pvm.Player.RoundsPlaying.Contains(4))
-                ch5 = false;
+                Ch5 = false;
             if (!pvm.Player.RoundsPlaying.Contains(5))
-                ch6 = false;
+                Ch6 = false;
             if (!pvm.Player.RoundsPlaying.Contains(6))
-                ch7 = false;
+                Ch7 = false;
             if (!pvm.Player.RoundsPlaying.Contains(7))
-                ch8 = false;
+                Ch8 = false;
             if (!pvm.Player.RoundsPlaying.Contains(8))
-                ch9 = false;
+                Ch9 = false;
             if (!pvm.Player.RoundsPlaying.Contains(9))
-                ch10 = false;
+                Ch10 = false;
         }
     }
 

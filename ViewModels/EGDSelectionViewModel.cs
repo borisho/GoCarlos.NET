@@ -14,7 +14,7 @@ public partial class EGDSelectionViewModel : ObservableObject
     private readonly ObservableCollection<EGD_Data> players;
 
     [ObservableProperty]
-    private EGD_Data? selectedItem;
+    public partial EGD_Data? SelectedItem { get; set; }
 
     public EGDSelectionViewModel(EGD_Data[] eGD_Datas)
     {

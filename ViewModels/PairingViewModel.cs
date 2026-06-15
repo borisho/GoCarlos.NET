@@ -23,7 +23,8 @@ public partial class PairingViewModel : ObservableObject, IEquatable<PairingView
     private string selectedResult;
 
     [ObservableProperty]
-    private bool isRefereeEnabled;
+    public partial bool IsRefereeEnabled { get; set; }
+
     public PairingViewModel(Pairing pairing)
     {
         this.pairing = pairing;
@@ -41,27 +42,27 @@ public partial class PairingViewModel : ObservableObject, IEquatable<PairingView
         switch (pairing.Result)
         {
             case Result.BLACK_WON:
-                isRefereeEnabled = true;
+                IsRefereeEnabled = true;
                 selectedResult = BLACK_WON;
                 break;
             case Result.WHITE_WON:
-                isRefereeEnabled = true;
+                IsRefereeEnabled = true;
                 selectedResult = WHITE_WON;
                 break;
             case Result.BOTH_WON:
-                isRefereeEnabled = false;
+                IsRefereeEnabled = false;
                 selectedResult = BOTH_WON;
                 break;
             case Result.BOTH_LOST:
-                isRefereeEnabled = false;
+                IsRefereeEnabled = false;
                 selectedResult = BOTH_LOST;
                 break;
             case Result.DRAW:
-                isRefereeEnabled = true;
+                IsRefereeEnabled = true;
                 selectedResult = DRAW;
                 break;
             default:
-                isRefereeEnabled = true;
+                IsRefereeEnabled = true;
                 selectedResult = NONE;
                 break;
         }

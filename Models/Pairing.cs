@@ -5,33 +5,29 @@ using System.Collections.Generic;
 
 namespace GoCarlos.NET.Models;
 
-public class Pairing : IEquatable<Pairing?>
+public class Pairing() : IEquatable<Pairing?>
 {
     [JsonProperty]
-    private readonly Guid uuid;
+    private readonly Guid uuid = Guid.NewGuid();
 
-    private int roundNumber;
+    [JsonProperty]
+    private readonly int roundNumber;
 
-    private DateTime timeStamp;
-    private int boardNumber;
+    private DateTime timeStamp = DateTime.Now;
 
-    private Player black;
-    private Player white;
-    private int handicap;
+    private Player black = new();
+    private Player white = new();
 
-    private Result result;
-    private bool resultByReferee;
-    private string comment;
+    private int boardNumber = 0;
+    private int handicap = 0;
 
-    public Pairing(int roundNumber)
+    private Result result = Result.NONE;
+    private bool resultByReferee = false;
+    private string comment = "";
+
+    public Pairing(int roundNumber) : this()
     {
-        uuid = Guid.NewGuid();
         this.roundNumber = roundNumber;
-
-        timeStamp = DateTime.Now;
-        black = new();
-        white = new();
-        comment = "";
     }
 
     public Pairing(Player black, Player bye, int roundNumber) : this(roundNumber)
@@ -40,21 +36,15 @@ public class Pairing : IEquatable<Pairing?>
 
         this.black = black;
         white = bye;
-        handicap = 0;
-        boardNumber = 0;
-        resultByReferee = false;
         comment = "free";
     }
 
     public Pairing(Player black, Player white, int handicap, string comment, int roundNumber) : this(roundNumber)
     {
-        result = Result.NONE;
-
         this.black = black;
         this.white = white;
         this.handicap = handicap;
         this.comment = comment;
-        boardNumber = 0;
     }
 
     public Guid Guid { get => uuid; }
@@ -68,21 +58,21 @@ public class Pairing : IEquatable<Pairing?>
     public string Comment { get => comment; set => comment = value; }
     public int RoundNumber { get => roundNumber; }
 
-    public float GetPairingResult(Player player)
+    public decimal GetPairingResult(Player player)
     {
         if (Result.Equals(Result.BOTH_WON) ||
             (Black.Equals(player) && Result.Equals(Result.BLACK_WON)) ||
             (White.Equals(player) && Result.Equals(Result.WHITE_WON)))
         {
-            return 1f;
+            return 1M;
         }
         else if (Result.Equals(Result.DRAW))
         {
-            return 0.5f;
+            return 0.5M;
         }
         else
         {
-            return 0f;
+            return 0M;
         }
     }
 

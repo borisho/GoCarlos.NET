@@ -14,7 +14,7 @@ public class Player : IEquatable<Player?>
     private readonly HashSet<int> roundsPlaying;
 
     [JsonProperty]
-    private readonly HashSet<Player> temporaryForbidenPairings;
+    private readonly HashSet<Player> temporaryForbiddenPairings;
 
     [JsonProperty]
     private readonly Dictionary<int, Player> opponents;
@@ -30,25 +30,29 @@ public class Player : IEquatable<Player?>
     private Group group;
     private bool sharedPlace;
 
+    [JsonProperty]
     private readonly bool[] colorBalancer;
+
+    [JsonProperty]
     private readonly int[] pairingBalancer;
+
     private int byeBalancer;
     private int startScore;
 
     private int place;
-    private float points;
-    private float score;
-    private float scoreX;
-    private float sos;
-    private float sosos;
-    private float sodos;
+    private decimal points;
+    private decimal score;
+    private decimal scoreX;
+    private decimal sos;
+    private decimal sosos;
+    private decimal sodos;
 
     public Player()
     {
         uuid = Guid.NewGuid();
 
         roundsPlaying = [];
-        temporaryForbidenPairings = [];
+        temporaryForbiddenPairings = [];
         opponents = [];
         pairings = [];
         data = new()
@@ -68,17 +72,17 @@ public class Player : IEquatable<Player?>
         startScore = 0;
 
         place = 0;
-        points = 0F;
-        score = 0F;
-        scoreX = 0F;
-        sos = 0F;
-        sosos = 0F;
-        sodos = 0F;
+        points = 0M;
+        score = 0M;
+        scoreX = 0M;
+        sos = 0M;
+        sosos = 0M;
+        sodos = 0M;
     }
 
     public Player(EGD_Data data) : this()
     {
-        roundsPlaying = [0,1,2,3,4];
+        roundsPlaying = [0, 1, 2, 3, 4];
 
         this.data = data;
         grade = this.data.Grade;
@@ -104,7 +108,7 @@ public class Player : IEquatable<Player?>
 
     public Guid Guid { get => uuid; }
     public HashSet<int> RoundsPlaying { get => roundsPlaying; }
-    public HashSet<Player> TemporaryForbiddenPairings { get => temporaryForbidenPairings; }
+    public HashSet<Player> TemporaryForbiddenPairings { get => temporaryForbiddenPairings; }
     public Dictionary<int, Player> Opponents { get => opponents; }
     public Dictionary<int, Pairing> Pairings { get => pairings; }
     public EGD_Data Data { get => data; set => data = value; }
@@ -130,12 +134,12 @@ public class Player : IEquatable<Player?>
     public int[] PairingBalancer { get => pairingBalancer; }
     public int StartScore { get => startScore; set => startScore = value; }
     public int Place { get => place; set => place = value; }
-    public float Points { get => points; set => points = value; }
-    public float Score { get => score; set => score = value; }
-    public float ScoreX { get => scoreX; set => scoreX = value; }
-    public float SOS { get => sos; set => sos = value; }
-    public float SOSOS { get => sosos; set => sosos = value; }
-    public float SODOS { get => sodos; set => sodos = value; }
+    public decimal Points { get => points; set => points = value; }
+    public decimal Score { get => score; set => score = value; }
+    public decimal ScoreX { get => scoreX; set => scoreX = value; }
+    public decimal SOS { get => sos; set => sos = value; }
+    public decimal SOSOS { get => sosos; set => sosos = value; }
+    public decimal SODOS { get => sodos; set => sodos = value; }
 
     public override bool Equals(object? obj)
     {
