@@ -36,7 +36,7 @@ public class Tournament()
 
     public Tournament(int numberOfRounds) : this()
     {
-        for(int i = 0; i < numberOfRounds; i++)
+        for (int i = 0; i < numberOfRounds; i++)
         {
             rounds!.Add(new(i));
         }
@@ -368,7 +368,7 @@ public class Tournament()
         foreach (Player p in orderedList)
         {
             p.Place = orderedList.IndexOf(p) + 1;
-            
+
             if (CountCurrentRound)
             {
                 p.SharedPlace = temp is not null && Utils.ComparePlayerPlace(criteriaSettings, temp, p, countCurrentRound);

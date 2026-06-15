@@ -1,5 +1,5 @@
-﻿using System;
-using GoCarlos.NET.Models;
+﻿using GoCarlos.NET.Models;
+using System;
 
 namespace GoCarlos.NET.Events;
 

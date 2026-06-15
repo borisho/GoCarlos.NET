@@ -19,11 +19,12 @@ public partial class CriteriaSettings : ObservableObject
         { CriteriaType.VZP, new Criteria(CriteriaType.VZP, "Vzájomná partia", "Víťaz vzájomnej partie berie lepšiu priečku") }
     };
 
-    private Criteria[] criterias;
+    [ObservableProperty]
+    public partial Criteria[] Criterias { get; set; }
 
     public CriteriaSettings()
     {
-        criterias =
+        Criterias =
         [
             allCriterias[CriteriaType.MMS],
             allCriterias[CriteriaType.SDS],
@@ -31,12 +32,6 @@ public partial class CriteriaSettings : ObservableObject
             allCriterias[CriteriaType.VZP],
             allCriterias[CriteriaType.NUL]
         ];
-    }
-
-    public Criteria[] Criterias
-    {
-        get => criterias;
-        set => criterias = value;
     }
 
     public static Dictionary<CriteriaType, Criteria> AllCriteriaDict => allCriterias;

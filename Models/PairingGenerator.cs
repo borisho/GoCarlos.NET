@@ -124,7 +124,7 @@ public static class PairingGenerator
 
                 // Získa zoznam oponentov s rovnakým počtom bodov/MM
                 IEnumerable<Player> exactMatch = opponents.Where(p => p.Score == player.Score);
-                int exactMatchMax = exactMatch.Any() ? exactMatch.Max(p => CalculatePairingBalancer(p, roundNumber)): 0;
+                int exactMatchMax = exactMatch.Any() ? exactMatch.Max(p => CalculatePairingBalancer(p, roundNumber)) : 0;
 
                 // V prípade nepárneho počtu hráčov v skupine (párny počet opponentov)
                 // vyber hráča s najvyšším PB, ktorý bude nalosovaný dole
@@ -156,7 +156,7 @@ public static class PairingGenerator
                 }
 
                 // Získa zoznam oponentov s počtom bodov/MM o 1 nižším alebo vyšším
-                IEnumerable<Player> closeMatch = opponents.Where(p => p.Score >= player.Score -1 && p.Score <= player.Score + 1);
+                IEnumerable<Player> closeMatch = opponents.Where(p => p.Score >= player.Score - 1 && p.Score <= player.Score + 1);
 
                 if (closeMatch.Any())
                 {
@@ -220,7 +220,7 @@ public static class PairingGenerator
         int pb = 0;
         for (int i = 0; i < roundNumber; i++)
         {
-           pb += player.PairingBalancer[i];
+            pb += player.PairingBalancer[i];
         }
         return pb;
     }
@@ -253,7 +253,7 @@ public static class PairingGenerator
             for (int i = 0; i < groupHalf; i++)
             {
                 Pairing pairing = PairPlayers(
-                    new (
+                    new(
                         parameters.Round,
                         parameters.HandicapReduction,
                         parameters.HandicapBasedMm,
@@ -287,7 +287,7 @@ public static class PairingGenerator
             for (int i = 0, j = groupSize - 1; i < groupHalf; i++, j--)
             {
                 Pairing pairing = PairPlayers(
-                    new (
+                    new(
                         parameters.Round,
                         parameters.HandicapReduction,
                         parameters.HandicapBasedMm,

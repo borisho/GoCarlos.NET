@@ -46,7 +46,8 @@ public partial class PlayerViewModel(Tournament tournament, Player player) : Obs
     public string R8 { get => GetRoundResult(7); }
     public string R9 { get => GetRoundResult(8); }
     public string R10 { get => GetRoundResult(9); }
-    public int NrW {
+    public int NrW
+    {
         get
         {
             int roundNumber = CurrentRound - 1;
@@ -66,7 +67,8 @@ public partial class PlayerViewModel(Tournament tournament, Player player) : Obs
             return nrw;
         }
     }
-    public int PairingBalancer {
+    public int PairingBalancer
+    {
         get
         {
             int roundNumber = CurrentRound - 1;
@@ -121,79 +123,24 @@ public partial class PlayerViewModel(Tournament tournament, Player player) : Obs
 
     private string GetPairingResult(Pairing pairing)
     {
-        string result;
+        var isBlack = player == pairing.Black;
+        var opponent = isBlack ? pairing.White : pairing.Black;
+        var color = isBlack ? "b" : "w";
 
-        switch (pairing.Result)
+        var result = pairing.Result switch
         {
-            case Result.NONE:
-                if (player == pairing.Black)
-                {
-                    result = pairing.White.Place.ToString() + Utils.QUESTION_MARK;
-                    return pairing.Handicap == 0 ? result : result + "/b" + pairing.Handicap;
-                }
-                else
-                {
-                    result = pairing.Black.Place.ToString() + Utils.QUESTION_MARK;
-                    return pairing.Handicap == 0 ? result : result + "/w" + pairing.Handicap;
-                }
-            case Result.BLACK_WON:
-                if (player == pairing.Black)
-                {
-                    result = pairing.White.Place.ToString() + Utils.PLUS;
-                    return pairing.Handicap == 0 ? result : result + "/b" + pairing.Handicap;
-                }
-                else
-                {
-                    result = pairing.Black.Place.ToString() + Utils.DASH;
-                    return pairing.Handicap == 0 ? result : result + "/w" + pairing.Handicap;
-                }
-            case Result.WHITE_WON:
-                if (player == pairing.Black)
-                {
-                    result = pairing.White.Place.ToString() + Utils.DASH;
-                    return pairing.Handicap == 0 ? result : result + "/b" + pairing.Handicap;
-                }
-                else
-                {
-                    result = pairing.Black.Place.ToString() + Utils.PLUS;
-                    return pairing.Handicap == 0 ? result : result + "/w" + pairing.Handicap;
-                }
-            case Result.DRAW:
-                if (player == pairing.Black)
-                {
-                    result = pairing.White.Place.ToString() + Utils.EQUALS;
-                    return pairing.Handicap == 0 ? result : result + "/b" + pairing.Handicap;
-                }
-                else
-                {
-                    result = pairing.Black.Place.ToString() + Utils.EQUALS;
-                    return pairing.Handicap == 0 ? result : result + "/w" + pairing.Handicap;
-                }
-            case Result.BOTH_WON:
-                if (player == pairing.Black)
-                {
-                    result = pairing.White.Place.ToString() + Utils.PLUS;
-                    return pairing.Handicap == 0 ? result : result + "/b" + pairing.Handicap;
-                }
-                else
-                {
-                    result = pairing.Black.Place.ToString() + Utils.PLUS;
-                    return pairing.Handicap == 0 ? result : result + "/w" + pairing.Handicap;
-                }
-            case Result.BOTH_LOST:
-                if (player == pairing.Black)
-                {
-                    result = pairing.White.Place.ToString() + Utils.DASH;
-                    return pairing.Handicap == 0 ? result : result + "/b" + pairing.Handicap;
-                }
-                else
-                {
-                    result = pairing.Black.Place.ToString() + Utils.DASH;
-                    return pairing.Handicap == 0 ? result : result + "/w" + pairing.Handicap;
-                }
-            default:
-                return Utils.QUESTION_MARK;
+            Result.NONE => Utils.QUESTION_MARK,
+            Result.BLACK_WON => isBlack ? Utils.PLUS : Utils.DASH,
+            Result.WHITE_WON => isBlack ? Utils.DASH : Utils.PLUS,
+            Result.DRAW => Utils.EQUALS,
+            Result.BOTH_WON => Utils.PLUS,
+            Result.BOTH_LOST => Utils.DASH,
+            _ => Utils.QUESTION_MARK
         };
+
+        return pairing.Handicap == 0
+            ? $"{opponent.Place}{result}/{color}"
+            : $"{opponent.Place}{result}/{color}{pairing.Handicap}";
     }
 
     public override bool Equals(object? obj)
