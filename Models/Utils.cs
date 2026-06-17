@@ -9,7 +9,7 @@ namespace GoCarlos.NET.Models;
 
 internal static class Utils
 {
-    public const string VERSION = "0.0.18";
+    public const string VERSION = "0.1.0";
     public const string BYE = "0+";
     public const string QUESTION_MARK = "?";
     public const string EQUALS = "=";

@@ -2,7 +2,7 @@
 
 Pairing program for Go tournaments. Created for the needs of the Slovak Championship and to learn something new.
 
-Current version: 0.0.18
+Current version: 0.1.0
 
 ## Support
 
@@ -21,7 +21,7 @@ This project is no longer developed. The future versions will be created and ove
 
 ### Known bugs
 
-- Sometimes player selection in wallist is stuck on the previously selected player
+- None
 
 ## How to run GoCarlos.NET
 
