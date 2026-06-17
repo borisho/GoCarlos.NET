@@ -220,7 +220,7 @@ public static class PairingGenerator
         int pb = 0;
         for (int i = 0; i < roundNumber; i++)
         {
-            pb += player.PairingBalancer[i];
+            pb += player.GetPairingPalancer(i);
         }
         return pb;
     }

@@ -7,26 +7,13 @@ namespace GoCarlos.NET.Models;
 
 public class Player : IEquatable<Player?>
 {
-    [JsonProperty]
-    private readonly Guid uuid;
-
-    [JsonProperty]
-    private readonly HashSet<int> roundsPlaying;
-
-    [JsonProperty]
-    private readonly HashSet<Player> temporaryForbiddenPairings;
-
-    [JsonProperty]
-    private readonly Dictionary<int, Player> opponents;
-
-    [JsonProperty]
-    private readonly Dictionary<int, Pairing> pairings;
-
-    [JsonProperty]
-    private readonly Dictionary<int, bool> colorBalancer;
-
-    [JsonProperty]
-    private readonly Dictionary<int, int> pairingBalancer;
+    [JsonProperty] private readonly Guid uuid;
+    [JsonProperty] private readonly HashSet<int> roundsPlaying;
+    [JsonProperty] private readonly HashSet<Player> temporaryForbiddenPairings;
+    [JsonProperty] private readonly Dictionary<int, Player> opponents;
+    [JsonProperty] private readonly Dictionary<int, Pairing> pairings;
+    [JsonProperty] private readonly Dictionary<int, bool> colorBalancer;
+    [JsonProperty] private readonly Dictionary<int, int> pairingBalancer;
 
     private EGD_Data data;
 
@@ -119,7 +106,7 @@ public class Player : IEquatable<Player?>
     public Dictionary<int, bool> ColorBalancer { get => colorBalancer; }
     public Dictionary<int, int> PairingBalancer { get => pairingBalancer; }
     public EGD_Data Data { get => data; set => data = value; }
-    public string FullName { get => $"{data.Last_Name} {data.Name}"; }
+    [JsonIgnore] public string FullName { get => $"{data.Last_Name} {data.Name}"; }
 
     public string Grade
     {
@@ -129,8 +116,12 @@ public class Player : IEquatable<Player?>
             grade = value;
             data.Grade = value;
             data.Grade_n = Utils.GetValue(value).ToString();
-            if (data.Gor == "") rating = Utils.GetRating(value);
-            startScore = Utils.GetValue(grade);
+            startScore = Utils.GetValue(value);
+            if (data.Gor == "")
+            {
+                data.Gor = Utils.GetRating(value).ToString();
+                rating = Utils.GetRating(value);
+            }
         }
     }
     public int Rating { get => rating; set => rating = value; }
@@ -145,6 +136,9 @@ public class Player : IEquatable<Player?>
     public decimal SOS { get => sos; set => sos = value; }
     public decimal SOSOS { get => sosos; set => sosos = value; }
     public decimal SODOS { get => sodos; set => sodos = value; }
+
+    public bool PlayedWhite(int roundNumber) => ColorBalancer.TryGetValue(roundNumber, out bool w) && w;
+    public int GetPairingPalancer(int roundNumber) => PairingBalancer.GetValueOrDefault(roundNumber);
 
     public override bool Equals(object? obj)
     {

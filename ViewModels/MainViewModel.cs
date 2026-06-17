@@ -421,6 +421,7 @@ public partial class MainViewModel : ObservableObject
     private void SwapColors()
     {
         SelectedPairing?.SwapColorsCommand.Execute(null);
+        GoToAndRefreshRound(CurrentRoundNumber);
     }
 
     [RelayCommand]
