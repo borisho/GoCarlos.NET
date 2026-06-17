@@ -114,8 +114,8 @@ public class Round(int roundNumber) : IEquatable<Round?>
 
         else
         {
-            int p1cb = p1.ColorBalancer.Count(c => c);
-            int p2cb = p2.ColorBalancer.Count(c => c);
+            int p1cb = p1.ColorBalancer.Count;
+            int p2cb = p2.ColorBalancer.Count;
             int cmp = p1cb.CompareTo(p2cb);
 
             if (cmp > 0)

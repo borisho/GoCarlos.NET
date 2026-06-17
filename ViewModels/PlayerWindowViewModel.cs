@@ -320,7 +320,7 @@ public partial class PlayerWindowViewModel : ObservableRecipient, IRecipient<EGD
     {
         if (!string.IsNullOrWhiteSpace(Data.Name) && !string.IsNullOrWhiteSpace(Data.Last_Name))
         {
-            Player player = new(Data)
+            Player player = new(Data, NumberOfRounds)
             {
                 Group = GroupType,
             };

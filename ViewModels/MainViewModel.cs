@@ -836,7 +836,7 @@ public partial class MainViewModel : ObservableObject
                 Grade = Utils.GetGrade(random.Next(38))
             };
 
-            players.Add(new(data));
+            players.Add(new(data, tournament.NumberOfRounds));
         }
 
         AddPlayerBatch(players);

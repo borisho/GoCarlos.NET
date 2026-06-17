@@ -25,11 +25,11 @@ public partial class WallistUserControl : UserControl
         {
             if (sender is DataGridCell dataGridCell)
             {
-                viewModel.SelectedPlayer = dataGridCell.DataContext as PlayerViewModel;
-                if (viewModel.EditPlayerGroupCommand.CanExecute(viewModel.SelectedPlayer))
+                var selectedPlayer = dataGridCell.DataContext as PlayerViewModel;
+                if (viewModel.EditPlayerGroupCommand.CanExecute(selectedPlayer))
                 {
-                    viewModel.EditPlayerGroupCommand.Execute(viewModel.SelectedPlayer);
-                    e.Handled = true;
+                    viewModel.SelectedPlayer = selectedPlayer;
+                    viewModel.EditPlayerGroupCommand.Execute(selectedPlayer);
                 }
             }
         }
