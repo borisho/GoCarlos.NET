@@ -194,15 +194,13 @@ public class Tournament()
         }
         else
         {
-            for (int i = rounds.Count - 1; i < numberOfRounds; i++)
+            for (int i = rounds.Count; i < numberOfRounds; i++)
             {
-                Round round = new(i + 1);
-
-                rounds.Add(round);
+                rounds.Add(new(i));
 
                 foreach (Player player in players)
                 {
-                    round.AddPlayer(player);
+                    rounds[i].AddPlayer(player);
                 }
             }
         }
@@ -365,9 +363,10 @@ public class Tournament()
 
         Player? temp = null;
 
-        foreach (Player p in orderedList)
+        for (int i = 0; i < orderedList.Count; i++)
         {
-            p.Place = orderedList.IndexOf(p) + 1;
+            Player p = orderedList[i];
+            p.Place = i + 1;
 
             if (CountCurrentRound)
             {

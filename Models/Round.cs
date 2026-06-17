@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using static GoCarlos.NET.Models.Utils;
+
 namespace GoCarlos.NET.Models;
 
 public class Round(int roundNumber) : IEquatable<Round?>
@@ -93,15 +95,11 @@ public class Round(int roundNumber) : IEquatable<Round?>
             return AddByePairing(p1, p2);
         }
 
-        int p1GradeN = handicapBasedMm == true ? (int)Math.Round(p1.Score) : Utils.GetValue(p1.Grade);
-        int p2GradeN = handicapBasedMm == true ? (int)Math.Round(p2.Score) : Utils.GetValue(p2.Grade);
-
-        int handicap = handicapReduction >= 9 ? 0 : Math.Max(0, Math.Abs(p1GradeN - p2GradeN) - handicapReduction);
-        handicap = handicapMaxNine ? Math.Min(handicap, 9) : handicap;
+        int handicap = CalculateHandicap(p1, p2, handicapReduction, handicapBasedMm, handicapMaxNine);
 
         if (handicap > 0)
         {
-            if (p1GradeN > p2GradeN)
+            if (GetHandicapGrade(p1, handicapBasedMm) > GetHandicapGrade(p2, handicapBasedMm))
             {
                 return AddPairing(p2, p1, handicap, "");
             }

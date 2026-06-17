@@ -15,31 +15,40 @@ public static class PairingGenerator
 
     public static void PerformPairings(PairingGeneratorParameters parameters)
     {
-        if (parameters.OrderedPlayers.Count == 0)
+        try
         {
-            Debug.WriteLine("\nEmpty list no pairing is made");
-            return;
+            if (parameters.OrderedPlayers.Count == 0)
+            {
+                Debug.WriteLine("\nEmpty list no pairing is made");
+                return;
+            }
+
+            Debug.WriteLine("\nCurrentRound: " + parameters.Round.RoundNumber);
+            Debug.WriteLine("\nPairingMethod: " + parameters.PairingMethod);
+
+            players = [.. parameters.OrderedPlayers];
+
+            CheckForBye(parameters);
+
+            Debug.WriteLine("\nOrdered players: ");
+            PrintPlayers(parameters.OrderedPlayers);
+
+            MakePairing(parameters);
         }
-
-        Debug.WriteLine("\nCurrentRound: " + parameters.Round.RoundNumber);
-        Debug.WriteLine("\nPairingMethod: " + parameters.PairingMethod);
-
-        players = [.. parameters.OrderedPlayers];
-
-        CheckForBye(parameters);
-
-        Debug.WriteLine("\nOrdered players: ");
-        PrintPlayers(parameters.OrderedPlayers);
-
-        MakePairing(parameters);
-
-        foreach (Player player in parameters.OrderedPlayers)
+        catch (Exception ex)
         {
-            player.TemporaryForbiddenPairings.Clear();
+            MessageBox.Show($"Chyba pri párovaní: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+        finally
+        {
+            foreach (Player player in parameters.OrderedPlayers)
+            {
+                player.TemporaryForbiddenPairings.Clear();
+            }
 
-        players.Clear();
-        pairings.Clear();
+            players.Clear();
+            pairings.Clear();
+        }
     }
 
     private static void MakePairing(PairingGeneratorParameters parameters)
@@ -98,7 +107,10 @@ public static class PairingGenerator
                 else
                 {
                     opponents = TryToAvoidSamePlayers(players, player);
-                    opponents = TryToAvoidHighHandicap(opponents, player, parameters.HandicapReduction);
+                    opponents = TryToAvoidHighHandicap(opponents, player,
+                        parameters.HandicapReduction,
+                        parameters.HandicapBasedMm,
+                        parameters.HandicapMaxNine);
 
                     Player opponent = opponents.ElementAt(Utils.Random.Next(opponents.Count()));
 
@@ -196,7 +208,10 @@ public static class PairingGenerator
                 IEnumerable<Player> strongestGroup = groups.First();
 
                 // pokiaľ je to možné vyhni sa hendikepu viac ako 9
-                strongestGroup = TryToAvoidHighHandicap(strongestGroup, player, parameters.HandicapReduction);
+                strongestGroup = TryToAvoidHighHandicap(strongestGroup, player,
+                    parameters.HandicapReduction,
+                    parameters.HandicapBasedMm,
+                    parameters.HandicapMaxNine);
                 opponent = OpponentSelection(parameters.AdditionMethod, strongestGroup);
 
                 pairing = PairPlayers(
@@ -486,10 +501,15 @@ public static class PairingGenerator
         }
     }
 
-    private static IEnumerable<Player> TryToAvoidHighHandicap(IEnumerable<Player> opponentList, Player player, int handicapReduction)
+    private static IEnumerable<Player> TryToAvoidHighHandicap(
+        IEnumerable<Player> opponentList,
+        Player player,
+        int handicapReduction,
+        bool handicapBasedMm,
+        bool handicapMaxNine)
     {
         IEnumerable<Player> filteredOpponentList = opponentList.Where(p =>
-            Math.Max(0, Math.Abs(Utils.GetValue(p.Grade) - Utils.GetValue(player.Grade)) - handicapReduction) <= 9);
+            Utils.CalculateHandicap(player, p, handicapReduction, handicapBasedMm, handicapMaxNine) <= 9);
 
         if (!filteredOpponentList.Any())
         {

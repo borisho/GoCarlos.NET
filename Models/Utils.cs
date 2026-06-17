@@ -19,7 +19,7 @@ internal static class Utils
     private static readonly Random random = new();
     private static readonly MutualGameComparer mutualGameComparer = new();
 
-    public static JsonSerializerSettings JsonSerializerSettings = new()
+    public static readonly JsonSerializerSettings JsonSerializerSettings = new()
     {
         PreserveReferencesHandling = PreserveReferencesHandling.Objects,
         ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
@@ -41,6 +41,17 @@ internal static class Utils
             }
         }
     }
+
+    public static int CalculateHandicap(Player p1, Player p2, int reduction, bool mmBased, bool maxNine)
+    {
+        int p1GradeN = GetHandicapGrade(p1, mmBased);
+        int p2GradeN = GetHandicapGrade(p2, mmBased);
+
+        int handicap = reduction >= 9 ? 0 : Math.Max(0, Math.Abs(p1GradeN - p2GradeN) - reduction);
+        return maxNine ? Math.Min(handicap, 9) : handicap;
+    }
+
+    public static int GetHandicapGrade(Player p1, bool mmBased) => mmBased == true ? (int)Math.Round(p1.Score) : GetValue(p1.Grade);
 
     public static T Next<T>(this T source) where T : struct
     {

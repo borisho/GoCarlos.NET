@@ -179,38 +179,43 @@ public partial class MainViewModel : ObservableObject
         };
 
         if (ofd.ShowDialog() == true)
-        {
-            var fileStream = ofd.OpenFile();
-
-            using StreamReader reader = new(fileStream);
-            Tournament? t = JsonConvert.DeserializeObject<Tournament>(reader.ReadToEnd(), Utils.JsonSerializerSettings);
-
-            if (t is not null)
+        {   
+            try
             {
-                for (int i = 0; i < t.CriteriaSettings.Criterias.Length; i++)
+                var fileStream = ofd.OpenFile();
+                using StreamReader reader = new(fileStream);
+
+                Tournament? t = JsonConvert.DeserializeObject<Tournament>(reader.ReadToEnd(), Utils.JsonSerializerSettings);
+
+
+                if (t is not null)
                 {
-                    t.CriteriaSettings.Criterias[i] = CriteriaSettings.AllCriteriaDict[t.CriteriaSettings.Criterias[i].Type];
+                    for (int i = 0; i < t.CriteriaSettings.Criterias.Length; i++)
+                    {
+                        t.CriteriaSettings.Criterias[i] = CriteriaSettings.AllCriteriaDict[t.CriteriaSettings.Criterias[i].Type];
+                    }
+
+                    tournament = t;
+
+                    playerViewModel.Clear();
+                    pairingViewModel.Clear();
+                    unpairedPlayers.Clear();
+
+                    foreach (Player p in tournament.Players)
+                    {
+                        playerViewModel.Add(new(tournament, p));
+                    }
+
+                    GoToAndRefreshRound(t.CurrentRound);
                 }
-
-                tournament = t;
-
-                playerViewModel.Clear();
-                pairingViewModel.Clear();
-                unpairedPlayers.Clear();
-
-                foreach (Player p in tournament.Players)
-                {
-                    playerViewModel.Add(new(tournament, p));
-                }
-
-                GoToAndRefreshRound(t.CurrentRound);
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Nepodarilo sa načítať turnaj zo súboru!",
+                MessageBox.Show("Nepodarilo sa načítať turnaj zo súboru!\n\n" + ex.Message,
                     "Chyba!",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
+                return;
             }
         }
     }
@@ -228,11 +233,10 @@ public partial class MainViewModel : ObservableObject
         if (sfd.ShowDialog() == true)
         {
             using Stream myStream = sfd.OpenFile();
-            StreamWriter wText = new(myStream);
+            using StreamWriter wText = new(myStream);
 
             string json = JsonConvert.SerializeObject(tournament, Utils.JsonSerializerSettings);
             wText.Write(json);
-            wText.Close();
         }
     }
 
@@ -270,11 +274,6 @@ public partial class MainViewModel : ObservableObject
         foreach (int i in player.RoundsPlaying)
         {
             tournament.Rounds[i].AddPlayer(player);
-
-            if (CurrentRoundNumber == i)
-            {
-                unpairedPlayers.Add(new(tournament, player));
-            }
         }
 
         tournament.Players.Add(player);
@@ -472,8 +471,6 @@ public partial class MainViewModel : ObservableObject
 
             tournament.ResetBoardNumbers();
 
-            GoToAndRefreshRound(CurrentRoundNumber);
-
             return true;
         }
 
@@ -499,7 +496,7 @@ public partial class MainViewModel : ObservableObject
         if (sfd.ShowDialog() == true)
         {
             using Stream myStream = sfd.OpenFile();
-            StreamWriter wText = new(myStream);
+            using StreamWriter wText = new(myStream);
 
             int nameLength = Math.Max(4, playerViewModel.Max(p => p.FullName.Length));
             int clubLenght = Math.Max(4, playerViewModel.Max(p => p.Club.Length));
@@ -653,7 +650,6 @@ public partial class MainViewModel : ObservableObject
             }
 
             wText.WriteLine("\nDátum a čas výpisu: {0:F}", DateTime.Now.ToString());
-            wText.Close();
         }
     }
 
@@ -676,7 +672,7 @@ public partial class MainViewModel : ObservableObject
         if (sfd.ShowDialog() == true)
         {
             using Stream myStream = sfd.OpenFile();
-            StreamWriter wText = new(myStream);
+            using StreamWriter wText = new(myStream);
 
             int blackLength = Math.Max(6, pairingViewModel.Max(p => p.Black.Length));
             int whiteLenght = Math.Max(5, pairingViewModel.Max(p => p.White.Length));
@@ -691,7 +687,6 @@ public partial class MainViewModel : ObservableObject
             }
 
             wText.WriteLine("\nDátum a čas výpisu: {0:F}", DateTime.Now.ToString());
-            wText.Close();
         }
     }
 
@@ -714,7 +709,7 @@ public partial class MainViewModel : ObservableObject
         if (sfd.ShowDialog() == true)
         {
             using Stream myStream = sfd.OpenFile();
-            StreamWriter wText = new(myStream);
+            using StreamWriter wText = new(myStream);
 
             int nameLength = Math.Max(4, playerViewModel.Max(p => p.FullName.Length));
             int clubLenght = Math.Max(4, playerViewModel.Max(p => p.Club.Length));
@@ -786,8 +781,6 @@ public partial class MainViewModel : ObservableObject
                 }
                 wText.Write("\n");
             }
-
-            wText.Close();
         }
     }
 
