@@ -2,7 +2,6 @@
 using GoCarlos.NET.Models.Records;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
@@ -20,26 +19,26 @@ public static class PairingGenerator
 
     public static void PerformPairings(PairingGeneratorParameters parameters)
     {
+        if (parameters.OrderedPlayers.Count == 0)
+        {
+            Debug.WriteLine("\nEmpty list no pairing is made");
+            return;
+        }
+
         State state = new();
+        state.Players.AddRange(parameters.OrderedPlayers);
+        if (parameters.OrderedPlayers.Count % 2 == 1)
+        {
+            state.Players.Add(Utils.ByePlayer);
+        }
+
+        Debug.WriteLine("\nCurrentRound: " + parameters.Round.RoundNumber);
+        Debug.WriteLine("\nPairingMethod: " + parameters.PairingMethod);
+        Debug.WriteLine("\nOrdered players: ");
+        PrintPlayers(parameters.OrderedPlayers);
 
         try
         {
-            if (parameters.OrderedPlayers.Count == 0)
-            {
-                Debug.WriteLine("\nEmpty list no pairing is made");
-                return;
-            }
-
-            Debug.WriteLine("\nCurrentRound: " + parameters.Round.RoundNumber);
-            Debug.WriteLine("\nPairingMethod: " + parameters.PairingMethod);
-
-            state.Players.AddRange(parameters.OrderedPlayers);
-
-            CheckForBye(state, parameters);
-
-            Debug.WriteLine("\nOrdered players: ");
-            PrintPlayers(parameters.OrderedPlayers);
-
             MakePairing(state, parameters);
         }
         catch (Exception ex)
@@ -52,9 +51,6 @@ public static class PairingGenerator
             {
                 player.TemporaryForbiddenPairings.Clear();
             }
-
-            state.Players.Clear();
-            state.Pairings.Clear();
         }
     }
 
@@ -97,12 +93,6 @@ public static class PairingGenerator
             Debug.WriteLine("\nAvailable opponents: ");
             PrintPlayers(opponents);
 
-            if (opponents.Count == 0)
-            {
-                TryToPairWithoutRepetition(state, parameters, player, unpairedPlayers);
-                continue;
-            }
-
             if (TryPairExactMatch(state, parameters, player, opponents))
             {
                 continue;
@@ -113,7 +103,12 @@ public static class PairingGenerator
                 continue;
             }
 
-            PairStrongestGroup(state, parameters, player, opponents);
+            if (TryPairStrongest(state, parameters, player, opponents))
+            {
+                continue;
+            }
+
+            TryToPairWithoutRepetition(state, parameters, player, unpairedPlayers);
         }
     }
 
@@ -144,7 +139,6 @@ public static class PairingGenerator
                     parameters.HandicapBasedMm,
                     parameters.HandicapMaxNine);
 
-                //Player opponent = filtered[Utils.Random.Next(filtered.Count)];
                 Player opponent = OpponentSelection(parameters.PairingMethod, filtered);
 
                 _ = PairPlayers(
@@ -178,33 +172,30 @@ public static class PairingGenerator
         // vyber hráča s najvyšším PB, ktorý bude nalosovaný dole
         bool checkPb = exactMatch.Count % 2 == 0 && CalculatePairingBalancer(player, roundNumber) > exactMatchMax;
 
-        if (exactMatch.Count != 0 && !checkPb)
+        if (exactMatch.Count == 0 || checkPb) return false;
+        
+        if (parameters.AvoidSameCityPairing && roundNumber < 2)
         {
-            if (parameters.AvoidSameCityPairing && roundNumber < 2)
-            {
-                // Pokiaľ je to možné vyber súpera, ktorý pochádza z iného mesta
-                exactMatch = TryToAvoidSameCity(exactMatch, player);
-            }
-
-            Player opponent = OpponentSelection(parameters.PairingMethod, exactMatch);
-
-            Pairing pairing = PairPlayers(
-                state,
-                new PairingParameters(
-                    parameters.Round,
-                    parameters.HandicapReduction,
-                    parameters.HandicapBasedMm,
-                    parameters.HandicapMaxNine,
-                    player,
-                    opponent
-                )
-            );
-
-            state.Pairings.Push(pairing);
-            return true;
+            // Pokiaľ je to možné vyber súpera, ktorý pochádza z iného mesta
+            exactMatch = TryToAvoidSameCity(exactMatch, player);
         }
 
-        return false;
+        Player opponent = OpponentSelection(parameters.PairingMethod, exactMatch);
+
+        Pairing pairing = PairPlayers(
+            state,
+            new PairingParameters(
+                parameters.Round,
+                parameters.HandicapReduction,
+                parameters.HandicapBasedMm,
+                parameters.HandicapMaxNine,
+                player,
+                opponent
+            )
+        );
+
+        state.Pairings.Push(pairing);
+        return true;
     }
 
     private static bool TryPairCloseMatch(
@@ -218,43 +209,40 @@ public static class PairingGenerator
         // Získa zoznam oponentov s počtom bodov/MM o 1 nižším alebo vyšším
         List<Player> closeMatch = [.. opponents.Where(p => p.Score >= player.Score - 1 && p.Score <= player.Score + 1)];
 
-        if (closeMatch.Count > 0)
+        if (closeMatch.Count == 0) return false;
+
+        List<(Player Pc, int PBc)> withPb = [.. closeMatch.Select(p => (p, CalculatePairingBalancer(p, roundNumber)))];
+        int lowestPairingBalancer = withPb.Min(p => p.PBc);
+
+        closeMatch = [.. withPb.Where(p => p.PBc == lowestPairingBalancer).Select(p => p.Pc)];
+
+        if (parameters.AvoidSameCityPairing && roundNumber < 2)
         {
-            List<(Player Pc, int PBc)> withPb = [.. closeMatch.Select(p => (p, CalculatePairingBalancer(p, roundNumber)))];
-            int lowestPairingBalancer = withPb.Min(p => p.PBc);
-
-            closeMatch = [.. withPb.Where(p => p.PBc == lowestPairingBalancer).Select(p => p.Pc)];
-
-            if (parameters.AvoidSameCityPairing && roundNumber < 2)
-            {
-                // Pokiaľ je to možné vyber súpera, ktorý pochádza z iného mesta
-                closeMatch = TryToAvoidSameCity(closeMatch, player);
-            }
-
-            Player  opponent = parameters.OrderedPlayers.Count(p => p.Score == player.Score) == 1
-            ? OpponentSelection(parameters.PairingMethod, closeMatch)
-            : OpponentSelection(parameters.AdditionMethod, closeMatch);
-
-            Pairing pairing = PairPlayers(
-                state,
-                new PairingParameters(
-                    parameters.Round,
-                    parameters.HandicapReduction,
-                    parameters.HandicapBasedMm,
-                    parameters.HandicapMaxNine,
-                    player,
-                    opponent
-                )
-            );
-
-            state.Pairings.Push(pairing);
-            return true;
+            // Pokiaľ je to možné vyber súpera, ktorý pochádza z iného mesta
+            closeMatch = TryToAvoidSameCity(closeMatch, player);
         }
 
-        return false;
+        Player  opponent = parameters.OrderedPlayers.Count(p => p.Score == player.Score) == 1
+        ? OpponentSelection(parameters.PairingMethod, closeMatch)
+        : OpponentSelection(parameters.AdditionMethod, closeMatch);
+
+        Pairing pairing = PairPlayers(
+            state,
+            new PairingParameters(
+                parameters.Round,
+                parameters.HandicapReduction,
+                parameters.HandicapBasedMm,
+                parameters.HandicapMaxNine,
+                player,
+                opponent
+            )
+        );
+
+        state.Pairings.Push(pairing);
+        return true;
     }
 
-    private static void PairStrongestGroup(
+    private static bool TryPairStrongest(
         State state,
         PairingGeneratorParameters parameters,
         Player player,
@@ -263,6 +251,8 @@ public static class PairingGenerator
         // Párovanie ak nie je dostupný oponent s rovnakým alebo podobným skóre/bodmi,
         // získa sa najsilnejšia skupina a oponent sa z nej vyberie podľa vybraných kritérií
         List<Player> strongestGroup = [.. opponents.GroupBy(p => p.Score).First()];
+
+        if (strongestGroup.Count == 0) return false;
 
         // pokiaľ je to možné vyhni sa hendikepu viac ako 9
         strongestGroup = TryToAvoidHighHandicap(strongestGroup, player,
@@ -284,6 +274,7 @@ public static class PairingGenerator
         );
 
         state.Pairings.Push(pairing);
+        return true;
     }
 
     private static int CalculatePairingBalancer(Player player, int roundNumber)
@@ -474,38 +465,6 @@ public static class PairingGenerator
         }
 
         return group;
-    }
-
-    private static void CheckForBye(State state, PairingGeneratorParameters parameters)
-    {
-        if (state.Players.Count % 2 == 1)
-        {
-            Debug.WriteLine("\nOdd players, making bye:");
-
-            int lowestBye = state.Players.Min(p => p.ByeBalancer);
-            Player byePlayer = state.Players.Where(p => p.ByeBalancer == lowestBye).Last();
-
-            PrintPlayer(byePlayer);
-
-            Player bye = new()
-            {
-                Group = Group.Bye
-            };
-
-            Pairing pairing = PairPlayers(
-                state,
-                new PairingParameters(
-                    parameters.Round,
-                    parameters.HandicapReduction,
-                    parameters.HandicapBasedMm,
-                    parameters.HandicapMaxNine,
-                    byePlayer,
-                    bye
-                )
-            );
-
-            state.Pairings.Push(pairing);
-        }
     }
 
     private static Pairing PairPlayers(State state, PairingParameters parameters)

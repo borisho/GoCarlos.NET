@@ -48,13 +48,16 @@ public class Round(int roundNumber) : IEquatable<Round?>
 
     private Pairing AddPairing(Player black, Player white, int handicap, string comment)
     {
-
         black.Opponents.Add(roundNumber, white);
         white.Opponents.Add(roundNumber, black);
 
         // Update balancers
-        white.ColorBalancer[roundNumber] = true;
-        AdjustPairingBalancer(black, white, roundNumber);
+        if (white.Group == Group.Bye) black.ByeBalancer++;
+        else
+        {
+            white.ColorBalancer[roundNumber] = true;
+            AdjustPairingBalancer(black, white, roundNumber);
+        }
 
         Pairing pairing = new(black, white, handicap, comment, roundNumber);
 
@@ -92,7 +95,7 @@ public class Round(int roundNumber) : IEquatable<Round?>
     {
         if (p2.Group == Group.Bye)
         {
-            return AddByePairing(p1, p2);
+            return AddPairing(p1, p2, 0, "BYE");
         }
 
         int handicap = CalculateHandicap(p1, p2, handicapReduction, handicapBasedMm, handicapMaxNine);
@@ -133,20 +136,6 @@ public class Round(int roundNumber) : IEquatable<Round?>
                 return AddPairing(p2, p1, handicap, "");
             }
         }
-    }
-
-    private Pairing AddByePairing(Player black, Player bye)
-    {
-        Pairing pairing = new(black, bye, roundNumber);
-
-        pairings.Add(pairing);
-
-        black.ByeBalancer++;
-        black.Pairings.Add(roundNumber, pairing);
-
-        unpairedPlayers.Remove(black);
-
-        return pairing;
     }
 
     public (bool, int) RemovePairing(Pairing pairing)

@@ -16,6 +16,7 @@ internal static class Utils
     public const string DASH = "-";
     public const string PLUS = "+";
 
+    private static readonly Player byePlayer = new() { Group = Group.Bye };
     private static readonly Random random = new();
     private static readonly MutualGameComparer mutualGameComparer = new();
 
@@ -27,6 +28,7 @@ internal static class Utils
         MaxDepth = 256
     };
 
+    public static Player ByePlayer { get => byePlayer; }
     public static Random Random { get => random; }
 
     public static IEnumerable<T> DropLast<T>(this IEnumerable<T> source)
