@@ -459,8 +459,9 @@ public partial class MainViewModel : ObservableObject
     }
     private bool DeletePairing(Pairing pairing)
     {
+        (bool B, _) = tournament.Rounds[tournament.CurrentRound].RemovePairing(pairing);
 
-        if (tournament.Rounds[tournament.CurrentRound].RemovePairing(pairing))
+        if (B)
         {
             unpairedPlayers.Add(new(tournament, pairing.Black));
 

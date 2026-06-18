@@ -39,7 +39,7 @@ public class Round(int roundNumber) : IEquatable<Round?>
 
         if (pairing is not null)
         {
-            RemovePairing(pairing);
+            RemovePairingAndRefreshBoard(pairing);
         }
 
         players.Remove(player);
@@ -149,7 +149,7 @@ public class Round(int roundNumber) : IEquatable<Round?>
         return pairing;
     }
 
-    public bool RemovePairing(Pairing pairing)
+    public (bool, int) RemovePairing(Pairing pairing)
     {
         if (pairings.Contains(pairing))
         {
@@ -180,9 +180,21 @@ public class Round(int roundNumber) : IEquatable<Round?>
 
             pairings.Remove(pairing);
 
-            foreach (Pairing p in pairings.Where(p => p.BoardNumber > tmpBoardNumber).OrderBy(p => p.BoardNumber).ToList())
+            return (true, tmpBoardNumber);
+        }
+
+        return (false, -1);
+    }
+
+    public bool RemovePairingAndRefreshBoard(Pairing pairing)
+    {
+        (bool B, int I) = RemovePairing(pairing);
+
+        if (B)
+        {
+            for (int i = I; i < pairings.Count; i++)
             {
-                p.BoardNumber--;
+                pairings[i].BoardNumber--;
             }
 
             return true;
