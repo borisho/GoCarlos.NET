@@ -138,7 +138,7 @@ public class Player : IEquatable<Player?>
     public decimal SODOS { get => sodos; set => sodos = value; }
 
     public bool PlayedWhite(int roundNumber) => ColorBalancer.TryGetValue(roundNumber, out bool w) && w;
-    public int GetPairingPalancer(int roundNumber) => PairingBalancer.GetValueOrDefault(roundNumber);
+    public int GetPairingBalancer(int roundNumber) => PairingBalancer.GetValueOrDefault(roundNumber);
 
     public override bool Equals(object? obj)
     {

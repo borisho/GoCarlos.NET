@@ -79,7 +79,7 @@ public partial class PlayerViewModel(Tournament tournament, Player player) : Obs
 
             for (int i = 0; i <= roundNumber; i++)
             {
-                pb += player.GetPairingPalancer(i);
+                pb += player.GetPairingBalancer(i);
             }
 
             return pb;

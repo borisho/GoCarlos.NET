@@ -11,11 +11,17 @@ namespace GoCarlos.NET.Models;
 
 public static class PairingGenerator
 {
-    private static readonly Stack<Pairing> pairings = new();
-    private static List<Player> players = [];
+
+    private sealed class State
+    {
+        public readonly Stack<Pairing> Pairings = new();
+        public readonly List<Player> Players = [];
+    }
 
     public static void PerformPairings(PairingGeneratorParameters parameters)
     {
+        State state = new();
+
         try
         {
             if (parameters.OrderedPlayers.Count == 0)
@@ -27,14 +33,14 @@ public static class PairingGenerator
             Debug.WriteLine("\nCurrentRound: " + parameters.Round.RoundNumber);
             Debug.WriteLine("\nPairingMethod: " + parameters.PairingMethod);
 
-            players = [.. parameters.OrderedPlayers];
+            state.Players.AddRange(parameters.OrderedPlayers);
 
-            CheckForBye(parameters);
+            CheckForBye(state, parameters);
 
             Debug.WriteLine("\nOrdered players: ");
             PrintPlayers(parameters.OrderedPlayers);
 
-            MakePairing(parameters);
+            MakePairing(state, parameters);
         }
         catch (Exception ex)
         {
@@ -47,33 +53,25 @@ public static class PairingGenerator
                 player.TemporaryForbiddenPairings.Clear();
             }
 
-            players.Clear();
-            pairings.Clear();
+            state.Players.Clear();
+            state.Pairings.Clear();
         }
     }
 
-    private static void MakePairing(PairingGeneratorParameters parameters)
+    private static void MakePairing(State state, PairingGeneratorParameters parameters)
     {
         int roundNumber = parameters.Round.RoundNumber;
 
         // Použi losovaciu strátégiu pre top skupiny v prvom kole
         if (roundNumber == 0)
         {
-            PairTopGroup(parameters, Group.SuperGroup);
-            PairTopGroup(parameters, Group.TopGroup);
+            PairTopGroup(state, parameters, Group.SuperGroup);
+            PairTopGroup(state, parameters, Group.TopGroup);
         }
 
         while(true)
         {
-            Player? player = null;
-            foreach (Player p in parameters.OrderedPlayers)
-            {
-                if (parameters.Round.UnpairedPlayers.Contains(p))
-                {
-                    player = p;
-                    break;
-                }
-            }
+            var player = parameters.OrderedPlayers.FirstOrDefault(p => parameters.Round.UnpairedPlayers.Contains(p));
 
             // Ak nie je hráč, ktorý ešte nebol spárovaný, párovanie je hotové
             if (player is null)
@@ -84,9 +82,9 @@ public static class PairingGenerator
             Debug.WriteLine("\nMaking pairing for: ");
             PrintPlayer(player);
 
-            players.Remove(player);
+            state.Players.Remove(player);
 
-            List<Player> unpairedPlayers = [.. players];
+            List<Player> unpairedPlayers = [.. state.Players];
 
             Debug.WriteLine("\nUnpaired players: ");
             PrintPlayers(unpairedPlayers);
@@ -101,30 +99,31 @@ public static class PairingGenerator
 
             if (opponents.Count == 0)
             {
-                TryToPairWithoutRepetition(parameters, player, unpairedPlayers);
+                TryToPairWithoutRepetition(state, parameters, player, unpairedPlayers);
                 continue;
             }
 
-            if (TryPairExactMatch(parameters, player, opponents))
+            if (TryPairExactMatch(state, parameters, player, opponents))
             {
                 continue;
             }
 
-            if (TryPairCloseMatch(parameters, player, opponents))
+            if (TryPairCloseMatch(state, parameters, player, opponents))
             {
                 continue;
             }
 
-            PairStrongestGroup(parameters, player, opponents);
+            PairStrongestGroup(state, parameters, player, opponents);
         }
     }
 
     private static void TryToPairWithoutRepetition(
+        State state,
         PairingGeneratorParameters parameters,
         Player player,
         List<Player> unpairedPlayers)
     {
-        if (pairings.TryPop(out Pairing? pairing))
+        if (state.Pairings.TryPop(out Pairing? pairing))
         {
 
             player.TemporaryForbiddenPairings.Clear();
@@ -132,8 +131,8 @@ public static class PairingGenerator
             pairing.Black.TemporaryForbiddenPairings.Add(pairing.White);
             pairing.White.TemporaryForbiddenPairings.Add(pairing.Black);
 
-            players.Add(player);
-            RemovePairing(parameters.Round, pairing);
+            state.Players.Add(player);
+            RemovePairing(state, parameters.Round, pairing);
         }
         else
         {
@@ -149,6 +148,7 @@ public static class PairingGenerator
                 Player opponent = OpponentSelection(parameters.PairingMethod, filtered);
 
                 _ = PairPlayers(
+                    state,
                     new PairingParameters(
                         parameters.Round,
                         parameters.HandicapReduction,
@@ -163,6 +163,7 @@ public static class PairingGenerator
     }
 
     private static bool TryPairExactMatch(
+        State state,
         PairingGeneratorParameters parameters,
         Player player,
         List<Player> opponents)
@@ -188,6 +189,7 @@ public static class PairingGenerator
             Player opponent = OpponentSelection(parameters.PairingMethod, exactMatch);
 
             Pairing pairing = PairPlayers(
+                state,
                 new PairingParameters(
                     parameters.Round,
                     parameters.HandicapReduction,
@@ -198,7 +200,7 @@ public static class PairingGenerator
                 )
             );
 
-            pairings.Push(pairing);
+            state.Pairings.Push(pairing);
             return true;
         }
 
@@ -206,6 +208,7 @@ public static class PairingGenerator
     }
 
     private static bool TryPairCloseMatch(
+        State state,
         PairingGeneratorParameters parameters,
         Player player,
         List<Player> opponents)
@@ -233,6 +236,7 @@ public static class PairingGenerator
             : OpponentSelection(parameters.AdditionMethod, closeMatch);
 
             Pairing pairing = PairPlayers(
+                state,
                 new PairingParameters(
                     parameters.Round,
                     parameters.HandicapReduction,
@@ -243,7 +247,7 @@ public static class PairingGenerator
                 )
             );
 
-            pairings.Push(pairing);
+            state.Pairings.Push(pairing);
             return true;
         }
 
@@ -251,6 +255,7 @@ public static class PairingGenerator
     }
 
     private static void PairStrongestGroup(
+        State state,
         PairingGeneratorParameters parameters,
         Player player,
         List<Player> opponents)
@@ -267,6 +272,7 @@ public static class PairingGenerator
         Player opponent = OpponentSelection(parameters.AdditionMethod, strongestGroup);
 
         Pairing pairing = PairPlayers(
+            state,
             new PairingParameters(
                 parameters.Round,
                 parameters.HandicapReduction,
@@ -277,7 +283,7 @@ public static class PairingGenerator
             )
         );
 
-        pairings.Push(pairing);
+        state.Pairings.Push(pairing);
     }
 
     private static int CalculatePairingBalancer(Player player, int roundNumber)
@@ -285,27 +291,30 @@ public static class PairingGenerator
         int pb = 0;
         for (int i = 0; i < roundNumber; i++)
         {
-            pb += player.GetPairingPalancer(i);
+            pb += player.GetPairingBalancer(i);
         }
         return pb;
     }
 
-    private static void PairTopGroup(PairingGeneratorParameters parameters, Group group)
+    private static void PairTopGroup(State state, PairingGeneratorParameters parameters, Group group)
     {
-        players = parameters.TopGroupPairingMethod switch
+        List<Player> players = parameters.TopGroupPairingMethod switch
         {
-            PairingMethod.Cross => CrossPairing(parameters, players, group),
-            PairingMethod.Weakest => WeakestPairing(parameters, players, group),
-            PairingMethod.Strongest => StrongestPairing(parameters, players, group),
-            PairingMethod.Random => RandomPairing(parameters, players, group),
+            PairingMethod.Cross => CrossPairing(state, parameters, group),
+            PairingMethod.Weakest => WeakestPairing(state, parameters, group),
+            PairingMethod.Strongest => StrongestPairing(state, parameters, group),
+            PairingMethod.Random => RandomPairing(state, parameters, group),
             _ => throw new NotImplementedException(),
         };
+
+        state.Players.Clear();
+        state.Players.AddRange(players);
     }
 
-    private static List<Player> CrossPairing(PairingGeneratorParameters parameters, List<Player> players, Group playerGroup)
+    private static List<Player> CrossPairing(State state, PairingGeneratorParameters parameters, Group playerGroup)
     {
-        List<Player> group = [.. players.Where(p => p.Group == playerGroup)];
-        group = CheckAndFillOddCount(players, group);
+        List<Player> group = [.. state.Players.Where(p => p.Group == playerGroup)];
+        group = CheckAndFillOddCount(state.Players, group);
 
         Debug.WriteLine("\nPerforming cross pairing:");
         PrintPlayers(group);
@@ -318,6 +327,7 @@ public static class PairingGenerator
             for (int i = 0; i < groupHalf; i++)
             {
                 Pairing pairing = PairPlayers(
+                    state,
                     new(
                         parameters.Round,
                         parameters.HandicapReduction,
@@ -325,7 +335,7 @@ public static class PairingGenerator
                         parameters.HandicapMaxNine,
                         group[i],
                         group[i + groupHalf]));
-                pairings.Push(pairing);
+                state.Pairings.Push(pairing);
             }
         }
         else
@@ -333,13 +343,13 @@ public static class PairingGenerator
             Debug.WriteLine("\nNo players were provided...");
         }
 
-        return [.. players.Except(group)];
+        return [.. state.Players.Except(group)];
     }
 
-    private static List<Player> WeakestPairing(PairingGeneratorParameters parameters, List<Player> players, Group playerGroup)
+    private static List<Player> WeakestPairing(State state, PairingGeneratorParameters parameters, Group playerGroup)
     {
-        List<Player> group = [.. players.Where(p => p.Group == playerGroup)];
-        group = CheckAndFillOddCount(players, group);
+        List<Player> group = [.. state.Players.Where(p => p.Group == playerGroup)];
+        group = CheckAndFillOddCount(state.Players, group);
 
         Debug.WriteLine("\nPerforming slaughter pairing:");
         PrintPlayers(group);
@@ -352,6 +362,7 @@ public static class PairingGenerator
             for (int i = 0, j = groupSize - 1; i < groupHalf; i++, j--)
             {
                 Pairing pairing = PairPlayers(
+                    state,
                     new(
                         parameters.Round,
                         parameters.HandicapReduction,
@@ -359,7 +370,7 @@ public static class PairingGenerator
                         parameters.HandicapMaxNine,
                         group[i],
                         group[j]));
-                pairings.Push(pairing);
+                state.Pairings.Push(pairing);
             }
         }
         else
@@ -367,13 +378,13 @@ public static class PairingGenerator
             Debug.WriteLine("\nNo players were provided...");
         }
 
-        return [.. players.Except(group)];
+        return [.. state.Players.Except(group)];
     }
 
-    private static List<Player> StrongestPairing(PairingGeneratorParameters parameters, List<Player> players, Group playerGroup)
+    private static List<Player> StrongestPairing(State state, PairingGeneratorParameters parameters, Group playerGroup)
     {
-        List<Player> group = [.. players.Where(p => p.Group == playerGroup)];
-        group = CheckAndFillOddCount(players, group);
+        List<Player> group = [.. state.Players.Where(p => p.Group == playerGroup)];
+        group = CheckAndFillOddCount(state.Players, group);
 
         Debug.WriteLine("\nPerforming king of the hill pairing:");
         PrintPlayers(group);
@@ -385,6 +396,7 @@ public static class PairingGenerator
             for (int i = 0; i < groupSize - 1; i += 2)
             {
                 Pairing pairing = PairPlayers(
+                    state,
                     new(
                         parameters.Round,
                         parameters.HandicapReduction,
@@ -392,7 +404,7 @@ public static class PairingGenerator
                         parameters.HandicapMaxNine,
                         group[i],
                         group[i + 1]));
-                pairings.Push(pairing);
+                state.Pairings.Push(pairing);
             }
         }
         else
@@ -400,13 +412,13 @@ public static class PairingGenerator
             Debug.WriteLine("\nNo players were provided...");
         }
 
-        return [.. players.Except(group)];
+        return [.. state.Players.Except(group)];
     }
 
-    private static List<Player> RandomPairing(PairingGeneratorParameters parameters, List<Player> players, Group playerGroup)
+    private static List<Player> RandomPairing(State state, PairingGeneratorParameters parameters, Group playerGroup)
     {
-        List<Player> group = [.. players.Where(p => p.Group == playerGroup)];
-        group = CheckAndFillOddCount(players, group);
+        List<Player> group = [.. state.Players.Where(p => p.Group == playerGroup)];
+        group = CheckAndFillOddCount(state.Players, group);
         List<Player> unpairedPlayers = [.. group];
 
         Debug.WriteLine("\nPerforming random pairing:");
@@ -427,13 +439,14 @@ public static class PairingGenerator
 
                 Player p2 = unpairedPlayers[Utils.Random.Next(groupSize - 1) + 1];
                 Pairing pairing = PairPlayers(
+                    state,
                     new(
                         parameters.Round,
                         parameters.HandicapReduction,
                         parameters.HandicapBasedMm,
                         parameters.HandicapMaxNine,
                         p1, p2));
-                pairings.Push(pairing);
+                state.Pairings.Push(pairing);
 
                 groupSize -= 2;
 
@@ -446,7 +459,7 @@ public static class PairingGenerator
             Debug.WriteLine("\nNo players were provided...");
         }
 
-        return [.. players.Except(group)];
+        return [.. state.Players.Except(group)];
     }
 
     private static List<Player> CheckAndFillOddCount(List<Player> players, List<Player> group)
@@ -463,17 +476,16 @@ public static class PairingGenerator
         return group;
     }
 
-    private static void CheckForBye(PairingGeneratorParameters parameters)
+    private static void CheckForBye(State state, PairingGeneratorParameters parameters)
     {
-        if (players.Count % 2 == 1)
+        if (state.Players.Count % 2 == 1)
         {
             Debug.WriteLine("\nOdd players, making bye:");
 
-            int lowestBye = players.Min(p => p.ByeBalancer);
-            Player byePlayer = players.Where(p => p.ByeBalancer == lowestBye).Last();
+            int lowestBye = state.Players.Min(p => p.ByeBalancer);
+            Player byePlayer = state.Players.Where(p => p.ByeBalancer == lowestBye).Last();
 
             PrintPlayer(byePlayer);
-            players.Remove(byePlayer);
 
             Player bye = new()
             {
@@ -481,6 +493,7 @@ public static class PairingGenerator
             };
 
             Pairing pairing = PairPlayers(
+                state,
                 new PairingParameters(
                     parameters.Round,
                     parameters.HandicapReduction,
@@ -491,11 +504,11 @@ public static class PairingGenerator
                 )
             );
 
-            pairings.Push(pairing);
+            state.Pairings.Push(pairing);
         }
     }
 
-    private static Pairing PairPlayers(PairingParameters parameters)
+    private static Pairing PairPlayers(State state, PairingParameters parameters)
     {
         Player p1 = parameters.P1;
         Player p2 = parameters.P2;
@@ -510,16 +523,16 @@ public static class PairingGenerator
         Debug.WriteLine(p2.Data.Last_Name + ", " + p2.Data.Name + ": " + p2.Data.Gor);
         Pairing pairing = parameters.Round.AddPairing(p1, p2, parameters.HandicapReduction, parameters.HandicapBasedMm, parameters.HandicapMaxNine);
 
-        players.Remove(p1);
-        players.Remove(p2);
+        state.Players.Remove(p1);
+        state.Players.Remove(p2);
 
         return pairing;
     }
 
-    private static void RemovePairing(Round round, Pairing pairing)
+    private static void RemovePairing(State state, Round round, Pairing pairing)
     {
-        players.Add(pairing.Black);
-        players.Add(pairing.White);
+        state.Players.Add(pairing.Black);
+        state.Players.Add(pairing.White);
 
         round.RemovePairing(pairing);
     }
