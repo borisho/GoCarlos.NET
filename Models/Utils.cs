@@ -1,5 +1,6 @@
 ﻿using GoCarlos.NET.Models.Comparers;
 using GoCarlos.NET.Models.Enums;
+using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,9 @@ internal static class Utils
     public const string DASH = "-";
     public const string PLUS = "+";
 
-    private static readonly Player byePlayer = new() { Group = Group.Bye };
-    private static readonly Random random = new();
     private static readonly MutualGameComparer mutualGameComparer = new();
 
-    public static readonly JsonSerializerSettings JsonSerializerSettings = new()
+    public static JsonSerializerSettings JsonSerializerSettings { get; } = new()
     {
         PreserveReferencesHandling = PreserveReferencesHandling.Objects,
         ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
@@ -28,8 +27,7 @@ internal static class Utils
         MaxDepth = 256
     };
 
-    public static Player ByePlayer { get => byePlayer; }
-    public static Random Random { get => random; }
+    public static Random Random { get; } = new(DateAndTime.Now.Millisecond);
 
     public static IEnumerable<T> DropLast<T>(this IEnumerable<T> source)
     {

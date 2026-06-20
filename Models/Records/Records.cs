@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GoCarlos.NET.Models.Records;
 
-public record class PairingGeneratorParameters(
+public record class PairParameters(
     Round Round,
     bool AvoidSameCityPairing,
     int HandicapReduction,
@@ -12,7 +12,6 @@ public record class PairingGeneratorParameters(
     PairingMethod TopGroupPairingMethod,
     PairingMethod PairingMethod,
     PairingMethod AdditionMethod,
-    List<Player> OrderedPlayers,
     int NumberOfRounds);
 
 public record class GroupParamters(

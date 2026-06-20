@@ -10,24 +10,18 @@ namespace GoCarlos.NET.Models;
 
 public class Round(int roundNumber) : IEquatable<Round?>
 {
-    [JsonProperty]
-    private readonly int roundNumber = roundNumber;
-    private HashSet<Player> players = [];
-    private HashSet<Player> unpairedPlayers = [];
-    private List<Pairing> pairings = [];
-
-    public int RoundNumber { get => roundNumber; }
-    public HashSet<Player> Players { get => players; set => players = value; }
-    public HashSet<Player> UnpairedPlayers { get => unpairedPlayers; set => unpairedPlayers = value; }
-    public List<Pairing> Pairings { get => pairings; set => pairings = value; }
+    [JsonProperty] public int RoundNumber { get => roundNumber; }
+    public HashSet<Player> Players { get; set; } = [];
+    public HashSet<Player> UnpairedPlayers { get; set; } = [];
+    public List<Pairing> Pairings { get; set; } = [];
 
     public void AddPlayer(Player player)
     {
         player.RoundsPlaying.Add(roundNumber);
-        players.Add(player);
-        if (!pairings.Where(p => p.IsPlayerPaired(player)).Any())
+        Players.Add(player);
+        if (!Pairings.Where(p => p.IsPlayerPaired(player)).Any())
         {
-            unpairedPlayers.Add(player);
+            UnpairedPlayers.Add(player);
         }
     }
 
@@ -35,15 +29,15 @@ public class Round(int roundNumber) : IEquatable<Round?>
     {
         player.RoundsPlaying.Remove(roundNumber);
 
-        Pairing? pairing = pairings.Where(p => p.IsPlayerPaired(player)).FirstOrDefault();
+        Pairing? pairing = Pairings.Where(p => p.IsPlayerPaired(player)).FirstOrDefault();
 
         if (pairing is not null)
         {
             RemovePairingAndRefreshBoard(pairing);
         }
 
-        players.Remove(player);
-        unpairedPlayers.Remove(player);
+        Players.Remove(player);
+        UnpairedPlayers.Remove(player);
     }
 
     private Pairing AddPairing(Player black, Player white, int handicap, string comment)
@@ -61,12 +55,12 @@ public class Round(int roundNumber) : IEquatable<Round?>
 
         Pairing pairing = new(black, white, handicap, comment, roundNumber);
 
-        pairings.Add(pairing);
+        Pairings.Add(pairing);
         black.Pairings.Add(roundNumber, pairing);
         white.Pairings.Add(roundNumber, pairing);
 
-        unpairedPlayers.Remove(black);
-        unpairedPlayers.Remove(white);
+        UnpairedPlayers.Remove(black);
+        UnpairedPlayers.Remove(white);
 
         return pairing;
     }
@@ -140,7 +134,7 @@ public class Round(int roundNumber) : IEquatable<Round?>
 
     public (bool, int) RemovePairing(Pairing pairing)
     {
-        if (pairings.Contains(pairing))
+        if (Pairings.Contains(pairing))
         {
             int tmpBoardNumber = pairing.BoardNumber;
 
@@ -149,7 +143,7 @@ public class Round(int roundNumber) : IEquatable<Round?>
 
             black.Pairings.Remove(roundNumber);
             black.Opponents.Remove(roundNumber);
-            unpairedPlayers.Add(black);
+            UnpairedPlayers.Add(black);
 
             if (white.Group != Group.Bye)
             {
@@ -160,14 +154,14 @@ public class Round(int roundNumber) : IEquatable<Round?>
 
                 white.Pairings.Remove(roundNumber);
                 white.Opponents.Remove(roundNumber);
-                unpairedPlayers.Add(white);
+                UnpairedPlayers.Add(white);
             }
             else
             {
                 black.ByeBalancer--;
             }
 
-            pairings.Remove(pairing);
+            Pairings.Remove(pairing);
 
             return (true, tmpBoardNumber);
         }
@@ -181,9 +175,9 @@ public class Round(int roundNumber) : IEquatable<Round?>
 
         if (B)
         {
-            for (int i = I; i < pairings.Count; i++)
+            for (int i = I; i < Pairings.Count; i++)
             {
-                pairings[i].BoardNumber--;
+                Pairings[i].BoardNumber--;
             }
 
             return true;
@@ -195,12 +189,12 @@ public class Round(int roundNumber) : IEquatable<Round?>
     public override bool Equals(object? obj)
     {
         return obj is Round round &&
-               roundNumber == round.roundNumber;
+               roundNumber == round.RoundNumber;
     }
     public bool Equals(Round? other)
     {
         return other is not null &&
-            other.roundNumber == roundNumber;
+            other.RoundNumber == roundNumber;
     }
     public override int GetHashCode()
     {

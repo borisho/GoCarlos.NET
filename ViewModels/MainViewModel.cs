@@ -4,6 +4,7 @@ using GoCarlos.NET.Events;
 using GoCarlos.NET.Models;
 using GoCarlos.NET.Models.Enums;
 using GoCarlos.NET.Models.Records;
+using GoCarlos.NET.Pairings;
 using Microsoft.VisualBasic;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -330,7 +331,7 @@ public partial class MainViewModel : ObservableObject
     {
         Round currentRound = tournament.Rounds[tournament.CurrentRound];
 
-        PairingGeneratorParameters parameters = new(currentRound,
+        PairParameters parameters = new(currentRound,
             tournament.AvoidSameCityPairing,
             tournament.HandicapReduction,
             tournament.HandicapBasedMm,
@@ -338,11 +339,26 @@ public partial class MainViewModel : ObservableObject
             tournament.TopGroupPairingMethod,
             tournament.PairingMethod,
             tournament.AdditionMethod,
-            [.. Utils.GetOrderedPlayerList(tournament.CriteriaSettings, playersToPair, tournament.CountCurrentRound)],
             tournament.NumberOfRounds
         );
 
-        PairingGenerator.PerformPairings(parameters);
+        List<Player> players = [.. Utils.GetOrderedPlayerList(tournament.CriteriaSettings, playersToPair, tournament.CountCurrentRound)];
+
+        List<(Player P1, Player P2)>? pairings = Generator.Pair(parameters, players);
+
+        if (pairings is null)
+        {
+            MessageBox.Show("Nepodarilo sa vytvoriť párovanie pre zadaných hráčov!", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
+        
+        foreach ((Player P1, Player P2) in pairings)
+        {
+            Pairing _ = currentRound.AddPairing(P1, P2,
+                tournament.HandicapReduction,
+                tournament.HandicapBasedMm,
+                tournament.HandicapMaxNine);
+        }
 
         tournament.ResetBoardNumbers();
 

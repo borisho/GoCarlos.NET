@@ -1,4 +1,5 @@
-﻿using GoCarlos.NET.Models.Enums;
+﻿using GoCarlos.NET.Models;
+using GoCarlos.NET.Models.Enums;
 using GoCarlos.NET.Models.Records;
 using System;
 using System.Collections.Generic;
@@ -6,9 +7,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 
-namespace GoCarlos.NET.Models;
+namespace GoCarlos.NET.Pairings;
 
-public static class PairingGenerator
+public static class OldPairingGenerator
 {
 
     private sealed class State
@@ -17,7 +18,7 @@ public static class PairingGenerator
         public readonly List<Player> Players = [];
     }
 
-    public static void PerformPairings(PairingGeneratorParameters parameters)
+    /*public static void PerformPairings(PairingGeneratorParameters parameters)
     {
         if (parameters.OrderedPlayers.Count == 0)
         {
@@ -561,7 +562,7 @@ public static class PairingGenerator
             Debug.WriteLine("Found new opponent");
             return filteredOpponentList;
         }
-    }
+    }*/
 
     [Conditional("DEBUG")]
     private static void PrintPlayer(Player player)
