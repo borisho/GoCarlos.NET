@@ -344,7 +344,7 @@ public partial class MainViewModel : ObservableObject
 
         List<Player> players = [.. Utils.GetOrderedPlayerList(tournament.CriteriaSettings, playersToPair, tournament.CountCurrentRound)];
 
-        List<(Player P1, Player P2)>? pairings = Generator.Pair(parameters, players);
+        List<(PlayerWrapper P1, PlayerWrapper P2)>? pairings = Generator.Pair(parameters, players);
 
         if (pairings is null)
         {
@@ -352,9 +352,9 @@ public partial class MainViewModel : ObservableObject
             return;
         }
         
-        foreach ((Player P1, Player P2) in pairings)
+        foreach ((PlayerWrapper P1, PlayerWrapper P2) in pairings)
         {
-            Pairing _ = currentRound.AddPairing(P1, P2,
+            Pairing _ = currentRound.AddPairing(P1.Player, P2.Player,
                 tournament.HandicapReduction,
                 tournament.HandicapBasedMm,
                 tournament.HandicapMaxNine);

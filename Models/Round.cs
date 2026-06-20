@@ -89,7 +89,9 @@ public class Round(int roundNumber) : IEquatable<Round?>
     {
         if (p2.Group == Group.Bye)
         {
-            return AddPairing(p1, p2, 0, "BYE");
+            var pairing = AddPairing(p1, p2, 0, "BYE");
+            pairing.Result = Result.BLACK_WON;
+            return pairing;
         }
 
         int handicap = CalculateHandicap(p1, p2, handicapReduction, handicapBasedMm, handicapMaxNine);
@@ -145,18 +147,16 @@ public class Round(int roundNumber) : IEquatable<Round?>
             black.Opponents.Remove(roundNumber);
             UnpairedPlayers.Add(black);
 
-            if (white.Group != Group.Bye)
-            {
-                // Reset balancers
-                black.PairingBalancer[roundNumber] = 0;
-                white.PairingBalancer[roundNumber] = 0;
-                white.ColorBalancer[roundNumber] = false;
+            // Reset balancers
+            black.PairingBalancer[roundNumber] = 0;
+            white.PairingBalancer[roundNumber] = 0;
+            white.ColorBalancer[roundNumber] = false;
 
-                white.Pairings.Remove(roundNumber);
-                white.Opponents.Remove(roundNumber);
+            white.Pairings.Remove(roundNumber);
+            white.Opponents.Remove(roundNumber);
                 UnpairedPlayers.Add(white);
-            }
-            else
+            
+            if (white.Group == Group.Bye)
             {
                 black.ByeBalancer--;
             }

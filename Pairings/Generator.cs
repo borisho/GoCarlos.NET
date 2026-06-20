@@ -15,7 +15,7 @@ namespace GoCarlos.NET.Pairings;
 public static class Generator
 {
     private static readonly List<PlayerWrapper> _players = [];
-    private static readonly List<(Player P1, Player P2)> _pairings = [];
+    private static readonly List<(PlayerWrapper P1, PlayerWrapper P2)> _pairings = [];
 
     private static Round? _round;
 
@@ -30,7 +30,7 @@ public static class Generator
     private static PairingMethod _pairingMethod;
     private static PairingMethod _additionMethod;
 
-    public static List<(Player P1, Player P2)>? Pair(PairParameters pp, List<Player> orderedPlayers)
+    public static List<(PlayerWrapper P1, PlayerWrapper P2)>? Pair(PairParameters pp, List<Player> orderedPlayers)
     {
         if (orderedPlayers.Count == 0)
         {
@@ -80,8 +80,9 @@ public static class Generator
         return null;
     }
 
-    private static List<(Player P1, Player P2)>? MakePairing()
+    private static List<(PlayerWrapper P1, PlayerWrapper P2)>? MakePairing()
     {
+        // TODO pridať man. možnosť opakovať párovanie
         while (true)
         {
             PlayerWrapper? wrapper = _players
@@ -89,6 +90,9 @@ public static class Generator
                 .FirstOrDefault();
 
             if (wrapper is null) break;
+
+            Debug.WriteLine("\nOrdered players: ");
+            PrintPlayers(_players);
 
             Debug.WriteLine("\nMaking pairing for: ");
             PrintPlayer(wrapper.Player);
@@ -102,9 +106,9 @@ public static class Generator
             if (TryPairExactMatch(wrapper, opponents)) continue;
             if (TryPairCloseMatch(wrapper, opponents)) continue;
             if (TryPairNextAvailable(wrapper, opponents)) continue;
+            if (TryRemoveLastPairing(wrapper)) continue;
 
-            //TryPairWithoutRepetition();
-
+            return null;
         }
 
         return _pairings.Count == 0 ? null : [.. _pairings];
@@ -133,9 +137,9 @@ public static class Generator
 
     private static bool TryPairCloseMatch(PlayerWrapper wrapper, List<PlayerWrapper> opponents)
     {
-        List<PlayerWrapper> pool = [.. opponents.Where(w =>
+        List<PlayerWrapper> pool = opponents.Where(w =>
             w.Player.Score >= wrapper.Player.Score - 1 &&
-            w.Player.Score <= wrapper.Player.Score + 1)];
+            w.Player.Score <= wrapper.Player.Score + 1).ToList();
 
         if (pool.Count == 0) return false;
 
@@ -152,9 +156,13 @@ public static class Generator
 
     private static bool TryPairNextAvailable(PlayerWrapper wrapper, List<PlayerWrapper> opponents)
     {
-        List<PlayerWrapper> pool = [.. opponents.GroupBy(w => w.Player.Score).First()];
+        var groups = opponents.GroupBy(w => w.Player.Score);
+        
+        if (!groups.Any()) return false;
 
-        if (pool.Count == 0) return false;
+        List<PlayerWrapper> pool = [.. groups.First()];
+
+        if ( pool.Count == 0) return false;
 
         // Try to avoid high handicap pairings
         pool = TryGetMinMetric(pool, w => Utils.CalculateHandicap(
@@ -170,6 +178,25 @@ public static class Generator
         PlayerWrapper opponent = OpponentSelection(_additionMethod, pool);
 
         return PairPlayers(wrapper, opponent);
+    }
+
+    private static bool TryRemoveLastPairing(PlayerWrapper wrapper)
+    {
+        try
+        {
+            // Nie je možné vykonať párovanie, rozhoď poslednú dvojicu a skús znovu
+            (PlayerWrapper P1, PlayerWrapper P2) p = _pairings[^1];
+            UnpairPlayers(p.P1, p.P2);
+            wrapper.TemporaryForbiddenPairing.Clear();
+            p.P1.TemporaryForbiddenPairing.Add(p.P2.Player);
+            p.P2.TemporaryForbiddenPairing.Add(p.P1.Player);
+
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
     }
 
     private static List<PlayerWrapper> TryAvoidSameClub(PlayerWrapper wrapper, List<PlayerWrapper> pool)
@@ -201,7 +228,7 @@ public static class Generator
 
     private static bool PairPlayers(PlayerWrapper w1, PlayerWrapper w2)
     {
-        _pairings.Add((w1.Player, w2.Player));
+        _pairings.Add((w1, w2));
         w1.IsPaired = true;
         w2.IsPaired = true;
 
@@ -214,7 +241,7 @@ public static class Generator
 
     private static void UnpairPlayers(PlayerWrapper w1, PlayerWrapper w2)
     {
-        _pairings.Remove((w1.Player, w2.Player));
+        _pairings.Remove((w1, w2));
         w1.IsPaired = false;
         w2.IsPaired = false;
 
