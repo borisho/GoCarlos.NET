@@ -338,8 +338,7 @@ public partial class MainViewModel : ObservableObject
             tournament.HandicapMaxNine,
             tournament.TopGroupPairingMethod,
             tournament.PairingMethod,
-            tournament.AdditionMethod,
-            tournament.NumberOfRounds
+            tournament.AdditionMethod
         );
 
         List<Player> players = [.. Utils.GetOrderedPlayerList(tournament.CriteriaSettings, playersToPair, tournament.CountCurrentRound)];

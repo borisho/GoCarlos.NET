@@ -22,4 +22,6 @@ public sealed class PlayerWrapper(Player player)
     {
         return HashCode.Combine(Player, TemporaryForbiddenPairing, ForbiddenPairing);
     }
+
+    public override string? ToString() => Player.ToString();
 }
