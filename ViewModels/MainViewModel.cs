@@ -350,6 +350,8 @@ public partial class MainViewModel : ObservableObject
             MessageBox.Show("Nepodarilo sa vytvoriť párovanie pre zadaných hráčov!", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
             return;
         }
+
+        if (pairings.Count == 0) return;
         
         foreach ((PlayerWrapper P1, PlayerWrapper P2) in pairings)
         {

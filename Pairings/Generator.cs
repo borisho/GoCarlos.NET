@@ -73,7 +73,20 @@ public static class Generator
     {
         List<(PlayerWrapper P1, PlayerWrapper P2)> pairings = [];
 
-        // TODO pridať man. možnosť opakovať párovanie
+        // When pairing only 2 players, even if they played together ask to pair them again
+        if (players.Count == 2 && players[0].ForbiddenPairing.Contains(players[1].Player))
+        {
+            if (MessageBox.Show(
+                $"Hráči {players[0].Player.FullName} a {players[1].Player.FullName} už proti sebe hrali!\nNapriek tomu spárovať?",
+                "Kolízia pri párovaní!",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question) == MessageBoxResult.Yes
+                && PairPlayers(pairings, players[0], players[1]))
+                return pairings;
+            return []; // Return empty collection to avoid error message
+        }
+        
+        // Pairing algorithm
         while (true)
         {
             IEnumerable<PlayerWrapper> notPaired = players.Where(w => !w.IsPaired);
