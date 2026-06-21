@@ -21,7 +21,7 @@ public partial class PlayerViewModel(Tournament tournament, Player player) : Obs
     public Player Player { get => player; }
 
     public int Place { get => player.Place; }
-    public string FullName { get => player.Data.Last_Name + " " + player.Data.Name; }
+    public string FullName { get => player.FullName; }
     public string State { get => player.Data.Country_Code; }
     public string Club { get => player.Data.Club; }
     public string Grade { get => player.Grade; }
@@ -36,29 +36,29 @@ public partial class PlayerViewModel(Tournament tournament, Player player) : Obs
         }
     }
     public bool SharedPlace { get => player.SharedPlace; }
-    public string R1 { get => GetRoundResult(0); }
-    public string R2 { get => GetRoundResult(1); }
-    public string R3 { get => GetRoundResult(2); }
-    public string R4 { get => GetRoundResult(3); }
-    public string R5 { get => GetRoundResult(4); }
-    public string R6 { get => GetRoundResult(5); }
-    public string R7 { get => GetRoundResult(6); }
-    public string R8 { get => GetRoundResult(7); }
-    public string R9 { get => GetRoundResult(8); }
-    public string R10 { get => GetRoundResult(9); }
+    public string R1 => GetRoundResult(0);
+    public string R2 => GetRoundResult(1);
+    public string R3 => GetRoundResult(2);
+    public string R4 => GetRoundResult(3);
+    public string R5 => GetRoundResult(4);
+    public string R6 => GetRoundResult(5);
+    public string R7 => GetRoundResult(6);
+    public string R8 => GetRoundResult(7);
+    public string R9 => GetRoundResult(8);
+    public string R10 => GetRoundResult(9);
     public int NrW
     {
         get
         {
-            int roundNumber = CurrentRound - 1;
+            int roundNumber = CurrentRound;
 
-            if (tournament.CountCurrentRound) roundNumber = CurrentRound;
+            if (!tournament.CountCurrentRound) roundNumber--;
 
             int nrw = 0;
 
             for (int i = 0; i <= roundNumber; i++)
             {
-                if (player.ColorBalancer[i])
+                if (player.PlayedWhite(i))
                 {
                     nrw++;
                 }
@@ -71,15 +71,15 @@ public partial class PlayerViewModel(Tournament tournament, Player player) : Obs
     {
         get
         {
-            int roundNumber = CurrentRound - 1;
+            int roundNumber = CurrentRound;
 
-            if (tournament.CountCurrentRound) roundNumber = CurrentRound;
+            if (!tournament.CountCurrentRound) roundNumber--;
 
             int pb = 0;
 
             for (int i = 0; i <= roundNumber; i++)
             {
-                pb += player.PairingBalancer[i];
+                pb += player.GetPairingBalancer(i);
             }
 
             return pb;
@@ -93,12 +93,16 @@ public partial class PlayerViewModel(Tournament tournament, Player player) : Obs
     public decimal SOSOS { get => player.SOSOS; }
     public decimal SODOS { get => player.SODOS; }
 
-    public string EGDPoints { get => player.Points % 1 > 0 ? Math.Floor(player.Points).ToString() + Utils.EQUALS : Math.Floor(player.Points).ToString(); }
-    public string EGDScore { get => player.Score % 1 > 0 ? Math.Floor(player.Score).ToString() + Utils.EQUALS : Math.Floor(player.Score).ToString(); }
-    public string EGDScoreX { get => player.ScoreX % 1 > 0 ? Math.Floor(player.ScoreX).ToString() + Utils.EQUALS : Math.Floor(player.ScoreX).ToString(); }
-    public string EGDSOS { get => player.SOS % 1 > 0 ? Math.Floor(player.SOS).ToString() + Utils.EQUALS : Math.Floor(player.SOS).ToString(); }
-    public string EGDSOSOS { get => player.SOSOS % 1 > 0 ? Math.Floor(player.SOSOS).ToString() + Utils.EQUALS : Math.Floor(player.SOSOS).ToString(); }
-    public string EGDSODOS { get => player.SODOS % 1 > 0 ? Math.Floor(player.SODOS).ToString() + Utils.EQUALS : Math.Floor(player.SODOS).ToString(); }
+    public string EGDPoints { get => ToEGD(player.Points); }
+    public string EGDScore { get => ToEGD(player.Score); }
+    public string EGDScoreX { get => ToEGD(player.ScoreX); }
+    public string EGDSOS { get => ToEGD(player.SOS); }
+    public string EGDSOSOS { get => ToEGD(player.SOSOS); }
+    public string EGDSODOS { get => ToEGD(player.SODOS); }
+
+    private static string ToEGD(decimal value) => value % 1 > 0
+        ? Math.Floor(value).ToString() + Utils.EQUALS
+        : Math.Floor(value).ToString();
 
     private string GetRoundResult(int roundNumber)
     {

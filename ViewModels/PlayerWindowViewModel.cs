@@ -237,10 +237,10 @@ public partial class PlayerWindowViewModel : ObservableRecipient, IRecipient<EGD
                 MessageBox.Show("Chyba odpovedi z EGD", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
 
             else
-                MessageBox.Show("EGD retcode: " + data?.Retcode, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("EGD retcode: " + data.Retcode, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-        catch (AggregateException e)
+        catch (Exception e)
         {
             MessageBox.Show(e.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
         }
@@ -290,7 +290,7 @@ public partial class PlayerWindowViewModel : ObservableRecipient, IRecipient<EGD
             }
         }
 
-        catch (AggregateException e)
+        catch (Exception e)
         {
             MessageBox.Show(e.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
         }
@@ -304,8 +304,8 @@ public partial class PlayerWindowViewModel : ObservableRecipient, IRecipient<EGD
             Player player = pvm.Player;
 
             player.Data = Data;
-            player.Rating = int.Parse(Data.Gor);
             player.Grade = Data.Grade;
+            player.Rating = int.TryParse(Data.Gor, out int r) ? r : Utils.GetRating(Data.Grade);
             player.Group = GroupType;
 
             SetPlayingRounds(player);
@@ -320,7 +320,7 @@ public partial class PlayerWindowViewModel : ObservableRecipient, IRecipient<EGD
     {
         if (!string.IsNullOrWhiteSpace(Data.Name) && !string.IsNullOrWhiteSpace(Data.Last_Name))
         {
-            Player player = new(Data)
+            Player player = new(Data, NumberOfRounds)
             {
                 Group = GroupType,
             };

@@ -4,28 +4,24 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using static GoCarlos.NET.Models.Utils;
+
 namespace GoCarlos.NET.Models;
 
 public class Round(int roundNumber) : IEquatable<Round?>
 {
-    [JsonProperty]
-    private readonly int roundNumber = roundNumber;
-    private HashSet<Player> players = [];
-    private HashSet<Player> unpairedPlayers = [];
-    private List<Pairing> pairings = [];
-
-    public int RoundNumber { get => roundNumber; }
-    public HashSet<Player> Players { get => players; set => players = value; }
-    public HashSet<Player> UnpairedPlayers { get => unpairedPlayers; set => unpairedPlayers = value; }
-    public List<Pairing> Pairings { get => pairings; set => pairings = value; }
+    [JsonProperty] public int RoundNumber { get => roundNumber; }
+    public HashSet<Player> Players { get; set; } = [];
+    public HashSet<Player> UnpairedPlayers { get; set; } = [];
+    public List<Pairing> Pairings { get; set; } = [];
 
     public void AddPlayer(Player player)
     {
         player.RoundsPlaying.Add(roundNumber);
-        players.Add(player);
-        if (!pairings.Where(p => p.IsPlayerPaired(player)).Any())
+        Players.Add(player);
+        if (!Pairings.Where(p => p.IsPlayerPaired(player)).Any())
         {
-            unpairedPlayers.Add(player);
+            UnpairedPlayers.Add(player);
         }
     }
 
@@ -33,35 +29,38 @@ public class Round(int roundNumber) : IEquatable<Round?>
     {
         player.RoundsPlaying.Remove(roundNumber);
 
-        Pairing? pairing = pairings.Where(p => p.IsPlayerPaired(player)).FirstOrDefault();
+        Pairing? pairing = Pairings.Where(p => p.IsPlayerPaired(player)).FirstOrDefault();
 
         if (pairing is not null)
         {
-            RemovePairing(pairing);
+            RemovePairingAndRefreshBoard(pairing);
         }
 
-        players.Remove(player);
-        unpairedPlayers.Remove(player);
+        Players.Remove(player);
+        UnpairedPlayers.Remove(player);
     }
 
     private Pairing AddPairing(Player black, Player white, int handicap, string comment)
     {
-
         black.Opponents.Add(roundNumber, white);
         white.Opponents.Add(roundNumber, black);
 
         // Update balancers
-        white.ColorBalancer[roundNumber] = true;
-        AdjustPairingBalancer(black, white, roundNumber);
+        if (white.Group == Group.Bye) black.ByeBalancer++;
+        else
+        {
+            white.ColorBalancer[roundNumber] = true;
+            AdjustPairingBalancer(black, white, roundNumber);
+        }
 
         Pairing pairing = new(black, white, handicap, comment, roundNumber);
 
-        pairings.Add(pairing);
+        Pairings.Add(pairing);
         black.Pairings.Add(roundNumber, pairing);
         white.Pairings.Add(roundNumber, pairing);
 
-        unpairedPlayers.Remove(black);
-        unpairedPlayers.Remove(white);
+        UnpairedPlayers.Remove(black);
+        UnpairedPlayers.Remove(white);
 
         return pairing;
     }
@@ -90,18 +89,16 @@ public class Round(int roundNumber) : IEquatable<Round?>
     {
         if (p2.Group == Group.Bye)
         {
-            return AddByePairing(p1, p2);
+            var pairing = AddPairing(p1, p2, 0, "BYE");
+            pairing.Result = Result.BLACK_WON;
+            return pairing;
         }
 
-        int p1GradeN = handicapBasedMm == true ? (int)Math.Round(p1.Score) : Utils.GetValue(p1.Grade);
-        int p2GradeN = handicapBasedMm == true ? (int)Math.Round(p2.Score) : Utils.GetValue(p2.Grade);
-
-        int handicap = handicapReduction >= 9 ? 0 : Math.Max(0, Math.Abs(p1GradeN - p2GradeN) - handicapReduction);
-        handicap = handicapMaxNine ? Math.Min(handicap, 9) : handicap;
+        int handicap = CalculateHandicap(p1, p2, handicapReduction, handicapBasedMm, handicapMaxNine);
 
         if (handicap > 0)
         {
-            if (p1GradeN > p2GradeN)
+            if (GetHandicapGrade(p1, handicapBasedMm) > GetHandicapGrade(p2, handicapBasedMm))
             {
                 return AddPairing(p2, p1, handicap, "");
             }
@@ -114,8 +111,8 @@ public class Round(int roundNumber) : IEquatable<Round?>
 
         else
         {
-            int p1cb = p1.ColorBalancer.Count(c => c);
-            int p2cb = p2.ColorBalancer.Count(c => c);
+            int p1cb = p1.ColorBalancer.Count;
+            int p2cb = p2.ColorBalancer.Count;
             int cmp = p1cb.CompareTo(p2cb);
 
             if (cmp > 0)
@@ -137,23 +134,9 @@ public class Round(int roundNumber) : IEquatable<Round?>
         }
     }
 
-    private Pairing AddByePairing(Player black, Player bye)
+    public (bool, int) RemovePairing(Pairing pairing)
     {
-        Pairing pairing = new(black, bye, roundNumber);
-
-        pairings.Add(pairing);
-
-        black.ByeBalancer++;
-        black.Pairings.Add(roundNumber, pairing);
-
-        unpairedPlayers.Remove(black);
-
-        return pairing;
-    }
-
-    public bool RemovePairing(Pairing pairing)
-    {
-        if (pairings.Contains(pairing))
+        if (Pairings.Contains(pairing))
         {
             int tmpBoardNumber = pairing.BoardNumber;
 
@@ -162,29 +145,39 @@ public class Round(int roundNumber) : IEquatable<Round?>
 
             black.Pairings.Remove(roundNumber);
             black.Opponents.Remove(roundNumber);
-            unpairedPlayers.Add(black);
+            UnpairedPlayers.Add(black);
 
-            if (white.Group != Group.Bye)
-            {
-                // Reset balancers
-                black.PairingBalancer[roundNumber] = 0;
-                white.PairingBalancer[roundNumber] = 0;
-                white.ColorBalancer[roundNumber] = false;
+            // Reset balancers
+            black.PairingBalancer[roundNumber] = 0;
+            white.PairingBalancer[roundNumber] = 0;
+            white.ColorBalancer[roundNumber] = false;
 
-                white.Pairings.Remove(roundNumber);
-                white.Opponents.Remove(roundNumber);
-                unpairedPlayers.Add(white);
-            }
-            else
+            white.Pairings.Remove(roundNumber);
+            white.Opponents.Remove(roundNumber);
+                UnpairedPlayers.Add(white);
+            
+            if (white.Group == Group.Bye)
             {
                 black.ByeBalancer--;
             }
 
-            pairings.Remove(pairing);
+            Pairings.Remove(pairing);
 
-            foreach (Pairing p in pairings.Where(p => p.BoardNumber > tmpBoardNumber).OrderBy(p => p.BoardNumber).ToList())
+            return (true, tmpBoardNumber);
+        }
+
+        return (false, -1);
+    }
+
+    public bool RemovePairingAndRefreshBoard(Pairing pairing)
+    {
+        (bool B, int I) = RemovePairing(pairing);
+
+        if (B)
+        {
+            for (int i = I; i < Pairings.Count; i++)
             {
-                p.BoardNumber--;
+                Pairings[i].BoardNumber--;
             }
 
             return true;
@@ -196,12 +189,12 @@ public class Round(int roundNumber) : IEquatable<Round?>
     public override bool Equals(object? obj)
     {
         return obj is Round round &&
-               roundNumber == round.roundNumber;
+               roundNumber == round.RoundNumber;
     }
     public bool Equals(Round? other)
     {
         return other is not null &&
-            other.roundNumber == roundNumber;
+            other.RoundNumber == roundNumber;
     }
     public override int GetHashCode()
     {

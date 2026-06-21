@@ -5,166 +5,94 @@ using System.Collections.Generic;
 
 namespace GoCarlos.NET.Models;
 
-public class Player : IEquatable<Player?>
+public class Player()
 {
-    [JsonProperty]
-    private readonly Guid uuid;
-
-    [JsonProperty]
-    private readonly HashSet<int> roundsPlaying;
-
-    [JsonProperty]
-    private readonly HashSet<Player> temporaryForbiddenPairings;
-
-    [JsonProperty]
-    private readonly Dictionary<int, Player> opponents;
-
-    [JsonProperty]
-    private readonly Dictionary<int, Pairing> pairings;
-
-    private EGD_Data data;
-
-    private string grade;
-    private int rating;
-
-    private Group group;
-    private bool sharedPlace;
-
-    [JsonProperty]
-    private readonly bool[] colorBalancer;
-
-    [JsonProperty]
-    private readonly int[] pairingBalancer;
-
-    private int byeBalancer;
-    private int startScore;
-
-    private int place;
-    private decimal points;
-    private decimal score;
-    private decimal scoreX;
-    private decimal sos;
-    private decimal sosos;
-    private decimal sodos;
-
-    public Player()
+    public Player(EGD_Data data, int numberOfRounds) : this(data)
     {
-        uuid = Guid.NewGuid();
-
-        roundsPlaying = [];
-        temporaryForbiddenPairings = [];
-        opponents = [];
-        pairings = [];
-        data = new()
-        {
-            Last_Name = "BYE",
-        };
-
-        grade = "30k";
-        rating = -900;
-
-        group = Group.Default;
-        sharedPlace = false;
-
-        byeBalancer = 0;
-        colorBalancer = new bool[10];
-        pairingBalancer = new int[10];
-        startScore = 0;
-
-        place = 0;
-        points = 0M;
-        score = 0M;
-        scoreX = 0M;
-        sos = 0M;
-        sosos = 0M;
-        sodos = 0M;
+        for (int i = 0; i < numberOfRounds; i++)
+            RoundsPlaying.Add(i);
     }
 
-    public Player(EGD_Data data) : this()
+    public Player(EGD_Data data, HashSet<int> roundsPlaying) : this(data)
     {
-        roundsPlaying = [0, 1, 2, 3, 4];
+        RoundsPlaying = roundsPlaying;
+    }
 
-        this.data = data;
-        grade = this.data.Grade;
+    private Player(EGD_Data data) : this()
+    {
+        Data = data;
+        Grade = Data.Grade;
 
         if (data.Gor == "")
         {
-            data.Gor = Utils.GetRating(grade).ToString();
-            rating = Utils.GetRating(grade);
+            data.Gor = Utils.GetRating(Grade).ToString();
+            Rating = Utils.GetRating(Grade);
         }
         else
         {
-            rating = int.Parse(data.Gor);
+            Rating = int.Parse(data.Gor);
         }
-        startScore = Utils.GetValue(grade);
+        StartScore = Utils.GetValue(Grade);
 
-        score = startScore;
+        Score = StartScore;
     }
 
-    public Player(HashSet<int> roundsPlaying, EGD_Data data) : this(data)
-    {
-        this.roundsPlaying = roundsPlaying;
-    }
+    [JsonProperty] public Guid Guid { get; } = Guid.NewGuid();
+    [JsonProperty] public HashSet<int> RoundsPlaying { get; } = [];
+    [JsonProperty] public Dictionary<int, Player> Opponents { get; } = [];
+    [JsonProperty] public Dictionary<int, Pairing> Pairings { get; } = [];
+    [JsonProperty] public Dictionary<int, bool> ColorBalancer { get; } = [];
+    [JsonProperty] public Dictionary<int, int> PairingBalancer { get; } = [];
+    
+    public EGD_Data Data { get; set; } = new();
+    [JsonIgnore] public string FullName { get => $"{Data.Last_Name} {Data.Name}"; }
 
-    public Guid Guid { get => uuid; }
-    public HashSet<int> RoundsPlaying { get => roundsPlaying; }
-    public HashSet<Player> TemporaryForbiddenPairings { get => temporaryForbiddenPairings; }
-    public Dictionary<int, Player> Opponents { get => opponents; }
-    public Dictionary<int, Pairing> Pairings { get => pairings; }
-    public EGD_Data Data { get => data; set => data = value; }
-    public string FullName { get => $"{data.Last_Name} {data.Name}"; }
-
+    public Group Group { get; set; } = Group.Default;
     public string Grade
     {
-        get => grade;
+        get;
         set
         {
-            grade = value;
-            data.Grade = value;
-            data.Grade_n = Utils.GetValue(value).ToString();
-            if (data.Gor == "") rating = Utils.GetRating(value);
-            startScore = Utils.GetValue(grade);
+            field = value;
+            Data.Grade = value;
+            Data.Grade_n = Utils.GetValue(value).ToString();
+            StartScore = Utils.GetValue(value);
+            if (Data.Gor == "")
+            {
+                Data.Gor = Utils.GetRating(value).ToString();
+                Rating = Utils.GetRating(value);
+            }
         }
-    }
-    public int Rating { get => rating; set => rating = value; }
-    public Group Group { get => group; set => group = value; }
-    public bool SharedPlace { get => sharedPlace; set => sharedPlace = value; }
-    public int ByeBalancer { get => byeBalancer; set => byeBalancer = value; }
-    public bool[] ColorBalancer { get => colorBalancer; }
-    public int[] PairingBalancer { get => pairingBalancer; }
-    public int StartScore { get => startScore; set => startScore = value; }
-    public int Place { get => place; set => place = value; }
-    public decimal Points { get => points; set => points = value; }
-    public decimal Score { get => score; set => score = value; }
-    public decimal ScoreX { get => scoreX; set => scoreX = value; }
-    public decimal SOS { get => sos; set => sos = value; }
-    public decimal SOSOS { get => sosos; set => sosos = value; }
-    public decimal SODOS { get => sodos; set => sodos = value; }
+    } = "30k";
+    public int Rating { get; set; } = -900;
+
+    public int ByeBalancer { get; set; } = 0;
+
+    public bool SharedPlace { get; set; } = false;
+    public int Place { get; set; } = 0;
+
+    public int StartScore { get; set; } = 0;
+    public decimal Points { get; set; } = 0M;
+    public decimal Score { get; set; } = 0M;
+    public decimal ScoreX { get; set; } = 0M;
+    public decimal SOS { get; set; } = 0M;
+    public decimal SOSOS { get; set; } = 0M;
+    public decimal SODOS { get; set; } = 0M;
+
+    public bool PlayedWhite(int roundNumber) => ColorBalancer.TryGetValue(roundNumber, out bool w) && w;
+    public int GetPairingBalancer(int roundNumber) => PairingBalancer.GetValueOrDefault(roundNumber);
 
     public override bool Equals(object? obj)
     {
         return obj is Player player &&
-            uuid.Equals(player.uuid);
-    }
-    public bool Equals(Player? other)
-    {
-        return other is not null &&
-            uuid.Equals(other.uuid);
+            Guid.Equals(player.Guid);
     }
     public override int GetHashCode()
     {
-        return HashCode.Combine(uuid);
-    }
-    public static bool operator ==(Player? left, Player? right)
-    {
-        return EqualityComparer<Player>.Default.Equals(left, right);
-    }
-    public static bool operator !=(Player? left, Player? right)
-    {
-        return !(left == right);
+        return HashCode.Combine(Guid);
     }
     public override string? ToString()
     {
-        return string.Format("Player {0}: {1} {2} {3}, Rating: {4}", uuid, data.Name, data.Last_Name, Grade, Rating);
+        return string.Format("Player {0}: {1} {2} {3}, Rating: {4}", Guid, Data.Name, Data.Last_Name, Grade, Rating);
     }
 }

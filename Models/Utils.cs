@@ -1,5 +1,6 @@
 ﻿using GoCarlos.NET.Models.Comparers;
 using GoCarlos.NET.Models.Enums;
+using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,17 +10,16 @@ namespace GoCarlos.NET.Models;
 
 internal static class Utils
 {
-    public const string VERSION = "0.0.18";
+    public const string VERSION = "0.1.0";
     public const string BYE = "0+";
     public const string QUESTION_MARK = "?";
     public const string EQUALS = "=";
     public const string DASH = "-";
     public const string PLUS = "+";
 
-    private static readonly Random random = new();
     private static readonly MutualGameComparer mutualGameComparer = new();
 
-    public static JsonSerializerSettings JsonSerializerSettings = new()
+    public static JsonSerializerSettings JsonSerializerSettings { get; } = new()
     {
         PreserveReferencesHandling = PreserveReferencesHandling.Objects,
         ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
@@ -27,7 +27,7 @@ internal static class Utils
         MaxDepth = 256
     };
 
-    public static Random Random { get => random; }
+    public static Random Random { get; } = new(DateAndTime.Now.Millisecond);
 
     public static IEnumerable<T> DropLast<T>(this IEnumerable<T> source)
     {
@@ -41,6 +41,17 @@ internal static class Utils
             }
         }
     }
+
+    public static int CalculateHandicap(Player p1, Player p2, int reduction, bool mmBased, bool maxNine)
+    {
+        int p1GradeN = GetHandicapGrade(p1, mmBased);
+        int p2GradeN = GetHandicapGrade(p2, mmBased);
+
+        int handicap = reduction >= 9 ? 0 : Math.Max(0, Math.Abs(p1GradeN - p2GradeN) - reduction);
+        return maxNine ? Math.Min(handicap, 9) : handicap;
+    }
+
+    public static int GetHandicapGrade(Player p1, bool mmBased) => mmBased == true ? (int)Math.Round(p1.Score) : GetValue(p1.Grade);
 
     public static T Next<T>(this T source) where T : struct
     {

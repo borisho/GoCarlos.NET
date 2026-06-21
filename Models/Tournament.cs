@@ -9,159 +9,58 @@ namespace GoCarlos.NET.Models;
 [method: JsonConstructor]
 public class Tournament()
 {
-    private List<Player> players = [];
-    private List<Round> rounds = [];
-
-    private CriteriaSettings criteriaSettings = new();
-
-    private string name = "Turnaj";
-
-    private int handicapReduction = 2;
-    private PairingMethod topGroupPairingMethod = PairingMethod.Cross;
-    private PairingMethod pairingMethod = PairingMethod.Random;
-    private PairingMethod additionMethod = PairingMethod.Weakest;
-
-    private bool avoidSameCityPairing = true;
-    private bool handicapBasedMm = true;
-    private bool handicapMaxNine = true;
-
-    private bool countCurrentRound = false;
-    private int currentRound = 0;
-    private int numberOfRounds = 5;
-
-    private bool automaticTopBar = true;
-    private decimal superGroupGap = 2M;
-    private decimal topGroupBar = 29M;
-    private decimal bottomGroupBar = 0M;
+    public static Player ByePlayer { get; } = new() { Group = Group.Bye };
 
     public Tournament(int numberOfRounds) : this()
     {
         for (int i = 0; i < numberOfRounds; i++)
         {
-            rounds!.Add(new(i));
+            Rounds!.Add(new(i));
         }
     }
 
-    public List<Player> Players
-    {
-        get => players;
-        set => players = value;
-    }
-    public List<Round> Rounds
-    {
-        get => rounds;
-        set => rounds = value;
-    }
+    public string Name { get; set; } = "Turnaj";
 
-    public CriteriaSettings CriteriaSettings
-    {
-        get => criteriaSettings;
-        set => criteriaSettings = value;
-    }
+    public List<Player> Players { get; set; } = [];
+    public List<Round> Rounds { get; set; } = [];
+    public CriteriaSettings CriteriaSettings { get; set; } = new();
 
-    public string Name
-    {
-        get => name;
-        set => name = value;
-    }
+    public PairingMethod TopGroupPairingMethod { get; set; } = PairingMethod.Cross;
+    public PairingMethod PairingMethod { get; set; } = PairingMethod.Random;
+    public PairingMethod AdditionMethod { get; set; } = PairingMethod.Weakest;
 
-    public int HandicapReduction
-    {
-        get => handicapReduction;
-        set => handicapReduction = value;
-    }
+    public bool AvoidSameCityPairing { get; set; } = true;
+    public bool HandicapBasedMm { get; set; } = true;
+    public bool HandicapMaxNine { get; set; } = true;
+    public int HandicapReduction { get; set; } = 2;
 
-    public PairingMethod TopGroupPairingMethod
-    {
-        get => topGroupPairingMethod;
-        set => topGroupPairingMethod = value;
-    }
-    public PairingMethod PairingMethod
-    {
-        get => pairingMethod;
-        set => pairingMethod = value;
-    }
-    public PairingMethod AdditionMethod
-    {
-        get => additionMethod;
-        set => additionMethod = value;
-    }
+    public bool CountCurrentRound { get; set; } = false;
+    public int CurrentRound { get; set; } = 0;
+    public int NumberOfRounds { get; set; } = 5;
 
-    public bool AvoidSameCityPairing
-    {
-        get => avoidSameCityPairing;
-        set => avoidSameCityPairing = value;
-    }
-
-    public bool HandicapBasedMm
-    {
-        get => handicapBasedMm;
-        set => handicapBasedMm = value;
-    }
-
-    public bool HandicapMaxNine
-    {
-        get => handicapMaxNine;
-        set => handicapMaxNine = value;
-    }
-
-    public bool CountCurrentRound
-    {
-        get => countCurrentRound;
-        set => countCurrentRound = value;
-    }
-    public int CurrentRound
-    {
-        get => currentRound;
-        set => currentRound = value;
-    }
-    public int NumberOfRounds
-    {
-        get => numberOfRounds;
-        set => numberOfRounds = value;
-    }
-
-    public bool AutomaticTopGroupBar
-    {
-        get => automaticTopBar;
-        set => automaticTopBar = value;
-    }
-
-    public decimal SuperGroupGap
-    {
-        get => superGroupGap;
-        set => superGroupGap = value;
-    }
-
-    public decimal TopGroupBar
-    {
-        get => topGroupBar;
-        set => topGroupBar = value;
-    }
-    public decimal BottomGroupBar
-    {
-        get => bottomGroupBar;
-        set => bottomGroupBar = value;
-    }
+    public bool AutomaticTopGroupBar { get; set; } = true;
+    public decimal SuperGroupGap { get; set; } = 2M;
+    public decimal TopGroupBar { get; set; } = 29M;
+    public decimal BottomGroupBar { get; set; } = 0M;
 
     public void UpdatePlayerPlayingRounds(Player player)
     {
-        for (int i = 0; i < rounds.Count; i++)
+        for (int i = 0; i < Rounds.Count; i++)
         {
             if (player.RoundsPlaying.Contains(i))
             {
-                rounds[i].AddPlayer(player);
+                Rounds[i].AddPlayer(player);
             }
             else
             {
-                rounds[i].RemovePlayer(player);
+                Rounds[i].RemovePlayer(player);
             }
         }
     }
 
     public void UpdatePairingHandicaps()
     {
-        foreach (Round round in rounds)
+        foreach (Round round in Rounds)
         {
             foreach (Pairing pairing in round.Pairings)
             {
@@ -170,7 +69,7 @@ public class Tournament()
                     int p1 = HandicapBasedMm == true ? (int)Math.Round(pairing.Black.Score) : Utils.GetValue(pairing.Black.Grade);
                     int p2 = HandicapBasedMm == true ? (int)Math.Round(pairing.White.Score) : Utils.GetValue(pairing.White.Grade);
 
-                    pairing.Handicap = handicapReduction >= 9 ? 0 : Math.Max(0, Math.Abs(p1 - p2) - handicapReduction);
+                    pairing.Handicap = HandicapReduction >= 9 ? 0 : Math.Max(0, Math.Abs(p1 - p2) - HandicapReduction);
                 }
             }
         }
@@ -178,31 +77,29 @@ public class Tournament()
 
     public void AddOrRemoveRounds()
     {
-        if (rounds.Count > numberOfRounds)
+        if (Rounds.Count > NumberOfRounds)
         {
-            for (int i = rounds.Count - 1; i > numberOfRounds - 1; i--)
+            for (int i = Rounds.Count - 1; i > NumberOfRounds - 1; i--)
             {
-                Round round = rounds[i];
+                Round round = Rounds[i];
 
-                foreach (Player player in players)
+                foreach (Player player in Players)
                 {
                     round.RemovePlayer(player);
                 }
 
-                rounds.Remove(round);
+                Rounds.Remove(round);
             }
         }
         else
         {
-            for (int i = rounds.Count - 1; i < numberOfRounds; i++)
+            for (int i = Rounds.Count; i < NumberOfRounds; i++)
             {
-                Round round = new(i + 1);
+                Rounds.Add(new(i));
 
-                rounds.Add(round);
-
-                foreach (Player player in players)
+                foreach (Player player in Players)
                 {
-                    round.AddPlayer(player);
+                    Rounds[i].AddPlayer(player);
                 }
             }
         }
@@ -212,7 +109,7 @@ public class Tournament()
     {
         if (roundNumber < 1)
         {
-            foreach (Player player in players)
+            foreach (Player player in Players)
             {
                 player.Points = 0;
                 player.Score = StartScore(player);
@@ -225,7 +122,7 @@ public class Tournament()
 
         else
         {
-            foreach (Player player in players)
+            foreach (Player player in Players)
             {
                 player.Points = GetPoints(player, roundNumber);
                 player.Score = StartScore(player) + GetResults(player, roundNumber);
@@ -235,7 +132,7 @@ public class Tournament()
                 player.SODOS = 0;
             }
 
-            foreach (Player player in players)
+            foreach (Player player in Players)
             {
                 for (int i = 0; i < roundNumber; i++)
                 {
@@ -254,7 +151,7 @@ public class Tournament()
                 }
             }
 
-            foreach (Player player in players)
+            foreach (Player player in Players)
             {
                 for (int i = 0; i < roundNumber; i++)
                 {
@@ -275,17 +172,17 @@ public class Tournament()
 
     private decimal StartScore(Player player)
     {
-        TopGroupBar = automaticTopBar ? CalculateTopBar() : TopGroupBar;
+        TopGroupBar = AutomaticTopGroupBar ? CalculateTopBar() : TopGroupBar;
 
         decimal getScore(int score)
         {
-            if (score > topGroupBar)
+            if (score > TopGroupBar)
             {
-                return topGroupBar;
+                return TopGroupBar;
             }
-            else if (score < bottomGroupBar)
+            else if (score < BottomGroupBar)
             {
-                return bottomGroupBar;
+                return BottomGroupBar;
             }
             else
             {
@@ -295,8 +192,8 @@ public class Tournament()
 
         return player.Group switch
         {
-            Group.SuperGroup => topGroupBar + 1 + superGroupGap,
-            Group.TopGroup => topGroupBar + 1,
+            Group.SuperGroup => TopGroupBar + 1 + SuperGroupGap,
+            Group.TopGroup => TopGroupBar + 1,
             Group.Default => getScore(player.StartScore),
             _ => 0,
         };
@@ -304,7 +201,7 @@ public class Tournament()
 
     private int CalculateTopBar()
     {
-        return players.Where(p => p.Group == Group.Default)
+        return Players.Where(p => p.Group == Group.Default)
                     .Select(p => p.StartScore)
                     .DefaultIfEmpty(0)
                     .Max();
@@ -348,7 +245,7 @@ public class Tournament()
     public void ResetBoardNumbers()
     {
         int boardNumber = 1;
-        List<Pairing> orderedPairings = [.. rounds[currentRound].Pairings.OrderBy(p => p.White.Group == Group.Bye)
+        List<Pairing> orderedPairings = [.. Rounds[CurrentRound].Pairings.OrderBy(p => p.White.Group == Group.Bye)
             .ThenBy(p => Math.Min(p.Black.Place, p.White.Place))
             .ThenByDescending(p => Math.Max(p.Black.Rating, p.White.Rating))];
 
@@ -361,17 +258,18 @@ public class Tournament()
 
     private void GetPlayerPlace()
     {
-        List<Player> orderedList = [.. Utils.GetOrderedPlayerList(criteriaSettings, players, CountCurrentRound)];
+        List<Player> orderedList = [.. Utils.GetOrderedPlayerList(CriteriaSettings, Players, CountCurrentRound)];
 
         Player? temp = null;
 
-        foreach (Player p in orderedList)
+        for (int i = 0; i < orderedList.Count; i++)
         {
-            p.Place = orderedList.IndexOf(p) + 1;
+            Player p = orderedList[i];
+            p.Place = i + 1;
 
             if (CountCurrentRound)
             {
-                p.SharedPlace = temp is not null && Utils.ComparePlayerPlace(criteriaSettings, temp, p, countCurrentRound);
+                p.SharedPlace = temp is not null && Utils.ComparePlayerPlace(CriteriaSettings, temp, p, CountCurrentRound);
                 temp = p;
             }
 

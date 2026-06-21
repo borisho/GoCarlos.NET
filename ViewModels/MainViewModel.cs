@@ -4,6 +4,7 @@ using GoCarlos.NET.Events;
 using GoCarlos.NET.Models;
 using GoCarlos.NET.Models.Enums;
 using GoCarlos.NET.Models.Records;
+using GoCarlos.NET.Pairings;
 using Microsoft.VisualBasic;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -179,38 +180,43 @@ public partial class MainViewModel : ObservableObject
         };
 
         if (ofd.ShowDialog() == true)
-        {
-            var fileStream = ofd.OpenFile();
-
-            using StreamReader reader = new(fileStream);
-            Tournament? t = JsonConvert.DeserializeObject<Tournament>(reader.ReadToEnd(), Utils.JsonSerializerSettings);
-
-            if (t is not null)
+        {   
+            try
             {
-                for (int i = 0; i < t.CriteriaSettings.Criterias.Length; i++)
+                var fileStream = ofd.OpenFile();
+                using StreamReader reader = new(fileStream);
+
+                Tournament? t = JsonConvert.DeserializeObject<Tournament>(reader.ReadToEnd(), Utils.JsonSerializerSettings);
+
+
+                if (t is not null)
                 {
-                    t.CriteriaSettings.Criterias[i] = CriteriaSettings.AllCriteriaDict[t.CriteriaSettings.Criterias[i].Type];
+                    for (int i = 0; i < t.CriteriaSettings.Criterias.Length; i++)
+                    {
+                        t.CriteriaSettings.Criterias[i] = CriteriaSettings.AllCriteriaDict[t.CriteriaSettings.Criterias[i].Type];
+                    }
+
+                    tournament = t;
+
+                    playerViewModel.Clear();
+                    pairingViewModel.Clear();
+                    unpairedPlayers.Clear();
+
+                    foreach (Player p in tournament.Players)
+                    {
+                        playerViewModel.Add(new(tournament, p));
+                    }
+
+                    GoToAndRefreshRound(t.CurrentRound);
                 }
-
-                tournament = t;
-
-                playerViewModel.Clear();
-                pairingViewModel.Clear();
-                unpairedPlayers.Clear();
-
-                foreach (Player p in tournament.Players)
-                {
-                    playerViewModel.Add(new(tournament, p));
-                }
-
-                GoToAndRefreshRound(t.CurrentRound);
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Nepodarilo sa načítať turnaj zo súboru!",
+                MessageBox.Show("Nepodarilo sa načítať turnaj zo súboru!\n\n" + ex.Message,
                     "Chyba!",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
+                return;
             }
         }
     }
@@ -228,11 +234,10 @@ public partial class MainViewModel : ObservableObject
         if (sfd.ShowDialog() == true)
         {
             using Stream myStream = sfd.OpenFile();
-            StreamWriter wText = new(myStream);
+            using StreamWriter wText = new(myStream);
 
             string json = JsonConvert.SerializeObject(tournament, Utils.JsonSerializerSettings);
             wText.Write(json);
-            wText.Close();
         }
     }
 
@@ -270,11 +275,6 @@ public partial class MainViewModel : ObservableObject
         foreach (int i in player.RoundsPlaying)
         {
             tournament.Rounds[i].AddPlayer(player);
-
-            if (CurrentRoundNumber == i)
-            {
-                unpairedPlayers.Add(new(tournament, player));
-            }
         }
 
         tournament.Players.Add(player);
@@ -331,19 +331,35 @@ public partial class MainViewModel : ObservableObject
     {
         Round currentRound = tournament.Rounds[tournament.CurrentRound];
 
-        PairingGeneratorParameters parameters = new(currentRound,
+        PairParameters parameters = new(currentRound,
             tournament.AvoidSameCityPairing,
             tournament.HandicapReduction,
             tournament.HandicapBasedMm,
             tournament.HandicapMaxNine,
             tournament.TopGroupPairingMethod,
             tournament.PairingMethod,
-            tournament.AdditionMethod,
-            [.. Utils.GetOrderedPlayerList(tournament.CriteriaSettings, playersToPair, tournament.CountCurrentRound)],
-            tournament.NumberOfRounds
+            tournament.AdditionMethod
         );
 
-        PairingGenerator.PerformPairings(parameters);
+        List<Player> players = [.. Utils.GetOrderedPlayerList(tournament.CriteriaSettings, playersToPair, tournament.CountCurrentRound)];
+
+        List<(PlayerWrapper P1, PlayerWrapper P2)>? pairings = Generator.Pair(parameters, players);
+
+        if (pairings is null)
+        {
+            MessageBox.Show("Nepodarilo sa vytvoriť párovanie pre zadaných hráčov!", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
+
+        if (pairings.Count == 0) return;
+        
+        foreach ((PlayerWrapper P1, PlayerWrapper P2) in pairings)
+        {
+            Pairing _ = currentRound.AddPairing(P1.Player, P2.Player,
+                tournament.HandicapReduction,
+                tournament.HandicapBasedMm,
+                tournament.HandicapMaxNine);
+        }
 
         tournament.ResetBoardNumbers();
 
@@ -421,6 +437,7 @@ public partial class MainViewModel : ObservableObject
     private void SwapColors()
     {
         SelectedPairing?.SwapColorsCommand.Execute(null);
+        GoToAndRefreshRound(CurrentRoundNumber);
     }
 
     [RelayCommand]
@@ -459,8 +476,9 @@ public partial class MainViewModel : ObservableObject
     }
     private bool DeletePairing(Pairing pairing)
     {
+        (bool B, _) = tournament.Rounds[tournament.CurrentRound].RemovePairing(pairing);
 
-        if (tournament.Rounds[tournament.CurrentRound].RemovePairing(pairing))
+        if (B)
         {
             unpairedPlayers.Add(new(tournament, pairing.Black));
 
@@ -470,8 +488,6 @@ public partial class MainViewModel : ObservableObject
             }
 
             tournament.ResetBoardNumbers();
-
-            GoToAndRefreshRound(CurrentRoundNumber);
 
             return true;
         }
@@ -498,7 +514,7 @@ public partial class MainViewModel : ObservableObject
         if (sfd.ShowDialog() == true)
         {
             using Stream myStream = sfd.OpenFile();
-            StreamWriter wText = new(myStream);
+            using StreamWriter wText = new(myStream);
 
             int nameLength = Math.Max(4, playerViewModel.Max(p => p.FullName.Length));
             int clubLenght = Math.Max(4, playerViewModel.Max(p => p.Club.Length));
@@ -652,7 +668,6 @@ public partial class MainViewModel : ObservableObject
             }
 
             wText.WriteLine("\nDátum a čas výpisu: {0:F}", DateTime.Now.ToString());
-            wText.Close();
         }
     }
 
@@ -675,7 +690,7 @@ public partial class MainViewModel : ObservableObject
         if (sfd.ShowDialog() == true)
         {
             using Stream myStream = sfd.OpenFile();
-            StreamWriter wText = new(myStream);
+            using StreamWriter wText = new(myStream);
 
             int blackLength = Math.Max(6, pairingViewModel.Max(p => p.Black.Length));
             int whiteLenght = Math.Max(5, pairingViewModel.Max(p => p.White.Length));
@@ -690,7 +705,6 @@ public partial class MainViewModel : ObservableObject
             }
 
             wText.WriteLine("\nDátum a čas výpisu: {0:F}", DateTime.Now.ToString());
-            wText.Close();
         }
     }
 
@@ -713,7 +727,7 @@ public partial class MainViewModel : ObservableObject
         if (sfd.ShowDialog() == true)
         {
             using Stream myStream = sfd.OpenFile();
-            StreamWriter wText = new(myStream);
+            using StreamWriter wText = new(myStream);
 
             int nameLength = Math.Max(4, playerViewModel.Max(p => p.FullName.Length));
             int clubLenght = Math.Max(4, playerViewModel.Max(p => p.Club.Length));
@@ -785,8 +799,6 @@ public partial class MainViewModel : ObservableObject
                 }
                 wText.Write("\n");
             }
-
-            wText.Close();
         }
     }
 
@@ -836,7 +848,7 @@ public partial class MainViewModel : ObservableObject
                 Grade = Utils.GetGrade(random.Next(38))
             };
 
-            players.Add(new(data));
+            players.Add(new(data, tournament.NumberOfRounds));
         }
 
         AddPlayerBatch(players);
