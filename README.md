@@ -2,11 +2,11 @@
 
 Pairing program for Go tournaments. Created for the needs of the Slovak Championship and to learn something new.
 
-Current version: 0.1.0
+Current version: 0.1.1
 
 ## Support
 
-This project is no longer developed. The future versions will be created and overall reworked using Avalonia XPF for cross-platform support.
+This project is no longer developed. The future versions will be created and reworked for cross-platform compatibility.
 
 ## Features
 

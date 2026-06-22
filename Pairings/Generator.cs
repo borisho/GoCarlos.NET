@@ -123,9 +123,14 @@ public static class Generator
         List<(PlayerWrapper P1, PlayerWrapper P2)> pairings, 
         List<PlayerWrapper> pool)
     {
-        List<PlayerWrapper>? group = TryGetStrongestGroup(pool);
+        List<PlayerWrapper>? group = TryGetGroupOrDefault(pool, 0);
 
         if (group is null || group.Count == 1 || group.Count % 2 == 0) return false;
+
+        List<PlayerWrapper>? nextGroup = TryGetGroupOrDefault(pool, 1);
+
+        if (nextGroup is null || nextGroup.Count == 0) throw new UnreachableException();
+        if (nextGroup[0].Player.Score < group[0].Player.Score - 1) return false; // If score difference is more than one skip
 
         Debug.WriteLine("\nOptimizing odd group before regular pairing");
 
@@ -154,7 +159,6 @@ public static class Generator
                 .Where(w => !wrapper.ForbiddenPairing.Contains(w.Player))];
 
                 if (TryPairCloseMatch(pairings, wrapper, opponents)) return true;
-                if (TryPairNextAvailable(pairings, wrapper, opponents)) return true;
             }
         }
 
@@ -205,7 +209,7 @@ public static class Generator
         PlayerWrapper wrapper,
         List<PlayerWrapper> opponents)
     {
-        List<PlayerWrapper>? pool = TryGetStrongestGroup(opponents);
+        List<PlayerWrapper>? pool = TryGetGroupOrDefault(opponents, 0);
 
         if (pool is null) return false;
 
@@ -328,6 +332,6 @@ public static class Generator
         return filtered.Count == 0 ? pool : filtered;
     }
 
-    private static List<PlayerWrapper>? TryGetStrongestGroup(List<PlayerWrapper> pool)
-        => pool.GroupBy(w => w.Player.Score).FirstOrDefault()?.ToList();
+    private static List<PlayerWrapper>? TryGetGroupOrDefault(List<PlayerWrapper> pool, int offset)
+        => pool.GroupBy(w => w.Player.Score).Skip(offset).FirstOrDefault()?.ToList();
 }
