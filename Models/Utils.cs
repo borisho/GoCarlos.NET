@@ -10,7 +10,7 @@ namespace GoCarlos.NET.Models;
 
 internal static class Utils
 {
-    public const string VERSION = "0.1.1";
+    public const string VERSION = "0.1.2";
     public const string BYE = "0+";
     public const string QUESTION_MARK = "?";
     public const string EQUALS = "=";
@@ -284,6 +284,8 @@ internal static class Utils
         {
             temp = ThenByHelper(settings.Criterias[i], temp, lastRound);
         }
+
+        temp = ThenByHelper(CriteriaSettings.AllCriteriaDict[CriteriaType.RAT], temp, lastRound);
 
         return temp;
     }

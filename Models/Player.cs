@@ -84,8 +84,7 @@ public class Player()
 
     public override bool Equals(object? obj)
     {
-        return obj is Player player &&
-            Guid.Equals(player.Guid);
+        return obj is Player player && Guid.Equals(player.Guid);
     }
     public override int GetHashCode()
     {

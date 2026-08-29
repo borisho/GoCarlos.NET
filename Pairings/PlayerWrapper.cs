@@ -6,8 +6,6 @@ namespace GoCarlos.NET.Pairings;
 
 public sealed class PlayerWrapper(Player player)
 {
-    public static PlayerWrapper ByeWrapper { get => new(Tournament.ByePlayer); }
-
     public bool IsPaired { get; set; } = false;
     public Player Player { get; set; } = player;
     public HashSet<Player> TemporaryForbiddenPairing { get; set; } = [];

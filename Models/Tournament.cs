@@ -9,7 +9,7 @@ namespace GoCarlos.NET.Models;
 [method: JsonConstructor]
 public class Tournament()
 {
-    public static Player ByePlayer { get; } = new() { Group = Group.Bye };
+    public Player ByePlayer { get; } = new() { Group = Group.Bye };
 
     public Tournament(int numberOfRounds) : this()
     {
@@ -266,17 +266,8 @@ public class Tournament()
         {
             Player p = orderedList[i];
             p.Place = i + 1;
-
-            if (CountCurrentRound)
-            {
-                p.SharedPlace = temp is not null && Utils.ComparePlayerPlace(CriteriaSettings, temp, p, CountCurrentRound);
-                temp = p;
-            }
-
-            else
-            {
-                p.SharedPlace = false;
-            }
+            p.SharedPlace = temp is not null && Utils.ComparePlayerPlace(CriteriaSettings, temp, p, CountCurrentRound);
+            temp = p;
         }
     }
 }

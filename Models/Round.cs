@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 using static GoCarlos.NET.Models.Utils;
@@ -19,7 +20,7 @@ public class Round(int roundNumber) : IEquatable<Round?>
     {
         player.RoundsPlaying.Add(roundNumber);
         Players.Add(player);
-        if (!Pairings.Where(p => p.IsPlayerPaired(player)).Any())
+        if (!Pairings.Any(p => p.IsPlayerPaired(player)))
         {
             UnpairedPlayers.Add(player);
         }
@@ -29,7 +30,7 @@ public class Round(int roundNumber) : IEquatable<Round?>
     {
         player.RoundsPlaying.Remove(roundNumber);
 
-        Pairing? pairing = Pairings.Where(p => p.IsPlayerPaired(player)).FirstOrDefault();
+        Pairing? pairing = Pairings.FirstOrDefault(p => p.IsPlayerPaired(player));
 
         if (pairing is not null)
         {
@@ -85,10 +86,16 @@ public class Round(int roundNumber) : IEquatable<Round?>
         }
     }
 
-    public Pairing AddPairing(Player p1, Player p2, int handicapReduction, bool handicapBasedMm, bool handicapMaxNine)
+    public Pairing? AddPairing(Player p1, Player p2, int handicapReduction, bool handicapBasedMm, bool handicapMaxNine)
     {
         if (p2.Group == Group.Bye)
         {
+            if (p2.Opponents.ContainsKey(roundNumber))
+            {
+                Debug.WriteLine($"BYE player has already been paired in round {roundNumber}.");
+                return null;
+            }
+
             var pairing = AddPairing(p1, p2, 0, "BYE");
             pairing.Result = Result.BLACK_WON;
             return pairing;
@@ -111,8 +118,8 @@ public class Round(int roundNumber) : IEquatable<Round?>
 
         else
         {
-            int p1cb = p1.ColorBalancer.Count;
-            int p2cb = p2.ColorBalancer.Count;
+            int p1cb = p1.ColorBalancer.Count(a => a.Value == true);
+            int p2cb = p2.ColorBalancer.Count(a => a.Value == true);
             int cmp = p1cb.CompareTo(p2cb);
 
             if (cmp > 0)
@@ -154,11 +161,13 @@ public class Round(int roundNumber) : IEquatable<Round?>
 
             white.Pairings.Remove(roundNumber);
             white.Opponents.Remove(roundNumber);
-                UnpairedPlayers.Add(white);
             
             if (white.Group == Group.Bye)
             {
                 black.ByeBalancer--;
+            } else
+            {
+                UnpairedPlayers.Add(white);
             }
 
             Pairings.Remove(pairing);

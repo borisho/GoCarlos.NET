@@ -53,10 +53,6 @@ public static class Generator
 
         try
         {
-            // Add BYE player if ODD number of Players
-            if (players.Count % 2 == 1)
-                players.Add(PlayerWrapper.ByeWrapper);
-
             return MakePairing(players);
         }
         catch (Exception ex)
@@ -69,7 +65,7 @@ public static class Generator
         return null;
     }
 
-    private static List<(PlayerWrapper P1, PlayerWrapper P2)>? MakePairing(List<PlayerWrapper> players)
+    private static List<(PlayerWrapper P1, PlayerWrapper P2)> MakePairing(List<PlayerWrapper> players)
     {
         List<(PlayerWrapper P1, PlayerWrapper P2)> pairings = [];
 
@@ -113,10 +109,10 @@ public static class Generator
             if (TryPairNextAvailable(pairings, wrapper, opponents)) continue;
             if (TryRemoveLastPairing(pairings, wrapper)) continue;
 
-            return null;
+            return [];
         }
 
-        return pairings.Count == 0 ? null : pairings;
+        return pairings.Count == 0 ? [] : pairings;
     }
 
     private static bool TryOptimizeOddGroup(
@@ -150,7 +146,7 @@ public static class Generator
 
             var tmpPairings = MakePairing(tmp);
             
-            if (tmpPairings is not null)
+            if (tmpPairings.Count != 0)
             {
                 List<PlayerWrapper> opponents = [.. pool
                 .Where(w => !w.Equals(wrapper))

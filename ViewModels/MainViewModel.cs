@@ -343,6 +343,9 @@ public partial class MainViewModel : ObservableObject
 
         List<Player> players = [.. Utils.GetOrderedPlayerList(tournament.CriteriaSettings, playersToPair, tournament.CountCurrentRound)];
 
+        // Add BYE player if ODD number of Players
+        if (players.Count % 2 == 1) players.Add(tournament.ByePlayer);
+
         List<(PlayerWrapper P1, PlayerWrapper P2)>? pairings = Generator.Pair(parameters, players);
 
         if (pairings is null)
@@ -352,10 +355,10 @@ public partial class MainViewModel : ObservableObject
         }
 
         if (pairings.Count == 0) return;
-        
+
         foreach ((PlayerWrapper P1, PlayerWrapper P2) in pairings)
         {
-            Pairing _ = currentRound.AddPairing(P1.Player, P2.Player,
+            Pairing? _ = currentRound.AddPairing(P1.Player, P2.Player,
                 tournament.HandicapReduction,
                 tournament.HandicapBasedMm,
                 tournament.HandicapMaxNine);
@@ -528,11 +531,6 @@ public partial class MainViewModel : ObservableObject
             int r8Length = Math.Max(2, playerViewModel.Max(p => p.R8.Length));
             int r9Length = Math.Max(2, playerViewModel.Max(p => p.R9.Length));
             int r10Length = Math.Max(2, playerViewModel.Max(p => p.R10.Length));
-            int scoreLength = Math.Max(2, playerViewModel.Max(p => p.Score.ToString().Length));
-            int scoreXLength = Math.Max(3, playerViewModel.Max(p => p.ScoreX.ToString().Length));
-            int sosLength = Math.Max(3, playerViewModel.Max(p => p.SOS.ToString().Length));
-            int sososLength = Math.Max(5, playerViewModel.Max(p => p.SOSOS.ToString().Length));
-            int sodosLength = Math.Max(5, playerViewModel.Max(p => p.SODOS.ToString().Length));
 
             if (tournament.CountCurrentRound)
             {
@@ -602,10 +600,7 @@ public partial class MainViewModel : ObservableObject
             wText.Write("{0, -3} ", "Bi");
             wText.Write("{0, -3} ", "Pb");
             wText.Write("{0, -4} ", "Body");
-            wText.Write("{0, -" + scoreXLength + "} ", "MMX");
-            wText.Write("{0, -" + scoreLength + "} ", "MM");
-            wText.Write("{0, -" + sodosLength + "} ", "SODOS");
-            wText.Write("{0, -" + sosLength + "}", "SOS");
+            PrintSelectedCriteria(wText, null);
             wText.Write("\n");
 
             PlayerViewModel? temp = null;
@@ -660,14 +655,42 @@ public partial class MainViewModel : ObservableObject
                 wText.Write("{0, -3} ", p.NrW);
                 wText.Write("{0, -3} ", p.PairingBalancer);
                 wText.Write("{0, -4} ", p.Points);
-                wText.Write("{0, -" + scoreXLength + "} ", p.ScoreX);
-                wText.Write("{0, -" + scoreLength + "} ", p.Score);
-                wText.Write("{0, -" + sodosLength + "} ", p.SODOS);
-                wText.Write("{0, -" + sosLength + "}", p.SOS);
+                PrintSelectedCriteria(wText, p);
                 wText.Write("\n");
             }
 
             wText.WriteLine("\nDátum a čas výpisu: {0:F}", DateTime.Now.ToString());
+        }
+
+        void PrintSelectedCriteria(StreamWriter wText, PlayerViewModel? p)
+        {
+            int scoreLength = Math.Max(2, playerViewModel.Max(p => p.Score.ToString().Length));
+            int scoreXLength = Math.Max(3, playerViewModel.Max(p => p.ScoreX.ToString().Length));
+            int sosLength = Math.Max(3, playerViewModel.Max(p => p.SOS.ToString().Length));
+            int sososLength = Math.Max(5, playerViewModel.Max(p => p.SOSOS.ToString().Length));
+            int sodosLength = Math.Max(5, playerViewModel.Max(p => p.SODOS.ToString().Length));
+
+            foreach (Criteria c in tournament.CriteriaSettings.Criterias)
+            {
+                switch (c.Type)
+                {
+                    case CriteriaType.MMS:
+                        wText.Write("{0, -" + scoreXLength + "} ", p is not null ? p.ScoreX : "MMX");
+                        wText.Write("{0, -" + scoreLength + "} ", p is not null ? p.Score : "MM");
+                        break;
+                    case CriteriaType.SOS:
+                        wText.Write("{0, -" + sosLength + "} ", p is not null ? p.SOS : "SOS");
+                        break;
+                    case CriteriaType.SDS:
+                        wText.Write("{0, -" + sodosLength + "} ", p is not null ? p.SODOS : "SODOS");
+                        break;
+                    case CriteriaType.SSS:
+                        wText.Write("{0, -" + sososLength + "} ", p is not null ? p.SOSOS : "SOSOS");
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
 
@@ -753,11 +776,31 @@ public partial class MainViewModel : ObservableObject
             foreach (PlayerViewModel p in PlayerData)
             {
                 wText.Write("{0, -2} {1, -" + nameLength + "} {2, -3} {3, -2} {4, -" + clubLenght + "} ", p.Place, p.FullName, p.Grade, p.State, p.Club);
-                wText.Write("{0, -" + pointsLength + "} ", p.EGDPoints);
-                wText.Write("{0, -" + scoreXLength + "} ", p.EGDScoreX);
-                wText.Write("{0, -" + scoreLength + "} ", p.EGDScore);
-                wText.Write("{0, -" + sodosLength + "} ", p.EGDSODOS);
-                wText.Write("{0, -" + sosLength + "} ", p.EGDSOS);
+
+                foreach (Criteria c in tournament.CriteriaSettings.Criterias)
+                {
+                    switch (c.Type)
+                    {
+                        case CriteriaType.POV:
+                            wText.Write("{0, -" + pointsLength + "} ", p.EGDPoints);
+                            break;
+                        case CriteriaType.MMS:
+                            wText.Write("{0, -" + scoreXLength + "} ", p.EGDScoreX);
+                            wText.Write("{0, -" + scoreLength + "} ", p.EGDScore);
+                            break;
+                        case CriteriaType.SOS:
+                            wText.Write("{0, -" + sosLength + "} ", p.EGDSOS);
+                            break;
+                        case CriteriaType.SDS:
+                            wText.Write("{0, -" + sodosLength + "} ", p.EGDSODOS);
+                            break;
+                        case CriteriaType.SSS:
+                            wText.Write("{0, -" + sososLength + "} ", p.EGDSOSOS);
+                            break;
+                        default:
+                            break;
+                    }
+                }
 
                 for (int i = 1; i <= tournament.NumberOfRounds; i++)
                 {
