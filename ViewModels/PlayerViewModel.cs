@@ -58,7 +58,7 @@ public partial class PlayerViewModel(Tournament tournament, Player player) : Obs
 
             for (int i = 0; i <= roundNumber; i++)
             {
-                if (player.PlayedWhite(i))
+                if (player.PlayedWhite(i) == 1)
                 {
                     nrw++;
                 }

@@ -47,10 +47,12 @@ public class Round(int roundNumber) : IEquatable<Round?>
         white.Opponents.Add(roundNumber, black);
 
         // Update balancers
+        black.ColorBalancer[roundNumber] = -1;
+
         if (white.Group == Group.Bye) black.ByeBalancer++;
         else
         {
-            white.ColorBalancer[roundNumber] = true;
+            white.ColorBalancer[roundNumber] = 1;
             AdjustPairingBalancer(black, white, roundNumber);
         }
 
@@ -118,8 +120,8 @@ public class Round(int roundNumber) : IEquatable<Round?>
 
         else
         {
-            int p1cb = p1.ColorBalancer.Count(a => a.Value == true);
-            int p2cb = p2.ColorBalancer.Count(a => a.Value == true);
+            int p1cb = p1.ColorBalancer.Sum(x => x.Value);
+            int p2cb = p2.ColorBalancer.Sum(x => x.Value);
             int cmp = p1cb.CompareTo(p2cb);
 
             if (cmp > 0)
@@ -157,7 +159,8 @@ public class Round(int roundNumber) : IEquatable<Round?>
             // Reset balancers
             black.PairingBalancer[roundNumber] = 0;
             white.PairingBalancer[roundNumber] = 0;
-            white.ColorBalancer[roundNumber] = false;
+            black.ColorBalancer[roundNumber] = 0;
+            white.ColorBalancer[roundNumber] = 0;
 
             white.Pairings.Remove(roundNumber);
             white.Opponents.Remove(roundNumber);

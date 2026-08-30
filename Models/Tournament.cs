@@ -111,12 +111,12 @@ public class Tournament()
         {
             foreach (Player player in Players)
             {
-                player.Points = 0;
+                player.Points = 0m;
                 player.Score = StartScore(player);
                 player.ScoreX = StartScore(player);
-                player.SOS = 0;
-                player.SOSOS = 0;
-                player.SODOS = 0;
+                player.SOS = 0m;
+                player.SOSOS = 0m;
+                player.SODOS = 0m;
             }
         }
 
@@ -124,12 +124,14 @@ public class Tournament()
         {
             foreach (Player player in Players)
             {
+                decimal score = StartScore(player) + GetResults(player, roundNumber);
+
                 player.Points = GetPoints(player, roundNumber);
-                player.Score = StartScore(player) + GetResults(player, roundNumber);
+                player.Score = score / 1.000m; // Remove trailing zeros
                 player.ScoreX = StartScore(player) + player.Points;
-                player.SOS = 0;
-                player.SOSOS = 0;
-                player.SODOS = 0;
+                player.SOS = 0m;
+                player.SOSOS = 0m;
+                player.SODOS = 0m;
             }
 
             foreach (Player player in Players)
@@ -149,6 +151,9 @@ public class Tournament()
                         player.SOS += StartScore(player);
                     }
                 }
+
+                player.SOS /= 1.000m;
+                player.SODOS /= 1.000m;
             }
 
             foreach (Player player in Players)
@@ -164,6 +169,8 @@ public class Tournament()
                         player.SOSOS += player.SOS;
                     }
                 }
+
+                player.SOSOS /= 1.000m;
             }
         }
 
@@ -192,10 +199,10 @@ public class Tournament()
 
         return player.Group switch
         {
-            Group.SuperGroup => TopGroupBar + 1 + SuperGroupGap,
-            Group.TopGroup => TopGroupBar + 1,
+            Group.SuperGroup => TopGroupBar + 1m + SuperGroupGap,
+            Group.TopGroup => TopGroupBar + 1m,
             Group.Default => getScore(player.StartScore),
-            _ => 0,
+            _ => 0m,
         };
     }
 

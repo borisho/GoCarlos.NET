@@ -1,4 +1,5 @@
 ﻿using GoCarlos.NET.Models.Comparers;
+using GoCarlos.NET.Models.Converters;
 using GoCarlos.NET.Models.Enums;
 using Microsoft.VisualBasic;
 using Newtonsoft.Json;
@@ -21,6 +22,7 @@ internal static class Utils
 
     public static JsonSerializerSettings JsonSerializerSettings { get; } = new()
     {
+        Converters = [new DecimalConverter()],
         PreserveReferencesHandling = PreserveReferencesHandling.Objects,
         ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
         Formatting = Formatting.None,

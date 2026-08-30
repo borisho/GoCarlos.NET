@@ -41,7 +41,7 @@ public class Player()
     [JsonProperty] public HashSet<int> RoundsPlaying { get; } = [];
     [JsonProperty] public Dictionary<int, Player> Opponents { get; } = [];
     [JsonProperty] public Dictionary<int, Pairing> Pairings { get; } = [];
-    [JsonProperty] public Dictionary<int, bool> ColorBalancer { get; } = [];
+    [JsonProperty] public Dictionary<int, sbyte> ColorBalancer { get; } = [];
     [JsonProperty] public Dictionary<int, int> PairingBalancer { get; } = [];
     
     public EGD_Data Data { get; set; } = new();
@@ -79,7 +79,7 @@ public class Player()
     public decimal SOSOS { get; set; } = 0M;
     public decimal SODOS { get; set; } = 0M;
 
-    public bool PlayedWhite(int roundNumber) => ColorBalancer.TryGetValue(roundNumber, out bool w) && w;
+    public sbyte PlayedWhite(int roundNumber) => ColorBalancer.TryGetValue(roundNumber, out sbyte w) ? w : (sbyte)0;
     public int GetPairingBalancer(int roundNumber) => PairingBalancer.GetValueOrDefault(roundNumber);
 
     public override bool Equals(object? obj)
