@@ -282,7 +282,7 @@ internal static class Utils
 
         IOrderedEnumerable<Player> temp = OrderByHelper(settings.Criterias[0], players, lastRound);
 
-        for (int i = 1; i < settings.Criterias.Length; i++)
+        for (int i = 1; i < settings.Criterias.Count; i++)
         {
             temp = ThenByHelper(settings.Criterias[i], temp, lastRound);
         }

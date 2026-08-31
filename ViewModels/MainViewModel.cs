@@ -51,6 +51,14 @@ public partial class MainViewModel : ObservableObject
         UnpairedPlayers = CollectionViewSource.GetDefaultView(unpairedPlayers);
         UnpairedPlayers.SortDescriptions.Add(new SortDescription(nameof(PlayerViewModel.Score), ListSortDirection.Descending));
         UnpairedPlayers.SortDescriptions.Add(new SortDescription(nameof(PlayerViewModel.Gor), ListSortDirection.Descending));
+
+        tournament.CriteriaSettings.Criterias.CollectionChanged += (s, e) =>
+        {
+            OnPropertyChanged(nameof(MM));
+            OnPropertyChanged(nameof(SOS));
+            OnPropertyChanged(nameof(SOSOS));
+            OnPropertyChanged(nameof(SODOS));
+        };
     }
 
     public ICollectionView PlayerData { get; }
@@ -150,9 +158,28 @@ public partial class MainViewModel : ObservableObject
     public Visibility R8V { get => tournament.CurrentRound > 6 ? Visibility.Visible : Visibility.Collapsed; }
     public Visibility R9V { get => tournament.CurrentRound > 7 ? Visibility.Visible : Visibility.Collapsed; }
     public Visibility R10V { get => tournament.CurrentRound > 8 ? Visibility.Visible : Visibility.Collapsed; }
+    public Visibility MM
+    {
+        get => tournament.CriteriaSettings.Criterias.Select(c => c.Type)
+            .Contains(CriteriaType.MMS) ? Visibility.Visible : Visibility.Collapsed;
+    }
+    public Visibility SOS
+    {
+        get => tournament.CriteriaSettings.Criterias.Select(c => c.Type)
+            .Contains(CriteriaType.SOS) ? Visibility.Visible : Visibility.Collapsed;
+    }
+    public Visibility SOSOS
+    {
+        get => tournament.CriteriaSettings.Criterias.Select(c => c.Type)
+            .Contains(CriteriaType.SSS) ? Visibility.Visible : Visibility.Collapsed;
+    }
+    public Visibility SODOS
+    {
+        get => tournament.CriteriaSettings.Criterias.Select(c => c.Type)
+            .Contains(CriteriaType.SDS) ? Visibility.Visible : Visibility.Collapsed;
+    }
 
     #endregion
-
 
     [RelayCommand]
     private void CreateNewTournament()
@@ -191,7 +218,7 @@ public partial class MainViewModel : ObservableObject
 
                 if (t is not null)
                 {
-                    for (int i = 0; i < t.CriteriaSettings.Criterias.Length; i++)
+                    for (int i = 0; i < t.CriteriaSettings.Criterias.Count; i++)
                     {
                         t.CriteriaSettings.Criterias[i] = CriteriaSettings.AllCriteriaDict[t.CriteriaSettings.Criterias[i].Type];
                     }

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using GoCarlos.NET.Models.Enums;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace GoCarlos.NET.Models;
 
@@ -20,7 +21,7 @@ public partial class CriteriaSettings : ObservableObject
     };
 
     [ObservableProperty]
-    public partial Criteria[] Criterias { get; set; }
+    public partial ObservableCollection<Criteria> Criterias { get; set; }
 
     public CriteriaSettings()
     {
