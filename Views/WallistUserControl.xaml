@@ -103,11 +103,21 @@
                 <DataGridTextColumn Header="Bi" Binding="{Binding NrW, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="Pb" Binding="{Binding PairingBalancer, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="Body" Binding="{Binding Points, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <DataGridTextColumn Header="MMX" Binding="{Binding ScoreX, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <DataGridTextColumn Header="MM" Binding="{Binding Score, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <DataGridTextColumn Header="SODOS" Binding="{Binding SODOS, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <DataGridTextColumn Header="SOS" Binding="{Binding SOS, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <DataGridTextColumn Header="SOSOS" Binding="{Binding SOSOS, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="MMX"
+                                    Binding="{Binding ScoreX, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Visibility="{Binding DataContext.MM, Source={x:Reference dummyElement}, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="MM"
+                                    Binding="{Binding Score, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Visibility="{Binding DataContext.MM, Source={x:Reference dummyElement}, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="SODOS"
+                                    Binding="{Binding SODOS, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Visibility="{Binding DataContext.SODOS, Source={x:Reference dummyElement}, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="SOS"
+                                    Binding="{Binding SOS, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Visibility="{Binding DataContext.SOS, Source={x:Reference dummyElement}, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="SOSOS"
+                                    Binding="{Binding SOSOS, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Visibility="{Binding DataContext.SOSOS, Source={x:Reference dummyElement}, UpdateSourceTrigger=PropertyChanged}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

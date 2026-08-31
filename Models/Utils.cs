@@ -1,4 +1,5 @@
 ﻿using GoCarlos.NET.Models.Comparers;
+using GoCarlos.NET.Models.Converters;
 using GoCarlos.NET.Models.Enums;
 using Microsoft.VisualBasic;
 using Newtonsoft.Json;
@@ -10,7 +11,7 @@ namespace GoCarlos.NET.Models;
 
 internal static class Utils
 {
-    public const string VERSION = "0.1.1";
+    public const string VERSION = "0.1.2";
     public const string BYE = "0+";
     public const string QUESTION_MARK = "?";
     public const string EQUALS = "=";
@@ -21,6 +22,7 @@ internal static class Utils
 
     public static JsonSerializerSettings JsonSerializerSettings { get; } = new()
     {
+        Converters = [new DecimalConverter()],
         PreserveReferencesHandling = PreserveReferencesHandling.Objects,
         ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
         Formatting = Formatting.None,
@@ -280,10 +282,12 @@ internal static class Utils
 
         IOrderedEnumerable<Player> temp = OrderByHelper(settings.Criterias[0], players, lastRound);
 
-        for (int i = 1; i < settings.Criterias.Length; i++)
+        for (int i = 1; i < settings.Criterias.Count; i++)
         {
             temp = ThenByHelper(settings.Criterias[i], temp, lastRound);
         }
+
+        temp = ThenByHelper(CriteriaSettings.AllCriteriaDict[CriteriaType.RAT], temp, lastRound);
 
         return temp;
     }

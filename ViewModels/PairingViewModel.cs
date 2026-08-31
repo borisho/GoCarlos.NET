@@ -214,8 +214,8 @@ public partial class PairingViewModel : ObservableObject, IEquatable<PairingView
         Player black = pairing.Black;
         Player white = pairing.White;
 
-        white.ColorBalancer[roundNumber] = false;
-        black.ColorBalancer[roundNumber] = true;
+        white.ColorBalancer[roundNumber] = -1;
+        black.ColorBalancer[roundNumber] = 1;
 
         pairing.Black = white;
         pairing.White = black;
