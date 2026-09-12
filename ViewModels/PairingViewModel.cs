@@ -186,12 +186,20 @@ public partial class PairingViewModel : ObservableObject, IEquatable<PairingView
             };
         }
     }
-    public int Handicap
+    public string Handicap
     {
-        get => pairing.Handicap;
+        get => pairing.Handicap.ToString();
         set
         {
-            pairing.Handicap = value;
+            if (int.TryParse(value, out int handicap) || handicap < 0)
+            {
+                pairing.Handicap = handicap;
+            }
+            else
+            {
+                pairing.Handicap = 0;
+            }
+
             OnPropertyChanged(nameof(Handicap));
         }
     }

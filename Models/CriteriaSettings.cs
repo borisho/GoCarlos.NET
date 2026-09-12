@@ -1,11 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using GoCarlos.NET.Models.Converters;
 using GoCarlos.NET.Models.Enums;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace GoCarlos.NET.Models;
 
-public partial class CriteriaSettings : ObservableObject
+[method: JsonConstructor]
+public partial class CriteriaSettings() : ObservableObject
 {
     private static readonly Dictionary<CriteriaType, Criteria> allCriterias = new()
     {
@@ -21,19 +24,8 @@ public partial class CriteriaSettings : ObservableObject
     };
 
     [ObservableProperty]
-    public partial ObservableCollection<Criteria> Criterias { get; set; }
-
-    public CriteriaSettings()
-    {
-        Criterias =
-        [
-            allCriterias[CriteriaType.MMS],
-            allCriterias[CriteriaType.SDS],
-            allCriterias[CriteriaType.SOS],
-            allCriterias[CriteriaType.VZP],
-            allCriterias[CriteriaType.NUL]
-        ];
-    }
+    [JsonConverter(typeof(CriteriaConverter))]
+    public partial ObservableCollection<Criteria> Criterias { get; set; } = [];
 
     public static Dictionary<CriteriaType, Criteria> AllCriteriaDict => allCriterias;
 

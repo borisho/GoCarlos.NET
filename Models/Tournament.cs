@@ -23,7 +23,17 @@ public class Tournament()
 
     public List<Player> Players { get; set; } = [];
     public List<Round> Rounds { get; set; } = [];
-    public CriteriaSettings CriteriaSettings { get; set; } = new();
+    public CriteriaSettings CriteriaSettings { get; set; } = new()
+    {
+        Criterias =
+        [
+            CriteriaSettings.AllCriteriaDict[CriteriaType.MMS],
+            CriteriaSettings.AllCriteriaDict[CriteriaType.SDS],
+            CriteriaSettings.AllCriteriaDict[CriteriaType.SOS],
+            CriteriaSettings.AllCriteriaDict[CriteriaType.VZP],
+            CriteriaSettings.AllCriteriaDict[CriteriaType.NUL]
+        ],
+    };
 
     public PairingMethod TopGroupPairingMethod { get; set; } = PairingMethod.Cross;
     public PairingMethod PairingMethod { get; set; } = PairingMethod.Random;
