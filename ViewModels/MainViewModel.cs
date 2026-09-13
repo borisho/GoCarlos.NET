@@ -327,6 +327,36 @@ public partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private void MakeMsrPairings()
+    {
+        List<Player> players = [.. Utils.GetOrderedPlayerList(tournament.CriteriaSettings,
+            [.. unpairedPlayers.Select(pvm => pvm.Player)], tournament.CountCurrentRound)];
+
+        // Add BYE player if ODD number of Players
+        if (players.Count % 2 == 1) players.Add(tournament.ByePlayer);
+
+        List<(PlayerWrapper P1, PlayerWrapper P2)>? pairings = MsrGenerator.Pair(players);
+
+        if (pairings is null)
+        {
+            MessageBox.Show("Nepodarilo sa vytvoriť párovanie pre zadaných hráčov!", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
+
+        if (pairings.Count == 0) return;
+
+        Round currentRound = tournament.Rounds[tournament.CurrentRound];
+        foreach ((PlayerWrapper P1, PlayerWrapper P2) in pairings)
+        {
+            Pairing? _ = currentRound.AddPairing(P1.Player, P2.Player, 9, true, true);
+        }
+
+        tournament.ResetBoardNumbers();
+
+        GoToAndRefreshRound(CurrentRoundNumber);
+    }
+
+    [RelayCommand]
     private void MakePairings()
     {
         MakePairings([.. unpairedPlayers.Select(pvm => pvm.Player)]);

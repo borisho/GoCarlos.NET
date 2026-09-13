@@ -131,6 +131,8 @@
                           IsCheckable="True"/>
             </MenuItem>
             <MenuItem Header="Párovanie">
+                <MenuItem Header="Vylosovať algoritmom MSR"
+                          Command="{Binding MakeMsrPairingsCommand}"/>
                 <MenuItem Header="Vylosovať párovanie"
                           Command="{Binding MakePairingsCommand}"/>
                 <MenuItem Header="Zhodiť párovanie"
