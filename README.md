@@ -2,7 +2,7 @@
 
 Pairing program for Go tournaments. Created for the needs of the Slovak Championship and to learn something new.
 
-Current version: 0.1.2
+Current version: 0.1.3
 
 ## Support
 

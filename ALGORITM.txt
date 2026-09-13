@@ -1,0 +1,93 @@
+ALGORITMUS losovacieho programu GoCarlos :
+------------------------------------------
+
+Oznacenie:
+           - pre kazdeho hraca a zo skupiny A bude D(a) mnozina hracov,
+             s ktorymi nebude moct hrat
+           - m je prvy hrac skupiny A
+
+(START) -> (CH).
+
+(CH)    Ak je pocet hracov, ktory sa ide nalosovat, neparny,
+        doplnime na koniec pre zjednodusenie formulacie Algoritmu fiktivneho
+        hraca, ktory ma vzdy 0 bodov. Hrat s fiktivnym hracom znamena
+        pauzovat. Pokracujeme -> (1S).
+
+        Pozn. Krokmi (1S) az (3S) rozdelime vsetkych hracov do skupin s
+        parnymi poctami hracov, pricom plati, ze vsetci hraci z rovnakym
+        poctom bodov sa nachadzaju v jednej skupine.
+
+(1S)    Ak je kazdy hrac zaradeny do nejakej skupiny, pokracujeme -> (1).
+        Ak existuje hrac, ktory nepatri do ziadnej skupiny, zalozime novu
+        skupinu S a pokracujeme -> (2S)
+
+(2S)    Zoberieme mnozinu hracov s najvyssim poctom bodov tak, ze nie je
+        este podmnozinou ziadnej skupiny a zaradime ju do skupiny S.
+        Pokracujeme -> (3S).
+
+(3S)    Ak ma S neparny pocet clenov, pokracujeme -> (2S).
+        Ak ma S parny pocet clenov, pokracujeme -> (1S).
+
+(1)     Ak vo vsetkych skupinach maju hraci superov, algoritmus je hotovy.
+        -> (END).
+        Ak existuje skupina, v ktorej hracom este neboli prideleni superi,
+        zoberieme taku skupinu s najvyssim poctom bodov a oznacime ju A.
+        Pokracujeme -> (2)
+
+(2)     Utriedime hracov skupiny A podla dopredu urcenych kriterii. Vsetky
+        mnoziny D(a) su prazdne. Pokracujeme -> (3)
+
+(3)     Nech a je prvy hrac zo skupiny A, ktory je zatial bez supera.
+        Hracovi a hladame do dvojice najblizsieho nasledujuceho hraca z A,
+        ktory nepatri do skupiny D(a) (oznacime ho b), takeho, ze pre
+        dvojicu hracov (a,b) plati:
+
+        a) Hraci a, b este spolu nehrali.
+        b) Medzi hracmi a,b je rozdiel bodov max. jedna.
+        c) Ak je rozdiel bodov 1, hrac a hra prvy krat s hracom s nizsim
+           poctom bodov.
+        d) Ak je rozdiel bodov 1, hrac b hra prvy krat s hracom s vyssim
+           poctom bodov. ***
+
+        Ak sme takeho hraca b nasli a v A existuje hrac bez supera,
+        pokracujeme -> (3).  (Pozn. V ramci skupiny A sme utvorili dalsiu
+        dvojicu hracov.)
+
+        Ak sme takeho hraca b nasli a v A maju vsetci hraci supera,
+        pokracujeme -> (1). (Pozn. V skupine A sme kazdemu hracovi priradili
+        supera.)
+
+        Ak nejakemu hracovi a <> m nenajdeme hraca b s podmienkami
+        (3a) - (3d), vyprazdnime mnozinu D(a), zoberieme poslednu zostavenu
+        dvojicu (k,l), zrusime ju, hraca l zaradime naspat na povodne miesto
+        v skupine A a zaroven hraca l doplnime do skupiny D(k) (nemoze hrat
+        s hracom k). Dalej pokracujeme -> (3). (Pozn. Rozhodili sme poslednu
+        dvojicu.)
+
+        Ak takeho hraca b nenajdeme pre a = m, znamena to, ze v skupine A sa
+        nedaju zostavit dvojice tak, aby boli dodrzane kriteria (3a) az (3d).
+        Prestavame brat do uvahy kriteria (3c) a (3d) a pokracujeme -> (2).
+        (Pozn. Oslabili sme kriteria na zostavenie dvojic na (3a) a (3b).)
+
+        Ak sme ani takto nenasli supera pre a = m, znamena to, ze v skupine A
+        sa nedaju zostavit dvojice tak, aby boli dodrzane kriteria (3a) a
+        (3b). Prestavame brat do uvahy kriteria (3b) az (3d) a pokracujeme
+        -> (2). (Pozn. Oslabili sme kriteria na zostavenie dvojic na (3a).)
+
+        Ak sme ani takto nenasli supera pre a = m, znamena to, ze v skupine A
+        sa nedaju zostavit dvojice tak, aby bolo dodrzane kriterium (3a).
+        Pokracujeme -> (4).
+
+(4)     Ak existuje nasledujuca skupina B, spojime ju s A
+        (A := A zjednotenie B) a pri pouzitch vsetkych kriterii (3a) - (3d)
+        pokracujeme -> (2).
+        Ak A je posledna skupina, rozhodime vsetky zostavene dvojice v
+        predchadzajucej skupine (ozn. B) a skupiny A a B spojime
+        (t.j. A := A zjednotenie B). Pri pouziti vsetkych kriterii
+        (3a) - (3d) pokracujeme -> (2).
+        Pozn. Spojili sme A s nasledujucou resp. predchadzajucou skupinou.
+
+(END)
+
+*** Tu mozu byt zaradene ako dalsie este kriteria ohladne klubov,
+    miest a statov.
