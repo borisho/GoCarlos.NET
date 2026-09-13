@@ -173,6 +173,7 @@ public static class MsrGenerator
             currentGroupIndex++;
         }
 
+        // (END)
         if (finalPairings.Count == 0)
         {
             Debug.WriteLine("\nIt is not possible to make pairing without repetition of opponent.");
