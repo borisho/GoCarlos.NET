@@ -9,7 +9,8 @@ namespace GoCarlos.NET.Models;
 [method: JsonConstructor]
 public class Tournament()
 {
-    public Player ByePlayer { get; } = new() { Group = Group.Bye };
+    [JsonProperty]
+    public Player ByePlayer { get; private set; } = new() { Group = Group.Bye };
 
     public Tournament(int numberOfRounds) : this()
     {

@@ -37,7 +37,7 @@ public class Player()
         Score = StartScore;
     }
 
-    [JsonProperty] public Guid Guid { get; } = Guid.NewGuid();
+    [JsonProperty] public Guid Guid { get; private set; } = Guid.NewGuid();
     [JsonProperty] public HashSet<int> RoundsPlaying { get; } = [];
     [JsonProperty] public Dictionary<int, Player> Opponents { get; } = [];
     [JsonProperty] public Dictionary<int, Pairing> Pairings { get; } = [];
