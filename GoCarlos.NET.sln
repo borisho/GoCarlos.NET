@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.9.12120.119 stable
+VisualStudioVersion = 18.9.12120.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoCarlos.NET", "GoCarlos.NET.csproj", "{9756CAFC-F0AA-42BC-A412-7366D8B7C058}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoCarlos.NET", "GoCarlos.NET\GoCarlos.NET.csproj", "{FF6F5EEA-06AB-0747-BCA8-2149AD3ED575}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoCarlos.NET.Tests", "GoCarlos.NET.Tests\GoCarlos.NET.Tests.csproj", "{28098CA7-A1F4-4DA6-969B-29EDCA3D7B1D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9756CAFC-F0AA-42BC-A412-7366D8B7C058}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9756CAFC-F0AA-42BC-A412-7366D8B7C058}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9756CAFC-F0AA-42BC-A412-7366D8B7C058}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9756CAFC-F0AA-42BC-A412-7366D8B7C058}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF6F5EEA-06AB-0747-BCA8-2149AD3ED575}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF6F5EEA-06AB-0747-BCA8-2149AD3ED575}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF6F5EEA-06AB-0747-BCA8-2149AD3ED575}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF6F5EEA-06AB-0747-BCA8-2149AD3ED575}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28098CA7-A1F4-4DA6-969B-29EDCA3D7B1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28098CA7-A1F4-4DA6-969B-29EDCA3D7B1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28098CA7-A1F4-4DA6-969B-29EDCA3D7B1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28098CA7-A1F4-4DA6-969B-29EDCA3D7B1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
