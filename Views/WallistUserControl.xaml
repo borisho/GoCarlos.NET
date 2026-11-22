@@ -21,7 +21,8 @@
                 SelectionMode="Single"
                 SelectionUnit="FullRow"
                 IsReadOnly="True"
-                MouseUp="DataGrid_MouseUp">
+                MouseUp="DataGrid_MouseUp"
+                PreviewMouseRightButtonDown="WallList_PreviewMouseRightButtonDown">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem IsEnabled="False">
