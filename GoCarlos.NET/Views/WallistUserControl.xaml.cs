@@ -1,4 +1,5 @@
 ﻿using GoCarlos.NET.ViewModels;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -32,6 +33,22 @@ public partial class WallistUserControl : UserControl
                     viewModel.EditPlayerGroupCommand.Execute(selectedPlayer);
                 }
             }
+        }
+    }
+
+    private void WallList_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is not DataGrid grid || DataContext is not MainViewModel viewModel)
+        {
+            return;
+        }
+
+        var row = ItemsControl.ContainerFromElement(grid, e.OriginalSource as DependencyObject) as DataGridRow;
+
+        if (row?.Item is PlayerViewModel player)
+        {
+            grid.SelectedItem = player;
+            viewModel.SelectedPlayer = player;
         }
     }
 }
