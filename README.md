@@ -6,7 +6,7 @@ Current version: 0.1.3
 
 ## Support
 
-This project is no longer developed. The future versions will be created and reworked for cross-platform compatibility.
+This project is no longer actively developed. The future versions will be created and reworked for cross-platform compatibility.
 
 ## Features
 
@@ -25,7 +25,7 @@ This project is no longer developed. The future versions will be created and rew
 
 ## How to run GoCarlos.NET
 
-.NET 10 needs to be installed for Portable versions. Others x64 and x86 are self-contained and can run without .NET installed.
+.NET 11 needs to be installed for Portable versions. Others x64 and x86 are self-contained and can run without .NET installed.
 
 ## Author
 
