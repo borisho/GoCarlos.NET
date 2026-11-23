@@ -15,10 +15,6 @@ public class Tournament()
     public Tournament(int numberOfRounds) : this()
     {
         NumberOfRounds = numberOfRounds;
-        for (int i = 0; i < numberOfRounds; i++)
-        {
-            Rounds!.Add(new(i));
-        }
     }
 
     public string Name { get; set; } = "Turnaj";
