@@ -156,14 +156,12 @@ public partial class SettingsViewModel(MainViewModel mvm) : ObservableObject
                     MessageBox.Show("Minimálny počet kôl je 1, nastavujem 1!", "Upozornenie", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
 
-                mvm.Tournament.NumberOfRounds = nr;
-
                 if (mvm.Tournament.CurrentRound > nr - 1)
                 {
                     mvm.GoToAndRefreshRound(nr - 1);
                 }
 
-                mvm.Tournament.AddOrRemoveRounds();
+                mvm.Tournament.NumberOfRounds = nr;
             }
             else
             {

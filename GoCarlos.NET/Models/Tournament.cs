@@ -14,10 +14,7 @@ public class Tournament()
 
     public Tournament(int numberOfRounds) : this()
     {
-        for (int i = 0; i < numberOfRounds; i++)
-        {
-            Rounds!.Add(new(i));
-        }
+        NumberOfRounds = numberOfRounds;
     }
 
     public string Name { get; set; } = "Turnaj";
@@ -47,7 +44,24 @@ public class Tournament()
 
     public bool CountCurrentRound { get; set; } = false;
     public int CurrentRound { get; set; } = 0;
-    public int NumberOfRounds { get; set; } = 5;
+    public int NumberOfRounds
+    {
+        get;
+        set
+        {
+            if (value < 1)
+            {
+                throw new ArgumentException("Number of rounds must be at least 1!");
+            }
+            else if (value > 10)
+            {
+                throw new ArgumentException("Number of rounds must be at most 10!");
+            }
+
+            field = value;
+            AddOrRemoveRounds();
+        }
+    } = 5;
 
     public bool AutomaticTopGroupBar { get; set; } = true;
     public decimal SuperGroupGap { get; set; } = 2M;
@@ -80,7 +94,8 @@ public class Tournament()
                     int p1 = HandicapBasedMm == true ? (int)Math.Round(pairing.Black.Score) : Utils.GetValue(pairing.Black.Grade);
                     int p2 = HandicapBasedMm == true ? (int)Math.Round(pairing.White.Score) : Utils.GetValue(pairing.White.Grade);
 
-                    pairing.Handicap = HandicapReduction >= 9 ? 0 : Math.Max(0, Math.Abs(p1 - p2) - HandicapReduction);
+                    int handicap = HandicapReduction >= 9 ? 0 : Math.Max(0, Math.Abs(p1 - p2) - HandicapReduction);
+                    pairing.Handicap = HandicapMaxNine ? Math.Min(9, handicap) : handicap;
                 }
             }
         }
