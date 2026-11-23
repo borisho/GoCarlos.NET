@@ -181,7 +181,7 @@ public class Round(int roundNumber) : IEquatable<Round?>
         return (false, -1);
     }
 
-    public bool RemovePairingAndRefreshBoard(Pairing pairing)
+    private bool RemovePairingAndRefreshBoard(Pairing pairing)
     {
         (bool B, int I) = RemovePairing(pairing);
 

@@ -1,9 +1,5 @@
 ﻿using GoCarlos.NET.Models;
 using GoCarlos.NET.Models.Enums;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GoCarlos.NET.Tests.Models;
 
@@ -16,7 +12,7 @@ public class TournamentTests
     {
         player = new()
         {
-            Data = new EGD_Data()
+            Data = new()
             {
                 Name = "Test",
                 Last_Name = "Player",

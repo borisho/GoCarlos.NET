@@ -53,7 +53,7 @@ internal static class Utils
         return maxNine ? Math.Min(handicap, 9) : handicap;
     }
 
-    public static int GetHandicapGrade(Player p1, bool mmBased) => mmBased == true ? (int)Math.Round(p1.Score) : GetValue(p1.Grade);
+    public static int GetHandicapGrade(Player p1, bool mmBased) => mmBased ? (int)Math.Round(p1.Score) : GetValue(p1.Grade);
 
     public static T Next<T>(this T source) where T : struct
     {
