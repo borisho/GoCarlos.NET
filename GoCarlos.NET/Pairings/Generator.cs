@@ -130,29 +130,41 @@ public static class Generator
 
         Debug.WriteLine("\nOptimizing odd group before regular pairing");
 
-        var orderedByPairingBalancer = group
-            .OrderByDescending(w => CalculatePairingBalancer(w.Player))
-            .OrderByDescending(w => w.Player.Place);
+        var grouppedByPairingBalancer = group
+            .GroupBy(w => w.Player.CalculatePairingBalancer(_round!.RoundNumber))
+            .OrderByDescending(g => g.Key);
 
-        foreach (var wrapper in orderedByPairingBalancer)
+        PrintGroupsOfPlayers(grouppedByPairingBalancer);
+
+        foreach (var groupPb in grouppedByPairingBalancer)
         {
-            List<PlayerWrapper> tmp = [];
+            List<PlayerWrapper> candidates = [.. groupPb.OrderBy(w => w.Player.Place)];
 
-            foreach (var w in orderedByPairingBalancer)
+            while (candidates.Count > 0)
             {
-                if (w.Equals(wrapper)) continue;
-                tmp.Add(new(w.Player));
-            }
+                PlayerWrapper wrapper = _pairingMethod switch
+                {
+                    PairingMethod.Strongest => candidates.First(),
+                    PairingMethod.Weakest => candidates.Last(),
+                    _ => candidates.ElementAt(Utils.Random.Next(candidates.Count))
+                };
 
-            var tmpPairings = MakePairing(tmp);
-            
-            if (tmpPairings.Count != 0)
-            {
+                candidates.Remove(wrapper);
+
+                List<PlayerWrapper> tmp = [.. group
+                    .Where(w => !w.Equals(wrapper))
+                    .Select(w => new PlayerWrapper(w.Player)
+                    {
+                        TemporaryForbiddenPairing = [.. w.TemporaryForbiddenPairing]
+                    })];
+
+                if (MakePairing(tmp).Count == 0) continue;
+
                 List<PlayerWrapper> opponents = [.. pool
-                .Where(w => !w.Equals(wrapper))
-                .Where(w => w.Player.Score < wrapper.Player.Score)
-                .Where(w => !wrapper.TemporaryForbiddenPairing.Contains(w.Player))
-                .Where(w => !wrapper.ForbiddenPairing.Contains(w.Player))];
+                    .Where(w => !w.Equals(wrapper))
+                    .Where(w => w.Player.Score < wrapper.Player.Score)
+                    .Where(w => !wrapper.TemporaryForbiddenPairing.Contains(w.Player))
+                    .Where(w => !wrapper.ForbiddenPairing.Contains(w.Player))];
 
                 if (TryPairCloseMatch(pairings, wrapper, opponents)) return true;
             }
@@ -190,7 +202,7 @@ public static class Generator
         if (pool.Count == 0) return false;
 
         // Try to pair lowest pairing balancer first
-        pool = TryGetMinMetric(pool, w => CalculatePairingBalancer(w.Player));
+        pool = TryGetMinMetric(pool, w => w.Player.CalculatePairingBalancer(_round!.RoundNumber));
 
         if (_avoidSameCityPairing && _round!.RoundNumber < 2)
             pool = TryAvoidSameClub(wrapper, pool);
@@ -290,16 +302,6 @@ public static class Generator
         Debug.WriteLine("\nPlayers unpaired: ");
         PrintPlayer(w1.Player);
         PrintPlayer(w2.Player);
-    }
-
-    private static int CalculatePairingBalancer(Player player)
-    {
-        int pb = 0;
-        for (int i = 0; i < _round!.RoundNumber; i++)
-        {
-            pb += player.GetPairingBalancer(i);
-        }
-        return pb;
     }
 
     private static List<PlayerWrapper> TryGetMinMetric(

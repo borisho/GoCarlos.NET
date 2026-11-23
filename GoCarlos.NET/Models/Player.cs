@@ -79,8 +79,32 @@ public class Player()
     public decimal SOSOS { get; set; } = 0M;
     public decimal SODOS { get; set; } = 0M;
 
-    public sbyte PlayedWhite(int roundNumber) => ColorBalancer.TryGetValue(roundNumber, out sbyte w) ? w : (sbyte)0;
-    public int GetPairingBalancer(int roundNumber) => PairingBalancer.GetValueOrDefault(roundNumber);
+    private sbyte PlayedWhite(int roundNumber) => ColorBalancer.TryGetValue(roundNumber, out sbyte w) ? w : (sbyte)0;
+
+    public sbyte CalculateColorBalancer(int roundNumber)
+    {
+        sbyte cb = 0;
+        for (int i = 0; i <= roundNumber; i++)
+        {
+            if (PlayedWhite(i) == 1)
+            {
+                cb++;
+            }
+        }
+        return cb;
+    }
+
+    private int GetPairingBalancer(int roundNumber) => PairingBalancer.GetValueOrDefault(roundNumber);
+
+    public int CalculatePairingBalancer(int roundNumber)
+    {
+        int pb = 0;
+        for (int i = 0; i <= roundNumber; i++)
+        {
+            pb += GetPairingBalancer(i);
+        }
+        return pb;
+    }
 
     public override bool Equals(object? obj)
     {

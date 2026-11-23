@@ -53,18 +53,8 @@ public partial class PlayerViewModel(Tournament tournament, Player player) : Obs
             int roundNumber = CurrentRound;
 
             if (!tournament.CountCurrentRound) roundNumber--;
-
-            int nrw = 0;
-
-            for (int i = 0; i <= roundNumber; i++)
-            {
-                if (player.PlayedWhite(i) == 1)
-                {
-                    nrw++;
-                }
-            }
-
-            return nrw;
+            
+            return player.CalculateColorBalancer(roundNumber);
         }
     }
     public int PairingBalancer
@@ -75,14 +65,7 @@ public partial class PlayerViewModel(Tournament tournament, Player player) : Obs
 
             if (!tournament.CountCurrentRound) roundNumber--;
 
-            int pb = 0;
-
-            for (int i = 0; i <= roundNumber; i++)
-            {
-                pb += player.GetPairingBalancer(i);
-            }
-
-            return pb;
+            return player.CalculatePairingBalancer(roundNumber);
         }
     }
 

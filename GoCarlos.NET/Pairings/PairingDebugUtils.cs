@@ -4,10 +4,10 @@ using System.Diagnostics;
 
 namespace GoCarlos.NET.Pairings;
 
-public static class PairingDebugUtils
+internal static class PairingDebugUtils
 {
     [Conditional("DEBUG")]
-    public static void PrintPlayer(Player player)
+    internal static void PrintPlayer(Player player)
     {
         Debug.WriteLine(player.Data.Last_Name + ", " 
             + player.Data.Name + ": " 
@@ -18,7 +18,7 @@ public static class PairingDebugUtils
     }
 
     [Conditional("DEBUG")]
-    public static void PrintPlayers(IEnumerable<PlayerWrapper> players)
+    internal static void PrintPlayers(IEnumerable<PlayerWrapper> players)
     {
         foreach (var wrapper in players)
         {
@@ -28,10 +28,11 @@ public static class PairingDebugUtils
     }   
 
     [Conditional("DEBUG")]
-    public static void PrintGroupsOfPlayers(IEnumerable<IEnumerable<PlayerWrapper>> playerGroups)
+    internal static void PrintGroupsOfPlayers(IEnumerable<IEnumerable<PlayerWrapper>> playerGroups)
     {
         foreach (var group in playerGroups)
         {
+            Debug.WriteLine("\nGroup:");
             PrintPlayers(group);
         }
     }
@@ -47,7 +48,7 @@ public static class PairingDebugUtils
     }
 
     [Conditional("DEBUG")]
-    public static void PrintPairings(IEnumerable<(PlayerWrapper P1, PlayerWrapper P2)> pairings)
+    internal static void PrintPairings(IEnumerable<(PlayerWrapper P1, PlayerWrapper P2)> pairings)
     {
         Debug.WriteLine("\nPairings:");
         foreach (var (p1, p2) in pairings)
