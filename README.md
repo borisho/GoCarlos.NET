@@ -33,4 +33,9 @@ Boris Dovčík
 
 ## License
 
-GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
+Copyright (C) 2023 Boris Dovčík
+
+GoCarlos.NET is free software licensed under the **GNU General Public License v3.0 or later**.
+You may copy, modify, and redistribute this software under the terms of the GPL-3.0-or-later license.
+
+The complete license text is available in [LICENSE](LICENSE).
