@@ -39,4 +39,8 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="GoCarlos.NET.Tests" />
+  </ItemGroup>
+
 </Project>

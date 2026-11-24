@@ -107,11 +107,8 @@ public class Tournament()
             {
                 if (pairing.Result.Equals(Result.NONE))
                 {
-                    int p1 = HandicapBasedMm == true ? (int)Math.Round(pairing.Black.Score) : Utils.GetValue(pairing.Black.Grade);
-                    int p2 = HandicapBasedMm == true ? (int)Math.Round(pairing.White.Score) : Utils.GetValue(pairing.White.Grade);
-
-                    int handicap = HandicapReduction >= 9 ? 0 : Math.Max(0, Math.Abs(p1 - p2) - HandicapReduction);
-                    pairing.Handicap = HandicapMaxNine ? Math.Min(9, handicap) : handicap;
+                    pairing.Handicap = Utils.CalculateHandicap(pairing.Black, pairing.White,
+                        HandicapReduction, HandicapBasedMm, HandicapMaxNine);
                 }
             }
         }
@@ -315,7 +312,7 @@ public class Tournament()
         {
             Player p = orderedList[i];
             p.Place = i + 1;
-            p.SharedPlace = temp is not null && Utils.ComparePlayerPlace(CriteriaSettings, temp, p, CountCurrentRound);
+            p.SharedPlace = temp is not null && Utils.IsPlayerPlaceShared(CriteriaSettings, temp, p, CountCurrentRound);
             temp = p;
         }
     }
