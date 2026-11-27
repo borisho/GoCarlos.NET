@@ -80,6 +80,7 @@ public class UtilsTests
     [InlineData(false, 0, 30, 20, 10)]
     [InlineData(false, 0, 30, 0, 30)]
     [InlineData(false, 8, 30, 0, 22)]
+    [InlineData(false, 9, 30, 0, 0)]
     [InlineData(false, 1, 30, 25, 4)]
     [InlineData(false, 2, 30, 25, 3)]
     [InlineData(false, 3, 30, 25, 2)]
@@ -93,7 +94,7 @@ public class UtilsTests
     [InlineData(true, 2, 30, 25, 3)]
     [InlineData(true, 3, 30, 25, 2)]
     [InlineData(true, 4, 30, 25, 1)]
-    public void CalculateHandicap_BasedOnMM_EqualsExcpectedValue(
+    public void CalculateHandicap_BasedOnMM_EqualsExpectedValue(
         bool maxNine,
         int reduction,
         decimal strongerScore,
@@ -112,6 +113,7 @@ public class UtilsTests
     [InlineData(false, 0, "1d", "10k", 10)]
     [InlineData(false, 0, "1d", "30k", 30)]
     [InlineData(false, 8, "1d", "30k", 22)]
+    [InlineData(false, 9, "1d", "30k", 0)]
     [InlineData(false, 1, "1d", "5k", 4)]
     [InlineData(false, 2, "1d", "5k", 3)]
     [InlineData(false, 3, "1d", "5k", 2)]
@@ -125,7 +127,7 @@ public class UtilsTests
     [InlineData(true, 2, "1d", "5k", 3)]
     [InlineData(true, 3, "1d", "5k", 2)]
     [InlineData(true, 4, "1d", "5k", 1)]
-    public void CalculateHandicap_BasedOnGrade_EqualsExcpectedValue(
+    public void CalculateHandicap_BasedOnGrade_EqualsExpectedValue(
         bool maxNine,
         int reduction,
         string strongerGrade,
@@ -305,7 +307,7 @@ public class UtilsTests
     [Theory]
     [InlineData(CriteriaType.NUL)]
     [InlineData((CriteriaType)99)]
-    public void ComparePlayerPlace_TreatsUnsupportedCriteriaAsEqual(CriteriaType type)
+    public void IsPlayerPlaceShared_TreatsUnsupportedCriteriaAsEqual(CriteriaType type)
     {
         CriteriaSettings settings = CreateSettings(type);
 
@@ -315,7 +317,7 @@ public class UtilsTests
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
-    public void ComparePlayerPlace_UsesCurrentRoundMcMahonScore(bool countCurrentRound)
+    public void IsPlayerPlaceShared_UsesCurrentRoundMcMahonScore(bool countCurrentRound)
     {
         var first = CreatePlayer("1d");
         var second = CreatePlayer("1d");
@@ -328,7 +330,7 @@ public class UtilsTests
     }
 
     [Fact]
-    public void ComparePlayerPlace_ConsidersAllFiveCriteria()
+    public void IsPlayerPlaceShared_ConsidersAllFiveCriteria()
     {
         var first = CreatePlayer("1d");
         var second = CreatePlayer("1d");
@@ -344,7 +346,7 @@ public class UtilsTests
     }
 
     [Fact]
-    public void ComparePlayerPlace_TreatsMutualWinsAsDifferentAndDrawsAsEqual()
+    public void IsPlayerPlaceShared_TreatsMutualWinsAsDifferentAndDrawsAsEqual()
     {
         var black = CreatePlayer("1d");
         var white = CreatePlayer("1d");
@@ -374,8 +376,9 @@ public class UtilsTests
 
     private static CriteriaSettings CreateSettings(params CriteriaType[] types)
     {
-        List<Criteria> criteria = [.. types.Select(type => CriteriaSettings.AllCriteriaDict.GetValueOrDefault(type) 
-        ?? new Criteria(type, type.ToString(), ""))];
+        List<Criteria> criteria = [.. types.Select(type =>
+            CriteriaSettings.AllCriteriaDict.GetValueOrDefault(type)
+            ?? new Criteria(type, type.ToString(), ""))];
 
         while (criteria.Count < 5)
             criteria.Add(CriteriaSettings.AllCriteriaDict[CriteriaType.NUL]);

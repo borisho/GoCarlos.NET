@@ -24,12 +24,12 @@ public class MutualGameComparer : IComparer<Player>
 {
     public int Compare(Player? x, Player? y)
     {
-        if (x == null || y == null) return 0;
+        if (x is null || y is null || ReferenceEquals(x, y)) return 0;
 
         var pairing = x.Pairings.Values.FirstOrDefault(p => 
             p.Black.Equals(y) || p.White.Equals(y));
 
-        if (pairing == null) return 0;
+        if (pairing is null) return 0;
 
         bool isBlack = pairing.Black.Equals(y);
 
