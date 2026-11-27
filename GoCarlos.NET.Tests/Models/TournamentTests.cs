@@ -65,7 +65,7 @@ public class TournamentTests
     [InlineData(3, 2, 25)]
     [InlineData(2, 3, 25)]
     [InlineData(1, 4, 25)]
-    public void UpdatePairingHandicaps_BasedOnMM_NoHandicapCap_EqualsExcpectedValue(
+    public void UpdatePairingHandicaps_BasedOnMM_NoHandicapCap_EqualsExpectedValue(
         int expectedHandicap,
         int handicapReduction,
         decimal score
@@ -106,7 +106,7 @@ public class TournamentTests
     [InlineData(3, 2, 25)]
     [InlineData(2, 3, 25)]
     [InlineData(1, 4, 25)]
-    public void UpdatePairingHandicaps_BasedOnMM_HandicapCap_EqualsExcpectedValue(
+    public void UpdatePairingHandicaps_BasedOnMM_HandicapCap_EqualsExpectedValue(
         int expectedHandicap,
         int handicapReduction,
         decimal score
@@ -147,7 +147,7 @@ public class TournamentTests
     [InlineData(3, 2, "5k")]
     [InlineData(2, 3, "5k")]
     [InlineData(1, 4, "5k")]
-    public void UpdatePairingHandicaps_BasedOnGrade_NoHandicapCap_EqualsExcpectedValue(
+    public void UpdatePairingHandicaps_BasedOnGrade_NoHandicapCap_EqualsExpectedValue(
         int expectedHandicap,
         int handicapReduction,
         string grade
@@ -188,7 +188,7 @@ public class TournamentTests
     [InlineData(3, 2, "5k")]
     [InlineData(2, 3, "5k")]
     [InlineData(1, 4, "5k")]
-    public void UpdatePairingHandicaps_BasedOnGrade_HandicapCap_EqualsExcpectedValue(
+    public void UpdatePairingHandicaps_BasedOnGrade_HandicapCap_EqualsExpectedValue(
         int expectedHandicap,
         int handicapReduction,
         string grade

@@ -17,7 +17,6 @@
 using GoCarlos.NET.Models.Comparers;
 using GoCarlos.NET.Models.Converters;
 using GoCarlos.NET.Models.Enums;
-using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -45,7 +44,7 @@ internal static class Utils
         MaxDepth = 256
     };
 
-    public static Random Random { get; } = new(DateAndTime.Now.Millisecond);
+    public static Random Random => Random.Shared;
 
     public static IEnumerable<T> DropLast<T>(this IEnumerable<T> source)
     {
@@ -69,7 +68,9 @@ internal static class Utils
         return maxNine ? Math.Min(handicap, 9) : handicap;
     }
 
-    public static int GetHandicapGrade(Player p1, bool mmBased) => mmBased ? (int)Math.Round(p1.Score) : GetValue(p1.Grade);
+    public static int GetHandicapGrade(Player p1, bool mmBased) => mmBased
+        ? (int)Math.Round(p1.Score, MidpointRounding.AwayFromZero)
+        : GetValue(p1.Grade);
 
     public static T Next<T>(this T source) where T : struct
     {
@@ -293,34 +294,34 @@ internal static class Utils
         };
     }
 
-    public static IOrderedEnumerable<Player> GetOrderedPlayerList(CriteriaSettings settings, List<Player> players, bool lastRound)
+    public static IOrderedEnumerable<Player> GetOrderedPlayerList(
+        CriteriaSettings settings, List<Player> players, bool countCurrentRound)
     {
 
-        IOrderedEnumerable<Player> temp = OrderByHelper(settings.Criterias[0], players, lastRound);
+        IOrderedEnumerable<Player> temp = OrderByHelper(settings.Criterias[0], players, countCurrentRound);
 
         for (int i = 1; i < settings.Criterias.Count; i++)
         {
-            temp = ThenByHelper(settings.Criterias[i], temp, lastRound);
+            temp = ThenByHelper(settings.Criterias[i], temp, countCurrentRound);
         }
 
-        temp = ThenByHelper(CriteriaSettings.AllCriteriaDict[CriteriaType.RAT], temp, lastRound);
+        temp = ThenByHelper(CriteriaSettings.AllCriteriaDict[CriteriaType.RAT], temp, countCurrentRound);
 
         return temp;
     }
 
     private static IOrderedEnumerable<Player> OrderByHelper(Criteria criteria, List<Player> players, bool countCurrentRound)
     {
-        return criteria.Abbreviation switch
+        return criteria.Type switch
         {
-            "NUL" => players.OrderByDescending(p => false),
-            "POV" => players.OrderByDescending(p => p.Points),
-            "MMS" => countCurrentRound ? players.OrderByDescending(p => p.ScoreX) : players.OrderByDescending(p => p.Score),
-            "RAT" => players.OrderByDescending(p => p.Rating),
-            "TRD" => players.OrderByDescending(p => GetValue(p.Grade)),
-            "SOS" => players.OrderByDescending(p => p.SOS),
-            "SDS" => players.OrderByDescending(p => p.SODOS),
-            "SSS" => players.OrderByDescending(p => p.SOSOS),
-            "VZP" => players.OrderByDescending(p => p, mutualGameComparer),
+            CriteriaType.POV => players.OrderByDescending(p => p.Points),
+            CriteriaType.MMS => countCurrentRound ? players.OrderByDescending(p => p.ScoreX) : players.OrderByDescending(p => p.Score),
+            CriteriaType.RAT => players.OrderByDescending(p => p.Rating),
+            CriteriaType.TRD => players.OrderByDescending(p => GetValue(p.Grade)),
+            CriteriaType.SOS => players.OrderByDescending(p => p.SOS),
+            CriteriaType.SDS => players.OrderByDescending(p => p.SODOS),
+            CriteriaType.SSS => players.OrderByDescending(p => p.SOSOS),
+            CriteriaType.VZP => players.OrderByDescending(p => p, mutualGameComparer),
             _ => players.OrderByDescending(p => false)
         };
     }
@@ -341,18 +342,18 @@ internal static class Utils
         };
     }
 
-    public static bool ComparePlayerPlace(CriteriaSettings settings, Player p1, Player p2, bool countCurrentRound)
+    public static bool IsPlayerPlaceShared(CriteriaSettings settings, Player p1, Player p2, bool countCurrentRound)
     {
-        bool c1 = ComparePlayerPlaceHelper(settings.Criterias[0], p1, p2, countCurrentRound);
-        bool c2 = ComparePlayerPlaceHelper(settings.Criterias[1], p1, p2, countCurrentRound);
-        bool c3 = ComparePlayerPlaceHelper(settings.Criterias[2], p1, p2, countCurrentRound);
-        bool c4 = ComparePlayerPlaceHelper(settings.Criterias[3], p1, p2, countCurrentRound);
-        bool c5 = ComparePlayerPlaceHelper(settings.Criterias[4], p1, p2, countCurrentRound);
+        bool c1 = IsPlayerPlaceSharedHelper(settings.Criterias[0], p1, p2, countCurrentRound);
+        bool c2 = IsPlayerPlaceSharedHelper(settings.Criterias[1], p1, p2, countCurrentRound);
+        bool c3 = IsPlayerPlaceSharedHelper(settings.Criterias[2], p1, p2, countCurrentRound);
+        bool c4 = IsPlayerPlaceSharedHelper(settings.Criterias[3], p1, p2, countCurrentRound);
+        bool c5 = IsPlayerPlaceSharedHelper(settings.Criterias[4], p1, p2, countCurrentRound);
 
         return c1 && c2 && c3 && c4 && c5;
     }
 
-    private static bool ComparePlayerPlaceHelper(Criteria criteria, Player p1, Player p2, bool countCurrentRound)
+    private static bool IsPlayerPlaceSharedHelper(Criteria criteria, Player p1, Player p2, bool countCurrentRound)
     {
         return criteria.Type switch
         {
