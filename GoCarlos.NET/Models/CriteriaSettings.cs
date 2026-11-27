@@ -39,9 +39,15 @@ public partial class CriteriaSettings() : ObservableObject
         { CriteriaType.VZP, new Criteria(CriteriaType.VZP, "Vzájomná partia", "Víťaz vzájomnej partie berie lepšiu priečku") }
     };
 
+    public CriteriaSettings(IEnumerable<Criteria> criterias) : this()
+    {
+        Criterias = [.. criterias];
+    }
+
     [ObservableProperty]
+    [JsonProperty]
     [JsonConverter(typeof(CriteriaConverter))]
-    public partial ObservableCollection<Criteria> Criterias { get; set; } = [];
+    public partial ObservableCollection<Criteria> Criterias { get; private set; } = [];
 
     public static Dictionary<CriteriaType, Criteria> AllCriteriaDict => allCriterias;
 

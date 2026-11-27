@@ -301,6 +301,9 @@ public static class MsrGenerator
                     {
                         Debug.WriteLine("First player could not find opponent with ALL criteria, weakening to REDUCED");
                         CS = CriteriaStrength.REDUCED;
+                        // (2) Vsetky mnoziny D(a) su prazdne.
+                        A.Players.ForEach(p => p.TemporaryForbiddenPairing.Clear());
+                        aIndex = 0;
                         continue;
                     }
                     /*
@@ -313,6 +316,9 @@ public static class MsrGenerator
                     {
                         Debug.WriteLine("First player could not find opponent with REDUCED criteria, weakening to NONE");
                         CS = CriteriaStrength.NONE;
+                        // (2) Vsetky mnoziny D(a) su prazdne.
+                        A.Players.ForEach(p => p.TemporaryForbiddenPairing.Clear());
+                        aIndex = 0;
                         continue;
                     }
                     /*
@@ -377,6 +383,8 @@ public static class MsrGenerator
                     if (b.Player.PairingBalancer.Values.Any(p => p > 0))
                         continue;
                 }
+
+                return b;
             }
             else if (CS == CriteriaStrength.REDUCED)
             {

@@ -37,17 +37,13 @@ public class Tournament()
 
     public List<Player> Players { get; set; } = [];
     public List<Round> Rounds { get; set; } = [];
-    public CriteriaSettings CriteriaSettings { get; set; } = new()
-    {
-        Criterias =
-        [
+    public CriteriaSettings CriteriaSettings { get; set; } = new([
             CriteriaSettings.AllCriteriaDict[CriteriaType.MMS],
             CriteriaSettings.AllCriteriaDict[CriteriaType.SDS],
             CriteriaSettings.AllCriteriaDict[CriteriaType.SOS],
             CriteriaSettings.AllCriteriaDict[CriteriaType.VZP],
             CriteriaSettings.AllCriteriaDict[CriteriaType.NUL]
-        ],
-    };
+        ]);
 
     public PairingMethod TopGroupPairingMethod { get; set; } = PairingMethod.Cross;
     public PairingMethod PairingMethod { get; set; } = PairingMethod.Random;
@@ -149,6 +145,11 @@ public class Tournament()
 
     public void CalculateCriteria(int roundNumber)
     {
+        if (AutomaticTopGroupBar)
+        {
+            TopGroupBar = CalculateTopBar();
+        }
+
         if (roundNumber < 1)
         {
             foreach (Player player in Players)
@@ -221,22 +222,11 @@ public class Tournament()
 
     private decimal StartScore(Player player)
     {
-        TopGroupBar = AutomaticTopGroupBar ? CalculateTopBar() : TopGroupBar;
-
         decimal getScore(int score)
         {
-            if (score > TopGroupBar)
-            {
-                return TopGroupBar;
-            }
-            else if (score < BottomGroupBar)
-            {
-                return BottomGroupBar;
-            }
-            else
-            {
-                return score;
-            }
+            if (score > TopGroupBar) return TopGroupBar;
+            else if (score < BottomGroupBar) return BottomGroupBar;
+            return score;
         }
 
         return player.Group switch
