@@ -27,7 +27,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -53,7 +55,7 @@ public partial class MainViewModel : ObservableObject
 
     public MainViewModel()
     {
-        tournament = new(5);
+        SetTournament(new(5));
 
         playerViewModel = [];
         PlayerData = CollectionViewSource.GetDefaultView(playerViewModel);
@@ -67,14 +69,6 @@ public partial class MainViewModel : ObservableObject
         UnpairedPlayers = CollectionViewSource.GetDefaultView(unpairedPlayers);
         UnpairedPlayers.SortDescriptions.Add(new SortDescription(nameof(PlayerViewModel.Score), ListSortDirection.Descending));
         UnpairedPlayers.SortDescriptions.Add(new SortDescription(nameof(PlayerViewModel.Gor), ListSortDirection.Descending));
-
-        tournament.CriteriaSettings.Criterias.CollectionChanged += (s, e) =>
-        {
-            OnPropertyChanged(nameof(MM));
-            OnPropertyChanged(nameof(SOS));
-            OnPropertyChanged(nameof(SOSOS));
-            OnPropertyChanged(nameof(SODOS));
-        };
     }
 
     public ICollectionView PlayerData { get; }
@@ -205,10 +199,9 @@ public partial class MainViewModel : ObservableObject
             MessageBoxButton.YesNo,
             MessageBoxImage.Warning) == MessageBoxResult.Yes)
         {
-            tournament = new(5);
-
-            GoToAndRefreshRound(0);
             ClearObservables();
+            SetTournament(new(5));
+            GoToAndRefreshRound(0);
         }
     }
 
@@ -223,7 +216,7 @@ public partial class MainViewModel : ObservableObject
         };
 
         if (ofd.ShowDialog() == true)
-        {   
+        {
             try
             {
                 var fileStream = ofd.OpenFile();
@@ -239,7 +232,7 @@ public partial class MainViewModel : ObservableObject
                         t.CriteriaSettings.Criterias[i] = CriteriaSettings.AllCriteriaDict[t.CriteriaSettings.Criterias[i].Type];
                     }
 
-                    tournament = t;
+                    SetTournament(t);
 
                     playerViewModel.Clear();
                     pairingViewModel.Clear();
@@ -1003,6 +996,18 @@ public partial class MainViewModel : ObservableObject
         IsCurrentRoundCounting = !IsCurrentRoundCounting;
     }
 
+    [RelayCommand]
+    private static void Exit()
+    {
+        if (MessageBox.Show("Ukončiť program? Neuložené zmeny budú navždy stratené!",
+            "Ukončiť program",
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Warning) == MessageBoxResult.Yes)
+        {
+            Application.Current.Shutdown();
+        }
+    }
+
     private void ClearObservables()
     {
         playerViewModel.Clear();
@@ -1069,17 +1074,26 @@ public partial class MainViewModel : ObservableObject
         OnPropertyChanged(nameof(R9V));
         OnPropertyChanged(nameof(R10V));
         OnPropertyChanged(nameof(IsSuitableToDelete));
+        RaiseCriteriaVisibilityChanged();
     }
 
-    [RelayCommand]
-    private static void Exit()
+    private void OnCriteriasChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        => RaiseCriteriaVisibilityChanged();
+
+    private void RaiseCriteriaVisibilityChanged()
     {
-        if (MessageBox.Show("Ukončiť program? Neuložené zmeny budú navždy stratené!",
-            "Ukončiť program",
-            MessageBoxButton.YesNo,
-            MessageBoxImage.Warning) == MessageBoxResult.Yes)
-        {
-            Application.Current.Shutdown();
-        }
+        OnPropertyChanged(nameof(MM));
+        OnPropertyChanged(nameof(SOS));
+        OnPropertyChanged(nameof(SOSOS));
+        OnPropertyChanged(nameof(SODOS));
+    }
+
+    [MemberNotNull(nameof(tournament))]
+    private void SetTournament(Tournament newTournament)
+    {
+        tournament?.CriteriaSettings.Criterias.CollectionChanged -= OnCriteriasChanged;
+        tournament = newTournament;
+        tournament.CriteriaSettings.Criterias.CollectionChanged += OnCriteriasChanged;
+        RaiseCriteriaVisibilityChanged();
     }
 }

@@ -46,7 +46,7 @@ public class Player()
         }
         else
         {
-            Rating = int.Parse(data.Gor);
+            Rating = int.TryParse(data.Gor, out int parsedRating) ? parsedRating : Utils.GetRating(Grade);
         }
         StartScore = Utils.GetValue(Grade);
 
