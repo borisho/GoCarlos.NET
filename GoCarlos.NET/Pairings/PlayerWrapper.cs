@@ -15,8 +15,8 @@
 // with GoCarlos.NET. If not, see <https://www.gnu.org/licenses/>.
 
 using GoCarlos.NET.Models;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GoCarlos.NET.Pairings;
 
@@ -27,15 +27,17 @@ public sealed class PlayerWrapper(Player player)
     public HashSet<Player> TemporaryForbiddenPairing { get; set; } = [];
     public HashSet<Player> ForbiddenPairing { get; set; } = [.. player.Opponents.Values];
 
+    public int PairingBalancer { get; init; }
+
+    public bool PlayedDown { get; } = player.PairingBalancer.Values.Any(p => p < 0);
+    public bool PlayedUp { get; } = player.PairingBalancer.Values.Any(p => p > 0);
+
     public override bool Equals(object? obj)
     {
         return obj is PlayerWrapper wrapper && Player.Equals(wrapper.Player);
     }
 
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(Player, TemporaryForbiddenPairing, ForbiddenPairing);
-    }
+    public override int GetHashCode() => Player.GetHashCode();
 
     public override string? ToString() => Player.ToString();
 }

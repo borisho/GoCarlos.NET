@@ -376,12 +376,10 @@ public static class MsrGenerator
                 if (Math.Abs(scoreDiff) == 1)
                 {
                     // c) Ak je rozdiel bodov 1, hrac a hra prvy krat s hracom s nizsim poctom bodov.
-                    if (a.Player.PairingBalancer.Values.Any(p => p < 0))
-                        continue;
+                    if (a.PlayedDown) continue;
 
                     // d) Ak je rozdiel bodov 1, hrac b hra prvy krat s hracom s vyssim poctom bodov.
-                    if (b.Player.PairingBalancer.Values.Any(p => p > 0))
-                        continue;
+                    if (b.PlayedUp) continue;
                 }
 
                 return b;

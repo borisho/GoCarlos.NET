@@ -21,7 +21,6 @@ using GoCarlos.NET.Models;
 using GoCarlos.NET.Models.Enums;
 using GoCarlos.NET.Models.Records;
 using GoCarlos.NET.Pairings;
-using Microsoft.VisualBasic;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
@@ -96,27 +95,9 @@ public partial class MainViewModel : ObservableObject
             return Visibility.Collapsed;
         }
     }
-    public Visibility IsSuitableToDelete
-    {
-        get
-        {
-            if (SelectedPlayer is not null)
-            {
-                foreach (Round r in Tournament.Rounds)
-                {
-                    foreach (Pairing p in r.Pairings)
-                    {
-                        if (p.Black.Equals(SelectedPlayer.Player) || p.White.Equals(SelectedPlayer.Player))
-                        {
-                            return Visibility.Collapsed;
-                        }
-                    }
-                }
-            }
-
-            return Visibility.Visible;
-        }
-    }
+    public Visibility IsSuitableToDelete => SelectedPlayer is not null
+        && SelectedPlayer.Player.Pairings.Count > 0
+        ? Visibility.Collapsed : Visibility.Visible;
 
     public Tournament Tournament { get => tournament; }
 
@@ -374,10 +355,10 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void DropPairings()
     {
-        List<Pairing> pairings = [.. tournament.Rounds[tournament.CurrentRound].Pairings];
-        foreach (Pairing p in pairings)
+        Round round = tournament.Rounds[tournament.CurrentRound];
+        foreach (Pairing p in round.Pairings.ToList())
         {
-            DeletePairing(p);
+            round.RemovePairing(p);
         }
 
         GoToAndRefreshRound(CurrentRoundNumber);
@@ -580,6 +561,12 @@ public partial class MainViewModel : ObservableObject
             Filter = "Text documents (.txt)|*.txt"
         };
 
+        int scoreLength = Math.Max(2, playerViewModel.Max(p => p.Score.ToString().Length));
+        int scoreXLength = Math.Max(3, playerViewModel.Max(p => p.ScoreX.ToString().Length));
+        int sosLength = Math.Max(3, playerViewModel.Max(p => p.SOS.ToString().Length));
+        int sososLength = Math.Max(5, playerViewModel.Max(p => p.SOSOS.ToString().Length));
+        int sodosLength = Math.Max(5, playerViewModel.Max(p => p.SODOS.ToString().Length));
+
         if (sfd.ShowDialog() == true)
         {
             using Stream myStream = sfd.OpenFile();
@@ -730,12 +717,6 @@ public partial class MainViewModel : ObservableObject
 
         void PrintSelectedCriteria(StreamWriter wText, PlayerViewModel? p)
         {
-            int scoreLength = Math.Max(2, playerViewModel.Max(p => p.Score.ToString().Length));
-            int scoreXLength = Math.Max(3, playerViewModel.Max(p => p.ScoreX.ToString().Length));
-            int sosLength = Math.Max(3, playerViewModel.Max(p => p.SOS.ToString().Length));
-            int sososLength = Math.Max(5, playerViewModel.Max(p => p.SOSOS.ToString().Length));
-            int sodosLength = Math.Max(5, playerViewModel.Max(p => p.SODOS.ToString().Length));
-
             foreach (Criteria c in tournament.CriteriaSettings.Criterias)
             {
                 switch (c.Type)
@@ -914,7 +895,6 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void GeneratePlayers(int number)
     {
-        Random random = new(DateAndTime.Now.Millisecond);
         List<string> clubs =
         [
             "Kosi",
@@ -950,11 +930,11 @@ public partial class MainViewModel : ObservableObject
         {
             EGD_Data data = new()
             {
-                Club = clubs[random.Next(10)],
-                Country_Code = countryCode[random.Next(10)],
-                Name = random.NextInt64(100000, 1000000).ToString(),
-                Last_Name = random.NextInt64(100000, 1000000).ToString(),
-                Grade = Utils.GetGrade(random.Next(38))
+                Club = clubs[Utils.Random.Next(10)],
+                Country_Code = countryCode[Utils.Random.Next(10)],
+                Name = Utils.Random.NextInt64(100000, 1000000).ToString(),
+                Last_Name = Utils.Random.NextInt64(100000, 1000000).ToString(),
+                Grade = Utils.GetGrade(Utils.Random.Next(38))
             };
 
             players.Add(new(data, tournament.NumberOfRounds));

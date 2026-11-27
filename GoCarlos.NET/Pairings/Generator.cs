@@ -29,6 +29,7 @@ namespace GoCarlos.NET.Pairings;
 ///<remarks>Not thread safe</remarks>
 public static class Generator
 {
+    private static readonly HashSet<string> _failedOddGroups = [];
     private static Round? _round;
 
     private static bool _avoidSameCityPairing;
@@ -59,16 +60,19 @@ public static class Generator
         _pairingMethod = pp.PairingMethod;
         _additionMethod = pp.AdditionMethod;
 
-        Debug.WriteLine("\nCurrentRound: " + _round!.RoundNumber);
+        Debug.WriteLine("\nCurrentRound: " + _round.RoundNumber);
         Debug.WriteLine("\nPairingMethod: " + _pairingMethod);
         Debug.WriteLine("\nAdditionMethod: " + _additionMethod);
 
-        List<PlayerWrapper> players = [.. orderedPlayers.Select(p => new PlayerWrapper(p))];
+        List<PlayerWrapper> players = [.. orderedPlayers.Select(p => new PlayerWrapper(p) {
+            PairingBalancer = p.CalculatePairingBalancer(_round.RoundNumber)
+        })];
         Debug.WriteLine("\nOrdered players: ");
         PrintPlayers(players);
 
         try
         {
+            _failedOddGroups.Clear();
             return MakePairing(players);
         }
         catch (Exception ex)
@@ -97,17 +101,16 @@ public static class Generator
                 return pairings;
             return []; // Return empty collection to avoid error message
         }
-        
+
         // Pairing algorithm
         while (true)
         {
-            IEnumerable<PlayerWrapper> notPaired = players.Where(w => !w.IsPaired);
-            
-            if (TryOptimizeOddGroup(pairings, [.. notPaired])) continue;
+            List<PlayerWrapper> notPaired = [.. players.Where(w => !w.IsPaired)];
 
-            PlayerWrapper? wrapper = notPaired.FirstOrDefault();
+            if (TryOptimizeOddGroup(pairings, notPaired)) continue;
 
-            if (wrapper is null) break;
+            if (notPaired.Count == 0) break;
+            PlayerWrapper wrapper = notPaired[0];
 
             Debug.WriteLine("\nOrdered players: ");
             PrintPlayers(players);
@@ -120,7 +123,7 @@ public static class Generator
                 .Where(w => !wrapper.TemporaryForbiddenPairing.Contains(w.Player))
                 .Where(w => !wrapper.ForbiddenPairing.Contains(w.Player))];
 
-            if (TryPairExactMatch(pairings,wrapper, opponents)) continue;
+            if (TryPairExactMatch(pairings, wrapper, opponents)) continue;
             if (TryPairCloseMatch(pairings, wrapper, opponents)) continue;
             if (TryPairNextAvailable(pairings, wrapper, opponents)) continue;
             if (TryRemoveLastPairing(pairings, wrapper)) continue;
@@ -132,12 +135,15 @@ public static class Generator
     }
 
     private static bool TryOptimizeOddGroup(
-        List<(PlayerWrapper P1, PlayerWrapper P2)> pairings, 
+        List<(PlayerWrapper P1, PlayerWrapper P2)> pairings,
         List<PlayerWrapper> pool)
     {
         List<PlayerWrapper>? group = TryGetGroupOrDefault(pool, 0);
 
         if (group is null || group.Count == 1 || group.Count % 2 == 0) return false;
+
+        string key = string.Join(",", group.Select(w => w.Player.Guid).Order());
+        if (_failedOddGroups.Contains(key)) return false;
 
         List<PlayerWrapper>? nextGroup = TryGetGroupOrDefault(pool, 1);
 
@@ -147,7 +153,7 @@ public static class Generator
         Debug.WriteLine("\nOptimizing odd group before regular pairing");
 
         var grouppedByPairingBalancer = group
-            .GroupBy(w => w.Player.CalculatePairingBalancer(_round!.RoundNumber))
+            .GroupBy(w => w.PairingBalancer)
             .OrderByDescending(g => g.Key);
 
         PrintGroupsOfPlayers(grouppedByPairingBalancer);
@@ -171,6 +177,7 @@ public static class Generator
                     .Where(w => !w.Equals(wrapper))
                     .Select(w => new PlayerWrapper(w.Player)
                     {
+                        PairingBalancer = w.PairingBalancer,
                         TemporaryForbiddenPairing = [.. w.TemporaryForbiddenPairing]
                     })];
 
@@ -186,17 +193,18 @@ public static class Generator
             }
         }
 
+        _failedOddGroups.Add(key);
         return false;
     }
 
     private static bool TryPairExactMatch(
-        List<(PlayerWrapper P1, PlayerWrapper P2)> pairings, 
+        List<(PlayerWrapper P1, PlayerWrapper P2)> pairings,
         PlayerWrapper wrapper,
         List<PlayerWrapper> opponents)
     {
         List<PlayerWrapper> pool = [.. opponents.Where(w => w.Player.Score == wrapper.Player.Score)];
 
-        if (pool.Count == 0) return false; 
+        if (pool.Count == 0) return false;
 
         if (_avoidSameCityPairing && _round!.RoundNumber < 2)
             pool = TryAvoidSameClub(wrapper, pool);
@@ -207,7 +215,7 @@ public static class Generator
     }
 
     private static bool TryPairCloseMatch(
-        List<(PlayerWrapper P1, PlayerWrapper P2)> pairings, 
+        List<(PlayerWrapper P1, PlayerWrapper P2)> pairings,
         PlayerWrapper wrapper,
         List<PlayerWrapper> opponents)
     {
@@ -218,7 +226,7 @@ public static class Generator
         if (pool.Count == 0) return false;
 
         // Try to pair lowest pairing balancer first
-        pool = TryGetMinMetric(pool, w => w.Player.CalculatePairingBalancer(_round!.RoundNumber));
+        pool = TryGetMinMetric(pool, w => w.PairingBalancer);
 
         if (_avoidSameCityPairing && _round!.RoundNumber < 2)
             pool = TryAvoidSameClub(wrapper, pool);
@@ -229,7 +237,7 @@ public static class Generator
     }
 
     private static bool TryPairNextAvailable(
-        List<(PlayerWrapper P1, PlayerWrapper P2)> pairings, 
+        List<(PlayerWrapper P1, PlayerWrapper P2)> pairings,
         PlayerWrapper wrapper,
         List<PlayerWrapper> opponents)
     {
@@ -284,11 +292,11 @@ public static class Generator
     private static PlayerWrapper OpponentSelection(
         PairingMethod method,
         List<PlayerWrapper> pool) => method switch
-    {
-        PairingMethod.Strongest => pool[0],
-        PairingMethod.Weakest => pool[^1],
-        _ => pool[Utils.Random.Next(pool.Count)],
-    };
+        {
+            PairingMethod.Strongest => pool[0],
+            PairingMethod.Weakest => pool[^1],
+            _ => pool[Utils.Random.Next(pool.Count)],
+        };
 
     private static bool PairPlayers(
         List<(PlayerWrapper P1, PlayerWrapper P2)> pairings,
@@ -307,7 +315,7 @@ public static class Generator
     }
 
     private static void UnpairPlayers(
-        List<(PlayerWrapper P1, PlayerWrapper P2)> pairings, 
+        List<(PlayerWrapper P1, PlayerWrapper P2)> pairings,
         PlayerWrapper w1,
         PlayerWrapper w2)
     {
