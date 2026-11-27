@@ -383,7 +383,7 @@ public class UtilsTests
         while (criteria.Count < 5)
             criteria.Add(CriteriaSettings.AllCriteriaDict[CriteriaType.NUL]);
 
-        return new() { Criterias = [.. criteria] };
+        return new([.. criteria]);
     }
 
     private static void SetHigherCriterionValue(Player higher, Player lower, CriteriaType type)

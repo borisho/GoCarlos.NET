@@ -36,7 +36,7 @@ public class Round(int roundNumber) : IEquatable<Round?>
     {
         player.RoundsPlaying.Add(roundNumber);
         Players.Add(player);
-        if (!Pairings.Any(p => p.IsPlayerPaired(player)))
+        if (!player.Pairings.ContainsKey(roundNumber))
         {
             UnpairedPlayers.Add(player);
         }
@@ -180,11 +180,12 @@ public class Round(int roundNumber) : IEquatable<Round?>
 
             white.Pairings.Remove(roundNumber);
             white.Opponents.Remove(roundNumber);
-            
+
             if (white.Group == Group.Bye)
             {
                 black.ByeBalancer--;
-            } else
+            }
+            else
             {
                 UnpairedPlayers.Add(white);
             }
@@ -203,9 +204,9 @@ public class Round(int roundNumber) : IEquatable<Round?>
 
         if (B)
         {
-            for (int i = I; i < Pairings.Count; i++)
+            foreach (Pairing p in Pairings)
             {
-                Pairings[i].BoardNumber--;
+                if (p.BoardNumber > I) p.BoardNumber--;
             }
 
             return true;
